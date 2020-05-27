@@ -50,14 +50,15 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 
 model = Sequential()
-model.add(Conv2D(64, (2, 2), input_shape = (28, 28, 1)))     
-model.add(Conv2D(82, (3, 3), activation = 'relu'))
+model.add(Conv2D(77, (2, 2), input_shape = (28, 28, 1)))     
+model.add(Conv2D(111, (3, 3), activation = 'relu'))
 model.add(Dropout(0.2))     
 
-model.add(Conv2D(80, (3, 3)))     
+model.add(Conv2D(55, (3, 3)))   
+model.add(MaxPooling2D(pool_size = 2))
 model.add(Dropout(0.2))          
 
-model.add(Conv2D(46, (2, 2), activation = 'relu'))
+model.add(Conv2D(33, (2, 2), activation = 'relu'))
 model.add(MaxPooling2D(pool_size = 2))
 model.add(Dropout(0.2))
 
@@ -69,7 +70,7 @@ model.add(Dense(10, activation = 'softmax'))
 # early_stopping = EarlyStopping(monitor='loss', patience=5, mode = 'auto')
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=80, batch_size=100, validation_split = 0.2) 
+model.fit(x_train, y_train, epochs=100, batch_size=100, validation_split = 0.2) 
 
 # 4. 예측, 평가
 
@@ -91,3 +92,28 @@ print(y_pred.shape)
 
 
 
+'''
+model = Sequential()
+model.add(Conv2D(77, (2, 2), input_shape = (28, 28, 1)))     
+model.add(Conv2D(111, (3, 3), activation = 'relu'))
+model.add(Dropout(0.2))     
+
+model.add(Conv2D(55, (3, 3)))   
+model.add(MaxPooling2D(pool_size = 2))
+model.add(Dropout(0.2))          
+
+model.add(Conv2D(33, (2, 2), activation = 'relu'))
+model.add(MaxPooling2D(pool_size = 2))
+model.add(Dropout(0.2))
+
+model.add(Flatten())
+model.add(Dense(10, activation = 'softmax'))
+
+epoch = 80, batch_size 100
+
+acc :  0.9923999905586243
+'''
+'''
+epoch 100
+acc :  0.9919999837875366
+'''
