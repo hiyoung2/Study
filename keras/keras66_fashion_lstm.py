@@ -72,3 +72,14 @@ model.add(Dense(10, activation = 'softmax'))
 epochs = 70, batch_size = 100
 acc :  0.8586999773979187
 '''
+'''
+model.add(LSTM(11, input_length=28 , input_dim =28, activation = 'relu'))
+model.add(Dense(77, activation = 'relu'))
+model.add(Dropout(0.2))
+model.add(Dense(99, activation = 'relu'))
+model.add(Dropout(0.3))
+model.add(Dense(33, activation = 'relu'))
+model.add(Dense(10, activation = 'softmax'))
+epochs = 70, batch_size = 100
+acc :  0.8615999817848206
+'''

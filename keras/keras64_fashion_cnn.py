@@ -54,11 +54,11 @@ model.summary()
 
 # 3. 컴파일, 훈련
 
-from keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor = 'loss', patience = 20, mode = 'auto')
+# from keras.callbacks import EarlyStopping
+# early_stopping = EarlyStopping(monitor = 'loss', patience = 20, mode = 'auto')
 
 model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['acc'])
-model.fit(x_train, y_train, epochs = 200, batch_size = 100, validation_split = 0.3, verbose = 1)
+model.fit(x_train, y_train, epochs = 50, batch_size = 100, validation_split = 0.3, verbose = 1)
 
 # 4. 평가, 예측
 loss, acc = model.evaluate(x_test, y_test, batch_size = 100)
@@ -93,4 +93,24 @@ model.summary()
 
 epoch = 95, batch_size = 100
 0.9139999747276306
+'''
+
+'''
+model.add(Conv2D(88, (2, 2), input_shape = (28, 28, 1)))     
+model.add(Dropout(0.2))  
+model.add(Conv2D(111, (3, 3), activation = 'relu'))
+model.add(Dropout(0.3))     
+
+model.add(Conv2D(99, (3, 3), padding = 'same'))   
+model.add(MaxPooling2D(pool_size = 2))
+model.add(Dropout(0.2))
+
+model.add(Conv2D(66, (2, 2), padding = 'same',activation = 'relu'))
+model.add(Dropout(0.2))
+model.add(MaxPooling2D(pool_size = 2))
+
+model.add(Flatten())
+model.add(Dense(10, activation = 'softmax'))
+
+acc = 0.9153000116348267
 '''
