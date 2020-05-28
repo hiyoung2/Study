@@ -54,11 +54,11 @@ model.add(Conv2D(77, (2, 2), input_shape = (28, 28, 1)))
 model.add(Conv2D(111, (3, 3), activation = 'relu'))
 model.add(Dropout(0.2))     
 
-model.add(Conv2D(55, (3, 3)))   
+model.add(Conv2D(99, (3, 3), padding = 'same'))   
 model.add(MaxPooling2D(pool_size = 2))
 model.add(Dropout(0.2))          
 
-model.add(Conv2D(33, (2, 2), activation = 'relu'))
+model.add(Conv2D(55, (2, 2), padding = 'same',activation = 'relu'))
 model.add(MaxPooling2D(pool_size = 2))
 model.add(Dropout(0.2))
 
@@ -70,7 +70,7 @@ model.add(Dense(10, activation = 'softmax'))
 # early_stopping = EarlyStopping(monitor='loss', patience=5, mode = 'auto')
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=100, batch_size=100, validation_split = 0.2) 
+model.fit(x_train, y_train, epochs=70, batch_size=200, validation_split = 0.2) 
 
 # 4. 예측, 평가
 
@@ -116,4 +116,31 @@ acc :  0.9923999905586243
 '''
 epoch 100
 acc :  0.9919999837875366
+'''
+'''
+epoch 70
+acc :  0.9923999905586243
+'''
+'''
+epoch 60
+acc :  0.9922000169754028
+'''
+'''
+model = Sequential()
+model.add(Conv2D(77, (2, 2), input_shape = (28, 28, 1)))     
+model.add(Conv2D(111, (3, 3), activation = 'relu'))
+model.add(Dropout(0.2))     
+
+model.add(Conv2D(99, (3, 3)))   
+model.add(MaxPooling2D(pool_size = 2))
+model.add(Dropout(0.2))          
+
+model.add(Conv2D(55, (2, 2), activation = 'relu'))
+model.add(MaxPooling2D(pool_size = 2))
+model.add(Dropout(0.2))
+
+model.add(Flatten())
+model.add(Dense(10, activation = 'softmax'))
+epoch 70, batch_size 200 
+acc :  0.9930999875068665
 '''
