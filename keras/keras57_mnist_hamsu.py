@@ -61,11 +61,11 @@ model = Model(inputs = input1, outputs = output1)
 model.summary()
 
 # 3. compile, 훈련
-# from keras.callbacks import EarlyStopping 
-# early_stopping = EarlyStopping(monitor='loss', patience=5, mode = 'auto')
+from keras.callbacks import EarlyStopping 
+early_stopping = EarlyStopping(monitor='loss', patience=20, mode = 'auto')
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=70, batch_size=200, validation_split = 0.2) 
+model.fit(x_train, y_train, epochs=200, batch_size=200, validation_split = 0.3) 
 
 # 4. 예측, 평가
 

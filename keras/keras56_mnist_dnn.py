@@ -55,13 +55,11 @@ model.add(Dense(10, activation = 'softmax'))
 
 model.summary()
 # 3. compile, 훈련
-# from keras.callbacks import EarlyStopping 
-# early_stopping = EarlyStopping(monitor='loss', patience=100, mode = 'auto')
+from keras.callbacks import EarlyStopping 
+early_stopping = EarlyStopping(monitor='loss', patience=100, mode = 'auto')
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=90, batch_size=200, validation_split = 0.2, verbose = 1) 
-
-# 4. 예측, 평가
+model.fit(x_train, y_train, epochs=200, batch_size=200, validation_split = 0.2, callbacks = [early_stopping], verbose = 1) 
 
 # 4. 평가, 예측
 loss, acc = model.evaluate(x_test, y_test, batch_size = 200)

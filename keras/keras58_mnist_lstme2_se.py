@@ -34,8 +34,14 @@ print(y_train.shape)
 
 # 데이터 전처리 2. 정규화
 # x data
-x_train = x_train.reshape(60000, 28, 28).astype('float32') / 255.
-x_test = x_test.reshape(10000, 28, 28).astype('float32') / 255.
+# x_train = x_train.reshape(60000, 28, 28).astype('float32') / 255.
+# x_test = x_test.reshape(10000, 28, 28).astype('float32') / 255.
+
+x_train = x_train.astype('float32') / 255.
+x_test = x_test.astype('float32') / 255.
+# 28, 28 로 input 넣을 거면 x data는 따로 reshape 해 줄 필요 없다! 
+# 위에 보면 x data shape 자체가 3차원 이기 때문, lstm도 3차원, 차원이 같으므로 와꾸 안 맞춰도 됨
+# 대신, 28, 28 이 아니라 784, 1 로 input을 넣을 때는 reshape 해 줘야 한다
 
 print(x_train.shape)
 
@@ -55,11 +61,11 @@ model.add(Dense(10, activation = 'softmax'))
 model.summary()
 
 # 3. compile, 훈련
-# from keras.callbacks import EarlyStopping 
-# early_stopping = EarlyStopping(monitor='loss', patience=5, mode = 'auto')
+from keras.callbacks import EarlyStopping 
+early_stopping = EarlyStopping(monitor='loss', patience=20, mode = 'auto')
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=50, batch_size=200, validation_split = 0.2) 
+model.fit(x_train, y_train, epochs=200, batch_size=200, validation_split = 0.3) 
 
 # 4. 예측, 평가
 
