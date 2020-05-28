@@ -75,7 +75,7 @@ model.fit(x_train, y_train, epochs=70, batch_size=200, validation_split = 0.2)
 # 4. 예측, 평가
 
 # 4. 평가, 예측
-loss, acc = model.evaluate(x_test, y_test, batch_size = 100)
+loss, acc = model.evaluate(x_test, y_test, batch_size = 200)
 
 print('loss : ', loss)
 print('acc : ' , acc)

@@ -1,4 +1,7 @@
-#  copy 54, mnist dnn으로 만들기
+# 54 copy, CNN 함수형으로 만들어라
+# 58에서 함수형으로 만들어서 이번에 시퀀셜로 만들어 봄
+
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -29,37 +32,34 @@ y_train = np_utils.to_categorical(y_train)
 y_test = np_utils.to_categorical(y_test)
 print(y_train.shape)
 
-
 # 데이터 전처리 2. 정규화
 # x data
-x_train = x_train.reshape(60000, 28*28).astype('float32') / 255.
-x_test = x_test.reshape(10000, 28*28).astype('float32') / 255.
+x_train = x_train.reshape(60000, 28, 28).astype('float32') / 255.
+x_test = x_test.reshape(10000, 28, 28).astype('float32') / 255.
 
 print(x_train.shape)
 
-
-# 2. 모델 구성
+# 2. 모델 구성 / naming이 필수는 아니지만 여러 종류의 레이어가 들어갈 땐 알아볼 수 있게 예쁘게 정리해주면 좋다
 from keras.models import Sequential
-from keras.layers import Dense, Dropout
+from keras.layers import Dense, Input, Dropout, Flatten, LSTM
 
 model = Sequential()
-model.add(Dense(111, input_shape = (28*28, )))
-model.add(Dropout(0.2))          
-model.add(Dense(133, activation = 'relu'))
-model.add(Dropout(0.2)) 
-model.add(Dense(155, activation = 'relu'))
-model.add(Dropout(0.2))     
+model.add(LSTM(11, input_length=28 , input_dim =28, activation = 'relu'))
 model.add(Dense(77, activation = 'relu'))
-model.add(Dropout(0.2)) 
+model.add(Dropout(0.2))
+model.add(Dense(99, activation = 'relu'))
+model.add(Dropout(0.3))
+model.add(Dense(33, activation = 'relu'))
 model.add(Dense(10, activation = 'softmax'))
 
 model.summary()
+
 # 3. compile, 훈련
 # from keras.callbacks import EarlyStopping 
-# early_stopping = EarlyStopping(monitor='loss', patience=100, mode = 'auto')
+# early_stopping = EarlyStopping(monitor='loss', patience=5, mode = 'auto')
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=90, batch_size=200, validation_split = 0.2, verbose = 1) 
+model.fit(x_train, y_train, epochs=50, batch_size=200, validation_split = 0.2) 
 
 # 4. 예측, 평가
 
@@ -77,32 +77,15 @@ y_pred = model.predict(x_test)
 print(np.argmax(y_pred, axis = 1))
 print(y_pred.shape)
 
-# acc 98% 목표
-'''
-model.add(Dense(77, input_shape = (28*28, )))     
-model.add(Dense(33, activation = 'relu'))
-model.add(Dense(88, activation = 'relu'))
-model.add(Dense(10, activation = 'softmax'))
-epoch 100, batch_size 200
-acc :  0.9722999930381775
-'''
-'''
-위와 동일조건 epoch 80
-acc :  0.9739000201225281
-'''
 '''
 model = Sequential()
-model.add(Dense(111, input_shape = (28*28, )))
-model.add(Dropout(0.2))          
-model.add(Dense(88, activation = 'relu'))
+model.add(LSTM(11, input_length=28 , input_dim =28, activation = 'relu'))
+model.add(Dense(77, activation = 'relu'))
+model.add(Dropout(0.2))
 model.add(Dense(99, activation = 'relu'))
-model.add(Dropout(0.2))     
-model.add(Dense(55, activation = 'relu'))
+model.add(Dropout(0.3))
+model.add(Dense(33, activation = 'relu'))
 model.add(Dense(10, activation = 'softmax'))
-
-model.summary()
-epoch = 95, batch_size = 200
-acc :  0.9801999926567078 (!!!!)
-
-2차 : acc :  0.98089998960495
+epoch = 50, batch_size = 200
+acc :  0.9631999731063843
 '''

@@ -1,4 +1,7 @@
 # 54 copy, CNN 함수형으로 만들어라
+# 그리고 54, 56, 58 성능을 비교하고 acc가 가장 잘 나오는 모델을 끝까지 높여봐라
+
+acc :  0.9930999875068665
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -31,30 +34,29 @@ print(y_train.shape)
 
 # 데이터 전처리 2. 정규화
 # x data
-x_train = x_train.reshape(60000, 28, 28, 1).astype('float32') / 255.
-x_test = x_test.reshape(10000, 28, 28, 1).astype('float32') / 255.
+x_train = x_train.reshape(60000, 28, 28).astype('float32') / 255.
+x_test = x_test.reshape(10000, 28, 28).astype('float32') / 255.
 
 print(x_train.shape)
 
 # 2. 모델 구성 / naming이 필수는 아니지만 여러 종류의 레이어가 들어갈 땐 알아볼 수 있게 예쁘게 정리해주면 좋다
 from keras.models import Model
-from keras.layers import Conv2D, Dense, Input, Dropout, MaxPooling2D, Flatten
+from keras.layers import Dense, Input, Dropout, Flatten, LSTM
 
-input1 = Input(shape = (28, 28, 1))
-dense1 = Conv2D(77, (2, 2))(input1)     
-dense2 = Conv2D(111, (3, 3), activation = 'relu')(dense1)
+input1 = Input(shape = (28, 28))
+dense1 = LSTM(11, activation = 'relu')(input1)     
+dense2 = Dense(55, activation = 'relu')(dense1)
 dense3 = Dropout(0.2)(dense2)     
 
-dense4 = Conv2D(99, (3, 3) , padding = 'same')(dense3)   
-dense5 = MaxPooling2D(pool_size = 2, name = 'MaxPooling2D_1')(dense4)
+dense4 = Dense(33)(dense3)   
+dense5 = Dense(77)(dense4)
 dense6 = Dropout(0.2)(dense5)          
 
-dense7 = Conv2D(55, (2, 2), padding = 'same', activation = 'relu')(dense6)
-dense8 = MaxPooling2D(pool_size = 2)(dense7)
+dense7 = Dense(44, activation = 'relu')(dense6)
+dense8 = Dense(22)(dense7)
 dense9 = Dropout(0.2)(dense8)
 
-dense10 = Flatten()(dense9)
-output1 = Dense(10, activation = 'softmax')(dense10)
+output1 = Dense(10, activation = 'softmax')(dense9)
 
 model = Model(inputs = input1, outputs = output1)
 
@@ -65,7 +67,7 @@ model.summary()
 # early_stopping = EarlyStopping(monitor='loss', patience=5, mode = 'auto')
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=70, batch_size=200, validation_split = 0.2) 
+model.fit(x_train, y_train, epochs=50, batch_size=200, validation_split = 0.2) 
 
 # 4. 예측, 평가
 
@@ -83,30 +85,28 @@ y_pred = model.predict(x_test)
 print(np.argmax(y_pred, axis = 1))
 print(y_pred.shape)
 
+# acc : 95% 맞추기
 '''
-input1 = Input(shape = (28, 28, 1))
-dense1 = Conv2D(77, (2, 2), name = 'Conv2D_1')(input1)     
-dense2 = Conv2D(111, (3, 3), activation = 'relu', name = 'Conv2D_2')(dense1)
-dense3 = Dropout(0.2, name = 'Dropout_1')(dense2)     
+input1 = Input(shape = (28, 28))
+dense1 = LSTM(11, activation = 'relu')(input1)     
+dense2 = Dense(55, activation = 'relu')(dense1)
+dense3 = Dropout(0.2)(dense2)     
 
-dense4 = Conv2D(99, (3, 3) , padding = 'same', name = 'Conv2D_3')(dense3)   
-dense5 = MaxPooling2D(pool_size = 2, name = 'MaxPooling2D_1')(dense4)
-dense6 = Dropout(0.2, name = 'Dropout_2')(dense5)          
+dense4 = Dense(33)(dense3)   
+dense5 = Dense(77)(dense4)
+dense6 = Dropout(0.2)(dense5)          
 
-dense7 = Conv2D(55, (2, 2), padding = 'same', activation = 'relu', name = 'Conv2D_4')(dense6)
-dense8 = MaxPooling2D(pool_size = 2, name = 'MaxPooling2D_2')(dense7)
-dense9 = Dropout(0.2, name = 'Dropout_3')(dense8)
+dense7 = Dense(44, activation = 'relu')(dense6)
+dense8 = Dense(22)(dense7)
+dense9 = Dropout(0.2)(dense8)
 
-dense10 = Flatten(name = 'Flatten')(dense9)
-output1 = Dense(10, activation = 'softmax')(dense10)
+output1 = Dense(10, activation = 'softmax')(dense9)
 
 model = Model(inputs = input1, outputs = output1)
-epoch = 70, batch_szie = 200
-acc :  0.9926999807357788 / 54번 파일 동일, 모델만 함수형으로 바꿈, acc 낮게 나옴
-'''
 
-'''
-동일 조건, epoch = 95
-acc :  0.9919999837875366
-acc :  0.9922999739646912
+model.summary()
+
+epoch = 50, batch_size = 200
+
+acc :  0.9531999826431274
 '''
