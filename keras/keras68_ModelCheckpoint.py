@@ -1,5 +1,3 @@
-# keras54 복붙
-import numpy as np
 import matplotlib.pyplot as plt
 
 from keras.datasets import mnist 
@@ -55,29 +53,29 @@ model.add(Flatten())
 model.add(Dense(10, activation = 'softmax'))
 
 # 3. compile, 훈련
-# from keras.callbacks import EarlyStopping 
-# early_stopping = EarlyStopping(monitor='loss', patience=20, mode = 'auto') # mode 적지 않아도 auto로 적용됨
+from keras.callbacks import EarlyStopping, ModelCheckpoint
+early_stopping = EarlyStopping(monitor='loss', patience=5, mode = 'auto') # mode 적지 않아도 auto로 적용됨
+modelpath = './model/{epoch:02d}-{val_loss:.4f}.hdf5'
+# Study / model에 파일이 생성된다 
+# 파일명은 epoch : 훈련도, 02d : 에포를 두 자리 정수, val_loss : 4자리의 float, .4f : 소수 넷째자리까지, 파일명을 hdf라고 하겠다?
+
+checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'val_loss', 
+                             save_best_only=True, mode = 'auto') 
+                            # save_best_only=True : 좋은 것만 저장하겠다
+                            # val loss monitor하고 최고로 좋은 값을 저장해서 파일을 만들겠다
+                            # checkpoint도 모드가 있음 (안 적어도 되는데 그건 또 디폴트가 있다는 것)
+                            # modelpath : 변수명, 위에 위치를 대입해 놓은
+                            # 파일경로 filepath : 모델 path
+                            # 01 : epoch, 0.0739 : loss (model 폴더에서 생성 되고 있음)
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-hist = model.fit(x_train, y_train, epochs=10, batch_size=200, validation_split = 0.2, verbose = 1) 
+hist = model.fit(x_train, y_train, epochs=30, batch_size=200, callbacks = [early_stopping, checkpoint], 
+                                   validation_split = 0.2, verbose = 1) 
 
 # 4. 평가, 예측
 loss, acc = model.evaluate(x_test, y_test, batch_size = 200)
 
-# loss = hist.history['loss']
-# val_loss = hist.history['val_loss']
-# acc = hist.history['acc']
-# val_acc = hist.history['val_acc']
-
-# print('acc : ' , acc)
-# print('val_acc : ', val_acc)
-# print('loss : ', loss)
-# print('val_loss : ', val_loss)
-
-# 시각화 (더 보충해서 예쁜 ㅋㅋ 그래프 만들기)
-plt.figure(figsize = (10, 6)) # figure라는 기능은 10, 6이라는 판을 짠다, 가로 10, 세로 6(inch)
-
-# loss, acc에 대해 각각 그림을 만들자
+plt.figure(figsize = (10, 6))
 
 plt.subplot(2, 1, 1) # 2, 1 : 2행 1열의 그림을 그리겠다, 마지막 1은 : 2행 1열의 첫 번째 것을 그리겠다
 plt.plot(hist.history['loss'], marker = '.', c = 'red', label = 'loss')         
@@ -98,5 +96,3 @@ plt.ylabel('acc')
 plt.xlabel('epoch')          
 plt.legend(['acc', 'val_acc']) 
 plt.show()  
-
-

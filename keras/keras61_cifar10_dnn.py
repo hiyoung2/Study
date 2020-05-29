@@ -52,7 +52,6 @@ output1 = Dense(10, activation = 'softmax')(dense10)
 
 model = Model(inputs = input1, outputs=output1)
 
-
 model.summary()
 
 # 3. 컴파일, 훈련

@@ -50,7 +50,7 @@ model.add(Dense(1, name = 'new_last'))
 # model.summary()
 
 # 3. 컴파일, 훈련
-from keras.callbacks import EarlyStopping, TensorBoard # TemsprBoard 불러오기 완료
+from keras.callbacks import EarlyStopping, TensorBoard # TensorBoard 불러오기 완료
 # tb_hist = TensorBoard(log_dir='graph', histogram_freq=0,
                     #   write_graph=True, write_images=True)
 # tb_hist :  변수명
