@@ -29,18 +29,18 @@ print(x_train.shape)
 # 2. 모델 구성
 
 input1 = Input(shape = (32, 32, 3))
-dense1 = Conv2D(111, (2, 2))(input1)
-dense2 = Dropout(0.3)(dense1)     
-dense3 = Conv2D(199, (3, 3), activation = 'relu')(dense2)
-dense4 = Dropout(0.4)(dense3)     
+dense1 = Conv2D(50, (2, 2))(input1)
+dense2 = Dropout(0.2)(dense1)     
+dense3 = Conv2D(100, (3, 3), activation = 'relu')(dense2)
+dense4 = Dropout(0.2)(dense3)     
 
-dense5 = Conv2D(155, (3, 3) , padding = 'same', activation = 'relu')(dense4)   
+dense5 = Conv2D(150, (3, 3) , padding = 'same', activation = 'relu')(dense4)   
 dense6 = MaxPooling2D(pool_size = 2)(dense5)
-dense7 = Dropout(0.5)(dense6)          
+dense7 = Dropout(0.3)(dense6)          
 
-dense8 = Conv2D(99, (2, 2), padding = 'same', activation = 'relu')(dense7)
+dense8 = Conv2D(30, (2, 2), padding = 'same', activation = 'relu')(dense7)
 dense9 = MaxPooling2D(pool_size = 2)(dense8)
-dense10 = Dropout(0.4)(dense9)
+dense10 = Dropout(0.1)(dense9)
 
 dense11 = Flatten()(dense10)
 output1 = Dense(100, activation = 'softmax')(dense11)
@@ -50,7 +50,7 @@ model = Model(inputs = input1, outputs = output1)
 model.summary()
 
 # 3. 컴파일, 훈련
-early_stopping = EarlyStopping(monitor = 'loss', patience = 10, mode = 'auto')
+early_stopping = EarlyStopping(monitor = 'loss', patience = 5, mode = 'auto')
 
 tb_hist = TensorBoard(log_dir = 'graph', histogram_freq=0, write_graph = True, write_images = True)
 
@@ -60,7 +60,7 @@ checkpoint = ModelCheckpoint(filepath = cnnmodelpath, monitor = 'loss',
                              save_best_only=True) 
 
 model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['acc'])
-hist = model.fit(x_train, y_train, epochs = 100, batch_size = 100, validation_split = 0.2, callbacks = [early_stopping, tb_hist, checkpoint], verbose = 1)
+hist = model.fit(x_train, y_train, epochs = 50, batch_size = 100, validation_split = 0.2, callbacks = [early_stopping, tb_hist, checkpoint], verbose = 1)
 
 # 4. 평가, 예측
 loss, acc = model.evaluate(x_test, y_test, batch_size = 100)
@@ -80,8 +80,8 @@ plt.xlabel('epoch')
 plt.legend(loc = 'upper right')
 
 plt.subplot(2, 1, 2)
-plt.plot(hist.history['acc'])
-plt.plot(hist.history['val_acc'])
+plt.plot(hist.history['acc'], marker = '.', c = 'green', label = 'acc')
+plt.plot(hist.history['val_acc'], marker = '.', c = 'purple', label = 'val_acc')
 plt.grid()
 plt.title('acc')
 plt.ylabel('acc')
@@ -89,3 +89,6 @@ plt.xlabel('epoch')
 plt.legend(loc = 'upper right')
 plt.show()
 
+'''
+acc :  0.412200003862381 ㅋㅋㅋㅋㅋ
+'''

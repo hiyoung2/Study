@@ -29,15 +29,15 @@ print(x_train.shape)
 
 input1 = Input(shape = (32*32*3, ))
 dense1 = Dense(99, activation = 'relu')(input1) 
-dense2 = Dropout(0.2)(dense1)
+dense2 = Dropout(0.3)(dense1)
 dense3 = Dense(166)(dense2) 
-dense4 = Dropout(0.3)(dense3)
+dense4 = Dropout(0.4)(dense3)
 dense5 = Dense(252, activation = 'relu')(dense4) 
-dense6 = Dropout(0.4)(dense5) 
+dense6 = Dropout(0.5)(dense5) 
 dense7 = Dense(177)(dense6) 
-dense8 = Dropout(0.3)(dense7) 
+dense8 = Dropout(0.4)(dense7) 
 dense9 = Dense(77)(dense8) 
-dense10 = Dropout(0.2)(dense9) 
+dense10 = Dropout(0.3)(dense9) 
 output1 = Dense(100, activation = 'softmax')(dense10)
 
 model = Model(inputs = input1, outputs=output1)
@@ -60,7 +60,8 @@ hist = model.fit(x_train, y_train, epochs = 100, batch_size = 100, validation_sp
 
 # 4. 평가, 예측
 loss, acc = model.evaluate(x_test, y_test, batch_size = 100)
-
+print('loss :', loss)
+print('acc : ', acc)
 
 # 시각화
 
@@ -75,11 +76,15 @@ plt.xlabel('epoch')
 plt.legend(loc = 'upper right')
 
 plt.subplot(2, 1, 2)
-plt.plot(hist.history['acc'])
-plt.plot(hist.history['val_acc'])
+plt.plot(hist.history['acc'], marker = '.', c = 'green', label = 'loss')
+plt.plot(hist.history['val_acc'], marker = '.', c = 'purple', label = 'loss')
 plt.grid()
 plt.title('acc')
 plt.ylabel('acc')
 plt.xlabel('epoch')
 plt.legend(loc = 'upper right')
 plt.show()
+
+'''
+acc :  0.009999999776482582 레알 쓰레기
+'''

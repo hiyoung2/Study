@@ -32,11 +32,11 @@ print(x_train.shape)
 
 input1 = Input(shape = (64, 48))
 dense1 = LSTM((22), activation = 'relu')(input1)     
-dense2 = Dropout(0.2)(dense1)
+dense2 = Dropout(0.3)(dense1)
 dense3 = Dense(99, activation = 'relu')(dense2)
-dense4 = Dropout(0.2)(dense3)
+dense4 = Dropout(0.5)(dense3)
 dense5 = Dense(111, activation = 'relu')(dense4)  
-dense6 = Dropout(0.3)(dense5) 
+dense6 = Dropout(0.7)(dense5) 
 dense7 = Dense(33, activation = 'relu')(dense6)
 dense8 = Dropout(0.2)(dense7)   
 output1 = Dense(100, activation = 'softmax')(dense8)
@@ -46,7 +46,7 @@ model = Model(inputs = input1, outputs=output1)
 model.summary()
 
 # 3. 컴파일, 훈련
-# early_stopping = EarlyStopping(monitor = 'loss', patience = 10, mode = 'auto')
+early_stopping = EarlyStopping(monitor = 'loss', patience = 5, mode = 'auto')
 
 tb_hist = TensorBoard(log_dir = 'graph', histogram_freq=0, write_graph = True, write_images = True)
 
@@ -56,7 +56,7 @@ checkpoint = ModelCheckpoint(filepath = lstmmodelpath, monitor = 'loss',
                              save_best_only=True, mode = 'auto') 
 
 model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['acc'])
-hist = model.fit(x_train, y_train, epochs = 30, batch_size = 100, validation_split = 0.1, callbacks = [tb_hist, checkpoint])
+hist = model.fit(x_train, y_train, epochs = 50, batch_size = 100, validation_split = 0.1, callbacks = [early_stopping, tb_hist, checkpoint])
 
 
 # 4. 평가, 예측
@@ -77,8 +77,8 @@ plt.xlabel('epoch')
 plt.legend(loc = 'upper right')
 
 plt.subplot(2, 1, 2)
-plt.plot(hist.history['acc'])
-plt.plot(hist.history['val_acc'])
+plt.plot(hist.history['acc'], marker = '.', c = 'green', label = 'loss')
+plt.plot(hist.history['val_acc'], marker = '.', c = 'purple', label = 'val_loss')
 plt.grid()
 plt.title('acc')
 plt.ylabel('acc')
