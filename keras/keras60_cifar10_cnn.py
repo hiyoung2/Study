@@ -38,17 +38,17 @@ print(x_train.shape)
 
 input1 = Input(shape = (32, 32, 3))
 
-dense1 = Conv2D(50, (2, 2))(input1)
+dense1 = Conv2D(55, (2, 2))(input1)
 dense2 = Dropout(0.3)(dense1)
-dense3 = Conv2D(70, (3, 3), activation = 'relu')(dense2)
+dense3 = Conv2D(111, (3, 3), activation = 'relu')(dense2)
 dense4 = Dropout(0.2)(dense3)
 
-dense5 = Conv2D(90, (3, 3), padding = 'same', activation = 'relu')(dense4)
+dense5 = Conv2D(99, (3, 3), padding = 'same', activation = 'relu')(dense4)
 dense6 = Dropout(0.2)(dense5)
 dense7 = MaxPooling2D(pool_size = 2)(dense6)
 
 
-dense8 = Conv2D(80, (2, 2), padding = 'same', activation = 'relu')(dense7)
+dense8 = Conv2D(33, (2, 2), padding = 'same', activation = 'relu')(dense7)
 dense9 = Dropout(0.2)(dense8)
 dense10 = MaxPooling2D(pool_size = 2)(dense9)
 
@@ -65,7 +65,7 @@ model.summary()
 # early_stopping = EarlyStopping(monitor='loss', patience=10, mode = 'auto') 
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=95, batch_size=100, validation_split = 0.3, verbose = 1) 
+model.fit(x_train, y_train, epochs=50, batch_size=100, validation_split = 0.3, verbose = 1) 
 
 # 4. 평가, 예측
 loss, acc = model.evaluate(x_test, y_test, batch_size = 100)
