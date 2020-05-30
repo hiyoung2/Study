@@ -17,12 +17,9 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, LSTM
 
 dataset = load_boston()
-x = dataset.data
-y = dataset.target
-# print(dataset)
-# print(pd.DataFrame(dataset))
-# column 13개
-# (행, 13)
+x = dataset['data']
+y = dataset['target']
+
 print(x)
 print(y)
 
@@ -54,9 +51,9 @@ x_test = x_test.reshape(x_test.shape[0], x.shape[1], 1)
 
 # 2. 모델 구성
 model = Sequential()
-
-model = Sequential()
-model.add(LSTM(11, input_shape = (13, 1), activation = 'relu'))
+model.add(LSTM(11, return_sequences = True,  input_shape = (13, 1), activation = 'relu'))
+model.add(LSTM(22, activation = 'relu'))
+model.add(Dense(55, activation = 'relu'))
 model.add(Dense(77, activation = 'relu'))
 model.add(Dropout(0.2))
 model.add(Dense(99, activation = 'relu'))
@@ -66,13 +63,45 @@ model.add(Dense(1, activation = 'relu'))
 
 model.summary()
 
-
 # 3. 컴파일, 훈련
-from keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor  = 'loss', patience = 10, mode = 'auto')
+# from keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras.callbacks import ModelCheckpoint
+
+# es = EarlyStopping(monitor  = 'loss', patience = 50, mode = 'auto')
+
+modelpath = './model/{epoch:02d}-{loss:.4f}.hdf5'
+
+checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'loss', 
+                             save_best_only=True, mode = 'auto') 
 
 model.compile(loss = 'mse', optimizer = 'adam', metrics = ['mse'])
-model.fit(x_train, y_train, epochs = 300, batch_size = 10, validation_split = 0.2, callbacks = [early_stopping], verbose = 1)
+hist = model.fit(x_train, y_train, epochs = 375, batch_size = 10, validation_split = 0.3, callbacks = [checkpoint], verbose = 1)
+
+# 3.1 시각화
+import matplotlib.pyplot as plt
+
+plt.figure(figsize = (10, 6))
+
+plt.subplot(2, 1, 1)
+plt.plot(hist.history['loss'], marker = '.', c = 'red', label = 'loss')         
+plt.plot(hist.history['val_loss'], marker = '.', c = 'blue', label = 'val_loss')   
+plt.grid() # 모눈종이처럼 그림에 가로 세로 줄이 그어져 나옴
+plt.title('loss')      
+plt.ylabel('loss')      
+plt.xlabel('epoch')          
+# plt.legend(['loss', 'val_loss']) 
+plt.legend(loc = 'upper right') # loc : location, 우측 상단
+
+plt.subplot(2, 1, 2) # 2행 1열의 2번째 그림
+plt.plot(hist.history['mse'], marker = '.', c = 'green', label = 'mse')
+plt.plot(hist.history['val_mse'], marker = '.', c = 'purple', label = 'val_mse')
+plt.grid() 
+plt.title('mse')      
+plt.ylabel('mse')      
+plt.xlabel('epoch')          
+# plt.legend(['acc', 'val_acc']) 
+plt.legend(loc = 'upper right')
+plt.show()  
 
 # 4. 평가, 예측
 loss, mse = model.evaluate(x_test, y_test, batch_size = 10)
@@ -80,7 +109,7 @@ print('loss : ', loss)
 print('mse : ', mse)
 
 y_pred = model.predict(x_test)
-print(y_pred)
+# print(y_pred)
 
 from sklearn.metrics import mean_squared_error
 def RMSE(y_test, y_pred):
@@ -91,3 +120,49 @@ print("RMSE : ", RMSE(y_test, y_pred))
 from sklearn.metrics import r2_score
 r2 = r2_score(y_test, y_pred)
 print("R2 : ", r2)
+
+'''
+1차
+model.add(LSTM(11, input_shape = (13, 1), activation = 'relu'))
+model.add(Dense(77, activation = 'relu'))
+model.add(Dropout(0.2))
+model.add(Dense(99, activation = 'relu'))
+model.add(Dropout(0.3))
+model.add(Dense(33, activation = 'relu'))
+model.add(Dense(1, activation = 'relu'))
+epo 500, patience 50, val_split 0.3, batch 10
+stop : 448, best : 398
+RMSE :  4.019755179678341
+R2 :  0.78351150349943
+'''
+'''
+2차
+model.add(LSTM(11, return_sequences = True,  input_shape = (13, 1), activation = 'relu'))
+model.add(LSTM(22))
+model.add(Dense(55))
+model.add(Dense(77, activation = 'relu'))
+model.add(Dropout(0.2))
+model.add(Dense(99, activation = 'relu'))
+model.add(Dropout(0.3))
+model.add(Dense(33, activation = 'relu'))
+model.add(Dense(1, activation = 'relu'))
+epo 400, es x, batch 10, val 0.3, best : 375
+RMSE :  3.9620766543537767
+R2 :  0.814195001352444
+'''
+'''
+3차
+model.add(LSTM(11, return_sequences = True,  input_shape = (13, 1), activation = 'relu'))
+model.add(LSTM(22, activation = 'relu'))
+model.add(Dense(55, activation = 'relu'))
+model.add(Dense(77, activation = 'relu'))
+model.add(Dropout(0.2))
+model.add(Dense(99, activation = 'relu'))
+model.add(Dropout(0.3))
+model.add(Dense(33, activation = 'relu'))
+model.add(Dense(1, activation = 'relu'))
+epo 375, es x, batch 10, val 0.3, best : 368
+RMSE :  4.557340681997267
+R2 :  0.7758861448553874
+
+'''

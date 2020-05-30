@@ -18,12 +18,9 @@ from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten
 from sklearn.decomposition import PCA
 
 dataset = load_boston()
-x = dataset.data
-y = dataset.target
-# print(dataset)
-# print(pd.DataFrame(dataset))
-# column 13개
-# (행, 13)
+x = dataset['data']
+y = dataset['target']
+
 print(x)
 print(y)
 

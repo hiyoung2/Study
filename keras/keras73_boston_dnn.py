@@ -14,14 +14,12 @@ from keras.utils import np_utils
 from sklearn.preprocessing import StandardScaler
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
+from sklearn.decomposition import PCA
 
 dataset = load_boston()
-x = dataset.data
-y = dataset.target
-# print(dataset)
-# print(pd.DataFrame(dataset))
-# column 13개
-# (행, 13)
+x = dataset['data']
+y = dataset['target']
+
 print(x)
 print(y)
 
@@ -34,37 +32,43 @@ print(y)
 # 1. 데이터 준비
 # 데이터 전처리 (x)
 scaler = StandardScaler()
-
 scaler.fit(x)
 x = scaler.transform(x)
 
+pca = PCA(n_components = 10)
+pca.fit(x)
+x_pca = pca.transform(x)
+
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(
-    x, y, train_size = 0.8
+    x_pca, y, train_size = 0.8
 )
 
 # 2. 모델 구성
 model = Sequential()
 
 model = Sequential()
-model.add(Dense(55, input_shape = (13, )))
+model.add(Dense(11, input_shape = (10, )))
+model.add(Dense(33, activation = 'relu'))
+model.add(Dense(55))
+# model.add(Dropout(0.2))
 model.add(Dense(77, activation = 'relu'))
-model.add(Dense(99, activation = 'relu'))
-model.add(Dense(133, activation = 'relu'))
-model.add(Dense(111, activation = 'relu'))
-model.add(Dense(66, activation = 'relu'))
-model.add(Dense(22, activation = 'relu'))
-model.add(Dense(1))
+# model.add(Dropout(0.3))
+model.add(Dense(66))
+model.add(Dense(44, activation = 'relu'))
+model.add(Dense(22))
+# model.add(Dropout(0.2))
+model.add(Dense(1, activation = 'sigmoid'))
 
 model.summary()
 
 
 # 3. 컴파일, 훈련
-from keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor  = 'loss', patience = 10, mode = 'auto')
+# from keras.callbacks import EarlyStopping
+# early_stopping = EarlyStopping(monitor  = 'loss', patience = 10, mode = 'auto')
 
 model.compile(loss = 'mse', optimizer = 'adam', metrics = ['mse'])
-model.fit(x_train, y_train, epochs = 300, batch_size = 10, validation_split = 0.2, callbacks = [early_stopping], verbose = 1)
+model.fit(x_train, y_train, epochs = 100, batch_size = 10, validation_split = 0.2, verbose = 1)
 
 # 4. 평가, 예측
 loss, mse = model.evaluate(x_test, y_test, batch_size = 10)
@@ -72,7 +76,7 @@ print('loss : ', loss)
 print('mse : ', mse)
 
 y_pred = model.predict(x_test)
-print(y_pred)
+# print(y_pred)
 
 from sklearn.metrics import mean_squared_error
 def RMSE(y_test, y_pred):
