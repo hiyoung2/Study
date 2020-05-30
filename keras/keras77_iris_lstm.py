@@ -47,25 +47,42 @@ x_test = x_test.reshape(30, 4, 1)
 # 2. 모델 구성
 model = Sequential()
 
-model.add(LSTM(33, input_shape = (4, 1)))
-model.add(Dense(66))
+model.add(LSTM(33, return_sequences = True,  input_shape = (4, 1)))
+model.add(Dropout(0.2))
+model.add(LSTM(33, return_sequences = True))
+model.add(Dropout(0.2))
+model.add(LSTM(33))
+model.add(Dense(66, activation = 'relu'))
+model.add(Dropout(0.3))
 model.add(Dense(99, activation = 'relu'))
 model.add(Dropout(0.2))
-model.add(Dense(133))
+model.add(Dense(133, activation = 'relu'))
 model.add(Dropout(0.4))
 model.add(Dense(88, activation = 'relu'))
 model.add(Dense(66))
+model.add(Dropout(0.2))
 model.add(Dense(44, activation = 'relu'))
-model.add(Dense(33))
+model.add(Dense(33, activation = 'relu'))
 model.add(Dropout(0.2))
 model.add(Dense(3, activation = 'softmax'))
 
 model.summary()
 
 # 3. 컴파일, 훈련
+from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
+# es = EarlyStopping(monitor = 'loss', patience = '20', mode = 'auto')
+
+modelpath = './model/{epoch:02d}--{val_loss:.4f}.hdf5'
+
+checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'loss', save_best_only = True, mode = 'auto')
+
+# tb_hist = TensorBoard(log_dir='graph', histogram_freq=0,
+#                       write_graph=True, write_images=True)
 
 model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['acc'])
-model.fit(x_train, y_train, epochs = 100, batch_size = 1, validation_split = 0.2, verbose = 1)
+hist = model.fit(x_train, y_train, epochs = 100, batch_size = 1, validation_split = 0.2, callbacks = [checkpoint], verbose = 1)
+
+
 
 # 4. 평가, 예측
 loss, acc  = model.evaluate(x_test, y_test, batch_size = 1)
@@ -77,7 +94,53 @@ print('acc : ', acc)
 # print(y_pred)
 # print(np.argmax(y_pred, axis = 1))
 
+# 시각화
+plt.figure(figsize = (10, 6)) 
+
+plt.subplot(2, 1, 1)
+plt.plot(hist.history['loss'], marker = '.', c = 'red', label = 'loss')         
+plt.plot(hist.history['val_loss'], marker = '.', c = 'blue', label = 'val_loss')   
+plt.grid()
+plt.title('loss')      
+plt.ylabel('loss')      
+plt.xlabel('epoch')          
+plt.legend(loc = 'upper right') 
+
+plt.subplot(2, 1, 2)
+plt.plot(hist.history['acc'], marker = '*', c = 'green', label = 'acc')
+plt.plot(hist.history['val_acc'], marker = '*', c = 'purple', label = 'val_acc')
+plt.grid() 
+plt.title('acc')      
+plt.ylabel('acc')      
+plt.xlabel('epoch')          
+plt.legend(loc = 'upper right') 
+plt.show()  
+
 '''
 loss :  0.10157027646297744
 acc :  0.9666666388511658
+'''
+'''
+model.add(LSTM(33, return_sequences = True,  input_shape = (4, 1)))
+model.add(Dropout(0.2))
+model.add(LSTM(33, return_sequences = True))
+model.add(Dropout(0.2))
+model.add(LSTM(33))
+model.add(Dense(66, activation = 'relu'))
+model.add(Dropout(0.3))
+model.add(Dense(99, activation = 'relu'))
+model.add(Dropout(0.2))
+model.add(Dense(133, activation = 'relu'))
+model.add(Dropout(0.4))
+model.add(Dense(88, activation = 'relu'))
+model.add(Dense(66))
+model.add(Dropout(0.2))
+model.add(Dense(44, activation = 'relu'))
+model.add(Dense(33, activation = 'relu'))
+model.add(Dropout(0.2))
+model.add(Dense(3, activation = 'softmax'))
+
+epo = 100, batch = 1, val = 0.2, best = 89, 0.0324, es = x
+loss :  0.0983049455836067
+acc :  1.0
 '''

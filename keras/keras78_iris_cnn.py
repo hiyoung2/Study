@@ -70,10 +70,21 @@ model.add(Dense(3, activation = 'softmax'))
 
 model.summary()
 
-# 3. 컴파일, 훈련
+# # 3. 컴파일, 훈련
+from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
+
+es = EarlyStopping(monitor = 'loss', patience = 10, mode = 'auto')
+modelpath = './model/{epoch:02d}--{acc:.4f}.hdf5' # hdf의 d와 f는 02d와 4f의 df?
+checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'acc', save_best_only = True, mode = 'auto')
+
+# tb_hist = TensorBoard(log_dir='graph', histogram_freq=0,
+#                       write_graph=True, write_images=True)
 
 model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['acc'])
-model.fit(x_train, y_train, epochs = 200, batch_size = 1, validation_split = 0.2, verbose = 1)
+hist = model.fit(x_train, y_train, epochs = 100, batch_size = 1, validation_split = 0.2, callbacks = [es, checkpoint], verbose = 1)
+
+
+
 
 # 4. 평가, 예측
 loss, acc  = model.evaluate(x_test, y_test, batch_size = 1)
@@ -82,9 +93,31 @@ print('loss : ', loss)
 print('acc : ', acc)
 
 y_pred = model.predict(x_test)
-print(y_pred)
-print(np.argmax(y_pred, axis = 1))
+# print(y_pred)
+# print(np.argmax(y_pred, axis = 1))
 
+
+
+# 시각화
+plt.figure(figsize =(10, 6))
+plt.subplot(2, 1, 1)
+plt.plot(hist.history['loss'], marker = '.', c ='red', label = 'loss')
+plt.plot(hist.history['val_loss'], marker = '.', c = 'blue', label = 'val_loss')
+plt.grid()
+plt.title('loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(loc = 'upper right')
+
+plt.subplot(2, 1, 2)
+plt.plot(hist.hitory['acc'], marker = '*', c = 'green', label = 'acc')
+plt.plot(hist.history['val_acc'], marker = '*', c = 'purple', lbel = 'val_acc')
+plt.grid()
+plt.title('acc')
+plt.ylabel('acc')
+plt.xlabel('epoch')
+plt.legend(loc = 'upper right')
+plt.show()
 
 '''
 loss :  0.15457082632152203

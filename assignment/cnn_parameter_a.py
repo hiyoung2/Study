@@ -32,5 +32,5 @@ dense_1 (Dense)              (None, 1, 1, 1)           6
 # 정정
 # (input * kernel*kernel + bias) * output 로 하는 게 좋다
 # cf) LSTM에서 4 * (input_dim + bias + output) * output
-
-
+# simpleRNN =(input_dim + bias + output) * output
+# GRU = 3 * (input_dim + bias + output) * output

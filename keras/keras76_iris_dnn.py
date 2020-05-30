@@ -39,7 +39,7 @@ print('x_scaled : ', x.shape) # (150, 4)
 # 1.3 데이터 분리
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(
-    x, y, train_size = 0.8
+    x, y, train_size = 0.8, random_state = 77, shuffle = True
 )
 
 # 1.3 데이터 shape 맞추기
@@ -55,19 +55,12 @@ model = Sequential()
 
 model.add(Dense(33, input_shape = (4, )))
 model.add(Dense(55))
-model.add(Dropout(0.1))
-model.add(Dense(77, activation = 'relu'))
-model.add(Dense(111))
-model.add(Dropout(0.3))
-model.add(Dense(133, activation = 'relu'))
-model.add(Dropout(0.4))
-model.add(Dense(122, activation = 'relu'))
-model.add(Dropout(0.2))
-model.add(Dense(88, activation = 'relu'))
+model.add(Dense(77))
+model.add(Dense(99))
+model.add(Dense(88))
 model.add(Dense(66))
 model.add(Dense(44, activation = 'relu'))
 model.add(Dense(33))
-model.add(Dropout(0.2))
 model.add(Dense(3, activation = 'softmax'))
 
 model.summary()
@@ -85,7 +78,19 @@ checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'loss', save_best_o
 #                       write_graph=True, write_images=True)
 
 model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['acc'])
-hist = model.fit(x_train, y_train, epochs = 50, batch_size = 1, validation_split = 0.2, callbacks = [checkpoint], verbose = 1)
+hist = model.fit(x_train, y_train, epochs = 100, batch_size = 1, validation_split = 0.2, callbacks = [checkpoint], verbose = 1)
+
+# 4. 평가, 예측
+loss, acc  = model.evaluate(x_test, y_test, batch_size = 1)
+
+print('loss : ', loss)
+print('acc : ', acc)
+
+# y_pred = model.predict(x_test)
+# print(y_pred)
+# print(np.argmax(y_pred, axis = 1))
+
+# 시각화
 
 plt.figure(figsize = (10, 6)) 
 
@@ -107,16 +112,6 @@ plt.ylabel('acc')
 plt.xlabel('epoch')          
 plt.legend(loc = 'upper right') 
 plt.show()  
-
-# 4. 평가, 예측
-loss, acc  = model.evaluate(x_test, y_test, batch_size = 1)
-
-print('loss : ', loss)
-print('acc : ', acc)
-
-# y_pred = model.predict(x_test)
-# print(y_pred)
-# print(np.argmax(y_pred, axis = 1))
 
 '''
 model.add(Dense(33, input_shape = (4, )))

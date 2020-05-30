@@ -38,7 +38,7 @@ x = scaler.transform(x)
 
 # 1.4 데이터 분리
 x_train, x_test, y_train, y_test = train_test_split(
-    x, y, train_size = 0.8
+    x, y, train_size = 0.8, random_state = 77, shuffle = True
 )
 
 print('x_train.shape : ', x_train.shape) # x_train.shape :  (455, 30)
@@ -47,23 +47,80 @@ print('x_test.shape : ' , x_test.shape)  # x_test.shape :  (114, 30)
 # 2. 모델 구성
 model = Sequential()
 
-model.add(Dense(100, input_shape = (30, )))
-model.add(Dense(200, activation = 'relu'))
-model.add(Dense(80, activation = 'relu'))
-model.add(Dense(2, activation = 'softmax'))
+model.add(Dense(50, input_shape = (30, )))
+model.add(Dense(100))
+model.add(Dense(150))
+model.add(Dense(200))
+model.add(Dense(180))
+model.add(Dense(120))
+model.add(Dense(80))
+model.add(Dense(60))
+model.add(Dense(40))
+model.add(Dense(20))
+model.add(Dense(2, activation = 'sigmoid'))
 
 model.summary()
 
 # 3. 컴파일, 훈련
+from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
+es = EarlyStopping(monitor = 'loss', patience = 10, mode = 'auto')
+
+modelpath = './model/{epoch:02d}--{loss:.4fd}.hdf5'
+checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'loss', save_best_only = True, mode = 'auto')
+
+# tb_hist = TensorBoard(log_dir = 'graph', histogram_freq = 0, write_graph = True, write_images = True)
+
 model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics = ['acc'])
-model.fit(x_train, y_train, epochs = 100, batch_size = 10, validation_split = 0.2, verbose = 1)
+hist = model.fit(x_train, y_train, epochs = 100, batch_size = 1, validation_split = 0.2, callbacks = [es, checkpoint], verbose = 1)
 
 # 4. 평가, 예측
-loss, acc = model.evaluate(x_test, y_test, batch_size = 10)
+loss, acc = model.evaluate(x_test, y_test, batch_size = 1)
 
 print('loss : ', loss)
 print('acc : ', acc)
 
-y_pred = model.predict(x_test)
-print(y_pred)
-print(np.argmax(y, axis = 1))
+# y_pred = model.predict(x_test)
+# print(y_pred)
+
+# 시각화
+plt.figure(figsize =(10, 6))
+plt.subplot(2, 1, 1)
+plt.plot(hist.history['loss'], marker = '.', c ='red', label = 'loss')
+plt.plot(hist.history['val_loss'], marker = '.', c = 'blue', label = 'val_loss')
+plt.grid()
+plt.title('loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(loc = 'upper right')
+
+plt.subplot(2, 1, 2)
+plt.plot(hist.hitory['acc'], marker = '*', c = 'green', label = 'acc')
+plt.plot(hist.history['val_acc'], marker = '*', c = 'purple', lbel = 'val_acc')
+plt.grid()
+plt.title('acc')
+plt.ylabel('acc')
+plt.xlabel('epoch')
+plt.legend(loc = 'upper right')
+plt.show()
+
+'''
+model.add(Dense(50, input_shape = (30, )))
+model.add(Dense(100))
+model.add(Dense(150))
+model.add(Dense(200))
+model.add(Dense(180))
+model.add(Dense(120))
+model.add(Dense(80))
+model.add(Dense(60))
+model.add(Dense(40))
+model.add(Dense(20))
+model.add(Dense(2, activation = 'sigmoid'))
+
+epo = 100, batch = 10, val = 0.2, es = x
+loss :  0.10483003397402763
+acc :  0.9561403393745422
+
+epo = 100, batch = 1, val = 0.2 , es = x
+loss :  0.12877476460401263
+acc :  0.9561403393745422
+'''

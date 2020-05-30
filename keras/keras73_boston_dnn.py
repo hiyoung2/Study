@@ -58,7 +58,7 @@ model.add(Dense(66))
 model.add(Dense(44, activation = 'relu'))
 model.add(Dense(22))
 # model.add(Dropout(0.2))
-model.add(Dense(1, activation = 'sigmoid'))
+model.add(Dense(1))
 
 model.summary()
 
@@ -68,10 +68,10 @@ model.summary()
 # early_stopping = EarlyStopping(monitor  = 'loss', patience = 10, mode = 'auto')
 
 model.compile(loss = 'mse', optimizer = 'adam', metrics = ['mse'])
-model.fit(x_train, y_train, epochs = 100, batch_size = 10, validation_split = 0.2, verbose = 1)
+model.fit(x_train, y_train, epochs = 100, batch_size = 32, validation_split = 0.2, verbose = 1)
 
 # 4. 평가, 예측
-loss, mse = model.evaluate(x_test, y_test, batch_size = 10)
+loss, mse = model.evaluate(x_test, y_test, batch_size =32)
 print('loss : ', loss)
 print('mse : ', mse)
 
@@ -79,11 +79,39 @@ y_pred = model.predict(x_test)
 # print(y_pred)
 
 from sklearn.metrics import mean_squared_error
-def RMSE(y_test, y_pred):
+def rmse(y_test, y_pred):
     return np.sqrt(mean_squared_error(y_test, y_pred))
 
-print("RMSE : ", RMSE(y_test, y_pred))
+print("RMSE : ", rmse(y_test, y_pred))
 
 from sklearn.metrics import r2_score
 r2 = r2_score(y_test, y_pred)
 print("R2 : ", r2)
+
+'''
+model = Sequential()
+model.add(Dense(11, input_shape = (10, )))
+model.add(Dense(33, activation = 'relu'))
+model.add(Dense(55))
+# model.add(Dropout(0.2))
+model.add(Dense(77, activation = 'relu'))
+# model.add(Dropout(0.3))
+model.add(Dense(66))
+model.add(Dense(44, activation = 'relu'))
+model.add(Dense(22))
+# model.add(Dropout(0.2))
+model.add(Dense(1))
+
+epo = 100, batch = 10
+RMSE :  3.38320954097994
+R2 :  0.8957474209176609
+
+epo=  100, batch = 1
+RMSE :  4.313755524380683
+R2 :  0.6835134153251115
+
+epo = 100, batch = 32
+RMSE :  4.18817094368022
+R2 :  0.8055989444235712
+
+'''

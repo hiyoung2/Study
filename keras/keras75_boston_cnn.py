@@ -62,24 +62,24 @@ x_test = x_test.reshape(102, 4, 3, 1)
 # 2. 모델 구성
 model = Sequential()
 model.add(Conv2D(10, (2, 2), input_shape = (4, 3, 1)))
+model.add(Conv2D(8, (2, 2), activation = 'relu', padding = 'same'))
 model.add(Dropout(0.2))
-model.add(Conv2D(9, (2, 2), activation = 'relu', padding = 'same'))
-model.add(Dropout(0.2))
-model.add(MaxPooling2D(pool_size = 2))
 model.add(Flatten())
-model.add(Dense(1, activation = 'relu'))
+model.add(Dense(20))
+model.add(Dense(6))
+model.add(Dense(1))
 model.summary()
 
 
 # 3. 컴파일, 훈련
 from keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor  = 'loss', patience = 10, mode = 'auto')
+# early_stopping = EarlyStopping(monitor  = 'loss', patience = 10, mode = 'auto')
 
 model.compile(loss = 'mse', optimizer = 'adam', metrics = ['mse'])
-model.fit(x_train, y_train, epochs = 300, batch_size = 10, validation_split = 0.2, callbacks = [early_stopping], verbose = 1)
+model.fit(x_train, y_train, epochs = 100, batch_size = 32, validation_split = 0.2, verbose = 1)
 
 # 4. 평가, 예측
-loss, mse = model.evaluate(x_test, y_test, batch_size = 10)
+loss, mse = model.evaluate(x_test, y_test, batch_size = 32)
 print('loss : ', loss)
 print('mse : ', mse)
 
@@ -87,11 +87,26 @@ y_pred = model.predict(x_test)
 print(y_pred)
 
 from sklearn.metrics import mean_squared_error
-def RMSE(y_test, y_pred):
+def rmse(y_test, y_pred):
     return np.sqrt(mean_squared_error(y_test, y_pred))
 
-print("RMSE : ", RMSE(y_test, y_pred))
+print("RMSE : ", rmse(y_test, y_pred))
 
 from sklearn.metrics import r2_score
 r2 = r2_score(y_test, y_pred)
 print("R2 : ", r2)
+
+
+'''
+model.add(Conv2D(10, (2, 2), input_shape = (4, 3, 1)))
+model.add(Conv2D(8, (2, 2), activation = 'relu', padding = 'same'))
+model.add(Dropout(0.2))
+model.add(Flatten())
+model.add(Dense(20))
+model.add(Dense(6))
+model.add(Dense(1))
+
+epo = 100, batch = 32
+RMSE :  3.4873460741737863
+R2 :  0.8513332512534576
+'''

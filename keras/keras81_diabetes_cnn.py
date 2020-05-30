@@ -33,7 +33,7 @@ x_scaled = scaler.transform(x)
 
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(
-    x, y , train_size = 0.8
+    x, y , train_size = 0.8, random_state = 77, shuffle = True
 )
 
 print('x_train.shape : ', x_train.shape) # (353, 10)
@@ -43,7 +43,6 @@ print('x_test.shape : ', x_test.shape)   # (89, 10)
 # x_train, x_test, y_train, y_test = train_test_split(
 #     x_pca, y , train_size = 0.8
 # )
-
 
 # print('x_pca_train.shape : ', x_train.shape) # (353, 9)
 # print('x_pca_test.shape : ', x_test.shape)   # (89, 9)
@@ -59,48 +58,36 @@ x_test = x_test.reshape(x_test.shape[0], 5, 2, 1)
 
 # 2. 모델 구성
 model = Sequential()
-model.add(Conv2D(11, (2, 2), input_shape = (5, 2, 1)))
-model.add(Conv2D(22, (2, 2), padding = 'same', activation = 'relu'))
-model.add(Conv2D(44, (2, 2), padding = 'same', activation = 'relu'))
-model.add(Conv2D(66, (2, 2), padding = 'same', activation = 'relu'))
-model.add(Conv2D(99, (2, 2), padding = 'same', activation = 'relu'))
-model.add(Conv2D(111, (2, 2), padding = 'same', activation = 'relu'))
-model.add(Conv2D(88, (2, 2), padding = 'same', activation = 'relu'))
-model.add(Conv2D(55, (2, 2), padding = 'same', activation = 'relu'))
-model.add(Conv2D(33, (2, 2), padding = 'same', activation = 'relu'))
-model.add(Conv2D(11, (2, 2), padding = 'same', activation = 'relu'))
+model.add(Conv2D(100, (2, 2), input_shape = (5, 2, 1)))
 model.add(Flatten())
-model.add(Dense(1, activation = 'sigmoid'))
+model.add(Dense(120))
+model.add(Dense(140))
+model.add(Dense(180))
+model.add(Dense(240))
+model.add(Dense(110))
+model.add(Dense(70))
+model.add(Dense(1, activation = 'linear'))
 
 model.summary()
 
-# model = Sequential()
-# model.add(Conv2D(11, (2, 2), input_shape = (3, 3, 1)))
-# model.add(Conv2D(22, (2, 2), padding = 'same', activation = 'relu'))
-# model.add(Conv2D(44, (2, 2), padding = 'same', activation = 'relu'))
-# model.add(Conv2D(66, (2, 2), padding = 'same', activation = 'relu'))
-# model.add(Conv2D(99, (2, 2), padding = 'same', activation = 'relu'))
-# model.add(Conv2D(111, (2, 2), padding = 'same', activation = 'relu'))
-# model.add(Conv2D(88, (2, 2), padding = 'same', activation = 'relu'))
-# model.add(Conv2D(55, (2, 2), padding = 'same', activation = 'relu'))
-# model.add(Conv2D(33, (2, 2), padding = 'same', activation = 'relu'))
-# model.add(Conv2D(11, (2, 2), padding = 'same', activation = 'relu'))
-# model.add(Flatten())
-# model.add(Dense(1, activation = 'sigmoid'))
-
-# model.summary()
-
 # 3. 컴파일, 훈련
 
-# from keras.callbacks import EarlyStopping
-# es = EarlyStopping(monitor = 'loss', patience = 10, mode = 'auto')
+from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
+# es = EarlyStopping(monitor = 'loss', patience = 30, mode = 'auto')
+
+modelpath = './model/{epoch:02d}--{loss:.4f}.hdf5'
+checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'loss', save_best_only = True, mode = 'auto')
+
+# tb_hist = TensorBoard(log_dir='graph', histogram_freq=0,
+#                       write_graph=True, write_images=True)
+
 
 model.compile(loss = 'mse', optimizer = 'adam', metrics = ['mse'])
-model.fit(x_train, y_train, epochs = 200, batch_size = 1, validation_split = 0.2, verbose = 1)
+hist = model.fit(x_train, y_train, epochs = 400, batch_size = 32, validation_split = 0.2,  verbose = 1)
 
 # 4. 평가, 예측
 
-loss, mse = model.evaluate(x_test, y_test, batch_size = 1)
+loss, mse = model.evaluate(x_test, y_test, batch_size = 32)
 
 print('loss : ', loss)
 print('mse : ', mse)
@@ -111,12 +98,61 @@ print(y_pred)
 # RMSE, R2
 
 from sklearn.metrics import mean_squared_error
-def RMSE(y_test, y_pred):
+def rmse(y_test, y_pred):
     return np.sqrt(mean_squared_error(y_test, y_pred))
 
-print('RSME : ', RMSE(y_test, y_pred))
+print('RSME : ', rmse(y_test, y_pred))
 
 from sklearn.metrics import r2_score
 r2 = r2_score(y_test, y_pred)
 
 print('R2 : ', r2)
+
+# 시각화
+plt.figure(figsize =(10, 6))
+plt.subplot(2, 1, 1)
+plt.plot(hist.history['loss'], marker = '.', c ='red', label = 'loss')
+plt.plot(hist.history['val_loss'], marker = '.', c = 'blue', label = 'val_loss')
+plt.grid()
+plt.title('loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(loc = 'upper right')
+
+plt.subplot(2, 1, 2)
+plt.plot(hist.history['mse'], marker = '*', c = 'green', label = 'mse')
+plt.plot(hist.history['val_mse'], marker = '*', c = 'purple', label = 'val_mse')
+plt.grid()
+plt.title('mse')
+plt.ylabel('mse')
+plt.xlabel('epoch')
+plt.legend(loc = 'upper right')
+plt.show()
+
+'''
+model.add(Conv2D(100, (2, 2), input_shape = (5, 2, 1)))
+model.add(Flatten())
+model.add(Dense(120))
+model.add(Dense(140))
+model.add(Dense(180))
+model.add(Dense(240))
+model.add(Dense(110))
+model.add(Dense(70))
+
+epo = 100, batch = 32
+RSME :  56.10776284667935
+R2 :  0.5011844291016216
+
+epo = 200
+model.add(Dense(150))
+RSME :  56.09546859174894
+R2 :  0.5014030046997611
+
+epo = 300
+RSME :  55.88196214501462
+R2 :  0.5051912281486934
+
+epo 400
+RSME :  55.95647499932604
+R2 :  0.5038707950989723
+'''
