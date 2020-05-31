@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
 from keras.utils import np_utils
 from sklearn.preprocessing import MinMaxScaler
-from keras.models import Sequential
-from keras.layers import Dense, Dropout
+from keras.models import Sequential, Model
+from keras.layers import Dense, Dropout, Input
 
 # 1. 데이터 준비
 iris = load_iris()
@@ -51,6 +51,8 @@ print(y_train.shape) # (120, 3)
 print(y_test.shape)  # (30, 3)
 
 # 2. 모델 구성
+# 2.1 Sequential형
+'''
 model = Sequential()
 
 model.add(Dense(33, input_shape = (4, )))
@@ -64,6 +66,22 @@ model.add(Dense(33))
 model.add(Dense(3, activation = 'softmax'))
 
 model.summary()
+'''
+# 2.2 함수형
+
+input1 = Input(shape = (4, ))
+dense1 = Dense(55)(input1)
+dense1 = Dense(77)(dense1)
+dense1 = Dense(99)(dense1)
+dense1 = Dense(88)(dense1)
+dense1 = Dense(66)(dense1)
+dense1 = Dense(44)(dense1)
+dense1 = Dense(33)(dense1)
+
+output1 = Dense(3, activation = 'softmax')(dense1)
+
+model = Model(inputs = input1, outputs = output1)
+
 
 # 3. 컴파일, 훈련
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
@@ -78,10 +96,10 @@ checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'loss', save_best_o
 #                       write_graph=True, write_images=True)
 
 model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['acc'])
-hist = model.fit(x_train, y_train, epochs = 100, batch_size = 1, validation_split = 0.2, callbacks = [checkpoint], verbose = 1)
+hist = model.fit(x_train, y_train, epochs = 200, batch_size = 32, validation_split = 0.2, callbacks = [checkpoint], verbose = 1)
 
 # 4. 평가, 예측
-loss, acc  = model.evaluate(x_test, y_test, batch_size = 1)
+loss, acc  = model.evaluate(x_test, y_test, batch_size = 32)
 
 print('loss : ', loss)
 print('acc : ', acc)
@@ -170,4 +188,56 @@ model.add(Dense(3, activation = 'softmax'))
 epo 150, es x, val 0.2, batch 1, best 43, 0.0223
 loss :  0.02353709747027679
 acc :  1.0
+'''
+
+'''
+함수형
+input1 = Input(shape = (4, ))
+dense1 = Dense(55)(input1)
+dense1 = Dense(77)(dense1)
+dense1 = Dense(99)(dense1)
+dense1 = Dense(88)(dense1)
+dense1 = Dense(66)(dense1)
+dense1 = Dense(44)(dense1)
+dense1 = Dense(33)(dense1)
+
+output1 = Dense(3, activation = 'softmax')(dense1)
+
+epo = 100, batch = 1, es = x, best = 71, 0.0036
+
+loss :  0.22330012133207688
+acc :  0.9666666388511658
+'''
+
+'''
+input1 = Input(shape = (4, ))
+dense1 = Dense(55)(input1)
+dense1 = Dense(77)(dense1)
+dense1 = Dense(99)(dense1)
+dense1 = Dense(88)(dense1)
+dense1 = Dense(66)(dense1)
+dense1 = Dense(44, activation = 'relu')(dense1)
+dense1 = Dense(33)(dense1)
+
+output1 = Dense(3, activation = 'softmax')(dense1)
+
+epo = 200, batch = 32
+loss :  0.38386479020118713
+acc :  0.8999999761581421
+'''
+'''
+input1 = Input(shape = (4, ))
+dense1 = Dense(55)(input1)
+dense1 = Dense(77)(dense1)
+dense1 = Dense(99)(dense1)
+dense1 = Dense(88)(dense1)
+dense1 = Dense(66)(dense1)
+dense1 = Dense(44)(dense1)
+dense1 = Dense(33)(dense1)
+
+output1 = Dense(3, activation = 'softmax')(dense1)
+
+epo = 200, batch = 32
+loss :  0.21769794821739197
+acc :  0.9333333373069763
 '''

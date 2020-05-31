@@ -48,11 +48,19 @@ x_test = x_test.reshape(x_test.shape[0], x_train.shape[1], 1)
 # 2. 모델 구성
 model = Sequential()
 
-model.add(LSTM(100, input_shape = (10, 1)))
+model.add(LSTM(50, input_shape = (10, 1)))
+model.add(Dense(100))
+model.add(Dense(150))
+model.add(Dense(250))
 model.add(Dense(500))
+model.add(Dense(600))
+model.add(Dense(700))
 model.add(Dense(800))
-model.add(Dense(400))
-model.add(Dense(200))
+model.add(Dense(900))
+model.add(Dense(1000))
+
+model.add(Dense(5000))
+model.add(Dense(10))
 model.add(Dense(1))
 
 model.summary()
@@ -134,4 +142,86 @@ R2 :  0.4175919854431587
 epo = 200, batch = 32
 RSME :  60.26515608533354
 R2 :  0.42452472658875284
+'''
+'''
+model.add(LSTM(50, input_shape = (10, 1)))
+# model.add(LSTM(50))
+model.add(Dense(100))
+model.add(Dense(150))
+model.add(Dense(250))
+model.add(Dense(500))
+model.add(Dense(10))
+model.add(Dense(1))
+
+epo = 200, batch = 32
+RSME :  62.654890766667506
+R2 :  0.3779804269257999
+'''
+
+'''
+model.add(LSTM(50, input_shape = (10, 1)))
+model.add(Dense(100))
+model.add(Dense(150))
+model.add(Dense(250))
+model.add(Dense(500))
+model.add(Dense(1000))
+model.add(Dense(10))
+model.add(Dense(1))
+
+epo = 200, batch = 32
+RSME :  60.29856363137002
+R2 :  0.42388652877704047
+'''
+
+'''
+model.add(LSTM(50, input_shape = (10, 1)))
+model.add(Dense(100))
+model.add(Dense(150))
+model.add(Dense(250))
+model.add(Dense(500))
+model.add(Dense(2000))
+model.add(Dense(10))
+model.add(Dense(1))
+
+epo = 200, batch = 32
+RSME :  59.003896868823546
+R2 :  0.4483603338037586
+'''
+'''
+model.add(LSTM(50, input_shape = (10, 1)))
+model.add(Dense(100))
+model.add(Dense(150))
+model.add(Dense(250))
+model.add(Dense(500))
+model.add(Dense(600))
+model.add(Dense(700))
+model.add(Dense(900))
+
+model.add(Dense(2000))
+model.add(Dense(10))
+model.add(Dense(1))
+
+epo = 200, batch = 32
+RSME :  57.381510216486355
+R2 :  0.47827932811123075
+'''
+
+'''
+model.add(LSTM(50, input_shape = (10, 1)))
+model.add(Dense(100))
+model.add(Dense(150))
+model.add(Dense(250))
+model.add(Dense(500))
+model.add(Dense(600))
+model.add(Dense(700))
+model.add(Dense(900))
+model.add(Dense(1000))
+
+model.add(Dense(2000))
+model.add(Dense(10))
+model.add(Dense(1))
+
+epo 200, batch = 32
+RSME :  56.62241076511971
+R2 :  0.4919916993497121
 '''
