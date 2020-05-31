@@ -1,3 +1,5 @@
+# keras79_diabetes_dnn
+
 import numpy as np
 import matplotlib.pyplot as plt
 
