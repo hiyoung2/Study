@@ -52,20 +52,21 @@ print(y_test.shape)  # (30, 3)
 
 # 2. 모델 구성
 # 2.1 Sequential형
-'''
+
 model = Sequential()
 
 model.add(Dense(33, input_shape = (4, )))
 model.add(Dense(55))
-model.add(Dense(77))
+model.add(Dense(77, activation = 'relu'))
 model.add(Dense(99))
-model.add(Dense(88))
+model.add(Dense(88, activation = 'relu'))
 model.add(Dense(66))
 model.add(Dense(44, activation = 'relu'))
 model.add(Dense(33))
 model.add(Dense(3, activation = 'softmax'))
 
 model.summary()
+
 '''
 # 2.2 함수형
 
@@ -81,7 +82,7 @@ dense1 = Dense(33)(dense1)
 output1 = Dense(3, activation = 'softmax')(dense1)
 
 model = Model(inputs = input1, outputs = output1)
-
+'''
 
 # 3. 컴파일, 훈련
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
@@ -96,10 +97,10 @@ checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'loss', save_best_o
 #                       write_graph=True, write_images=True)
 
 model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['acc'])
-hist = model.fit(x_train, y_train, epochs = 200, batch_size = 32, validation_split = 0.2, callbacks = [checkpoint], verbose = 1)
+hist = model.fit(x_train, y_train, epochs = 100, batch_size = 1, validation_split = 0.2, callbacks = [checkpoint], verbose = 1)
 
 # 4. 평가, 예측
-loss, acc  = model.evaluate(x_test, y_test, batch_size = 32)
+loss, acc  = model.evaluate(x_test, y_test, batch_size = 1)
 
 print('loss : ', loss)
 print('acc : ', acc)
@@ -146,6 +147,55 @@ epo 100, val 0.2, batch 1, es x
 loss :  0.019614876400736374
 acc :  1.0
 '''
+'''
+model.add(Dense(33, input_shape = (4, )))
+model.add(Dense(55))
+model.add(Dense(77))
+model.add(Dense(99))
+model.add(Dense(88))
+model.add(Dense(66))
+model.add(Dense(44))
+model.add(Dense(33))
+model.add(Dense(3, activation = 'softmax'))
+
+epo = 100, batch 1
+loss :  0.1591352071983503
+acc :  0.89999997615814
+'''
+
+'''
+model.add(Dense(33, input_shape = (4, )))
+model.add(Dense(55, activation = 'relu'))
+model.add(Dense(77, activation = 'relu'))
+model.add(Dense(99, activation = 'relu'))
+model.add(Dense(88, activation = 'relu'))
+model.add(Dense(66, activation = 'relu'))
+model.add(Dense(44, activation = 'relu'))
+model.add(Dense(33, activation = 'relu'))
+model.add(Dense(3, activation = 'softmax'))
+
+epo = 100, batch = 1
+loss :  0.21320179102379674
+acc :  0.8666666746139526
+
+'''
+
+'''
+model.add(Dense(33, input_shape = (4, )))
+model.add(Dense(55))
+model.add(Dense(77, activation = 'relu'))
+model.add(Dense(99))
+model.add(Dense(88, activation = 'relu'))
+model.add(Dense(66))
+model.add(Dense(44, activation = 'relu'))
+model.add(Dense(33))
+model.add(Dense(3, activation = 'softmax'))
+
+epo = 100, batch = 1
+loss :  0.3099500412284508
+acc :  0.9666666388511658
+'''
+
 '''
 model.add(Dense(33, input_shape = (4, )))
 model.add(Dense(55))
