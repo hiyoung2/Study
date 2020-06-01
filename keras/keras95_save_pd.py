@@ -21,7 +21,6 @@ datasets = pd.read_csv("./data/csv/iris.csv",
 # header = 0 으로 지정해주면
 #   150    4  setosa  versicolor  virginica
 # 이렇게 실제 데이터에 포함 되지 않고 header로 따로 분리된다
-
 print(datasets)
 # 자동으로 index 생성됨
 

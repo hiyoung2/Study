@@ -80,7 +80,7 @@ model.save('./model/model_test01.h5')
 from keras.models import load_model
 model = load_model('./model/check--08--0.0345.hdf5') # checkpoint 파일 중 가장 좋은 값이 나온 것을 load 해 준다
 
-# checkponit 파일을 불러오니까 모델, 가중치 모두 함꼐 불러온다
+# checkponit 파일을 불러오니까 모델, 가중치 모두 함께 불러온다
 
 # 가중치 save 방법
 # 1. 모델(fit한 다음)

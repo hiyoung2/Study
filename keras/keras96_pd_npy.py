@@ -40,11 +40,21 @@ print('y.shape : ', y.shape) # (150, 3)
 # x data
 scaler = MinMaxScaler()
 scaler.fit(x)
+
+print(x)
+print(x.shape)
+
 x = scaler.transform(x)
+
+print(x)
+print(x.shape)
 # MinMax 스케일러로 x data 전처리 해 준다
 
 print('x_caled.shape : ', x.shape)
 # 스케일링을 거친 데이터 모양을 확인
+
+
+
 
 # train_test_split
 x_train, x_test, y_train, y_test = train_test_split(
@@ -95,6 +105,9 @@ print('acc : ', acc)
 y_pred = model.predict(x_test)
 # print(y_pred)
 print(np.argmax(y_pred, axis = 1))
+
+
+
 
 '''
 model.add(Dense(33, input_shape = (4, )))

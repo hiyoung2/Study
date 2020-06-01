@@ -66,7 +66,7 @@ hist = model.fit(x_train, y_train, epochs=10, batch_size=200, validation_split =
 
 model.save('./model/model_test01.h5') # fit 한 다음에 model.save (모델, 가중치 모두 save)
 
-
+# 
 # 4. 평가, 예측
 loss, acc = model.evaluate(x_test, y_test, batch_size = 200)
 

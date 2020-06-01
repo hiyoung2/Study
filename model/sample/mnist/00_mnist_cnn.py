@@ -69,7 +69,7 @@ checkpoint = ModelCheckpoint(filepath = checkpointpath, monitor = 'val_loss',
 
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=30, batch_size=200, callbacks = [checkpoint], validation_split = 0.2) 
+model.fit(x_train, y_train, epochs=30, batch_size=200, callbacks = [checkpoint], validation_split = 0.2, verbose = 1) 
 
 # model.save_weights('./model/sample/mnist/mnist_save_weight.h5') -> weight만 저장, 재사용시 모델구성 해야하고 compile도 해 줘야함
 
