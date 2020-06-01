@@ -55,23 +55,28 @@ print('x_test.shape : ' , x_test.shape)  # x_test.shape :  (114, 30)
 
 # 1.5 데이터 모양 맞추기
 
-x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], 1)
-x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], 1)
+# x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], 1)
+# x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], 1)
+
+x_train = x_train.reshape(x_train.shape[0], 1, 30)
+x_test = x_test.reshape(x_test.shape[0], 1, 30)
+
 
 # 2. 모델 구성
 
 model = Sequential()
 
-model.add(LSTM(50, input_shape = (30, 1)))
+model.add(LSTM(50, input_shape = (1, 30)))
 model.add(Dense(100, activation = 'relu'))
 model.add(Dense(200, activation = 'relu'))
 model.add(Dense(80, activation = 'relu'))
 model.add(Dense(2, activation = 'sigmoid'))
 
+
 model.summary()
 
-# model.save('./model/sample/cancer/cancer_model_save.h5') 
-
+model.save('./model/sample/cancer/cancer_model_save.h5') 
+# 
 # 3. 컴파일, 훈련
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 # es = EarlyStopping(monitor = 'loss', patience = 10, mode = 'auto')
@@ -82,7 +87,12 @@ checkpoint = ModelCheckpoint(filepath = checkpointpath, monitor = 'loss', save_b
 # tb_hist = TensorBoard(log_dir = 'graph', histogram_freq = 0, write_graph = True, write_images = True)
 
 model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics = ['acc'])
-model.fit(x_train, y_train, epochs=30, batch_size=32, callbacks = [checkpoint], validation_split = 0.3, verbose = 1) 
+
+model.fit(x_train, y_train, epochs = 200, batch_size=32, callbacks = [checkpoint], validation_split = 0.3, verbose = 1) 
+
+# model.fit(x_train, y_train, epochs=500, batch_size=32, callbacks = [es], validation_split = 0.2, verbose = 1) 
+
+# model.fit(x_train, y_train, epochs=200, batch_size=32, validation_split = 0.3, verbose = 1) 
 
 model.save_weights('./model/sample/cancer/cancer_save_weight.h5')
 
@@ -106,4 +116,20 @@ model.add(Dense(2, activation = 'sigmoid'))
 epo = 100, batch = 32, val = 0.2, es = x
 loss :  0.07831162227350369
 acc :  0.9736841917037964
+'''
+
+'''
+model = Sequential()
+
+model.add(LSTM(50, input_shape = (1, 30)))
+model.add(Dense(100, activation = 'relu'))
+model.add(Dense(200, activation = 'relu'))
+model.add(Dense(80, activation = 'relu'))
+model.add(Dense(2, activation = 'sigmoid'))
+
+model.summary()
+
+epo 200, batch 32, val 0.3
+loss :  0.18502477722665245
+acc :  0.9824561476707458
 '''

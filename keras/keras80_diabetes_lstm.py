@@ -39,9 +39,11 @@ print('x_test.shape : ', x_test.shape)   # (89, 10)
 
 # 1.3 데이터 shape 맞추기
 
-x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], 1)
-x_test = x_test.reshape(x_test.shape[0], x_train.shape[1], 1)
+# x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], 1)
+# x_test = x_test.reshape(x_test.shape[0], x_train.shape[1], 1)
 
+x_train = x_train.reshape(x_train.shape[0], 1, 10)
+x_test = x_test.reshape(x_test.shape[0], 1, 10)
 
 # x_train = x_train.reshape(x_train.shape[0], 5, 2)
 # x_test = x_test.reshape(x_test.shape[0], 5, 2)
@@ -50,21 +52,21 @@ x_test = x_test.reshape(x_test.shape[0], x_train.shape[1], 1)
 # 2. 모델 구성
 model = Sequential()
 
-model.add(LSTM(30, input_shape = (10, 1)))
-model.add(Dense(40))
-model.add(Dense(50))
-model.add(Dense(60))
-model.add(Dense(70))
-model.add(Dense(80))
-model.add(Dense(90))
-# model.add(Dropout(0.3))
+model.add(LSTM(20, input_shape = (1, 10)))
 model.add(Dense(100))
-model.add(Dense(110))
 model.add(Dense(150))
-model.add(Dense(140))
-# model.add(Dropout(0.5))
+model.add(Dense(250))
+model.add(Dense(500))
+model.add(Dense(600))
+model.add(Dense(700))
+model.add(Dense(900))
+model.add(Dense(1000))
+model.add(Dropout(0.5))
+model.add(Dense(2000))
+model.add(Dropout(0.5))
 model.add(Dense(10))
 model.add(Dense(1))
+
 
 model.summary()
 
@@ -81,7 +83,7 @@ checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'loss', save_best_o
 #                       write_graph=True, write_images=True)
 
 model.compile(loss = 'mse', optimizer = 'adam', metrics = ['mse'])
-hist = model.fit(x_train, y_train, epochs = 100, batch_size = 32, validation_split = 0.2, verbose = 1)
+hist = model.fit(x_train, y_train, epochs = 200, batch_size = 32, validation_split = 0.2, verbose = 1)
 
 # 4. 평가, 예측
 
