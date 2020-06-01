@@ -60,13 +60,11 @@ print('x_test.shape : ', x_test.shape)   # (89, 10)
 # 2. 모델 구성
 model = Sequential()
 
-model.add(Dense(10, input_shape=(10,)))
-model.add(Dense(11))
-model.add(Dense(12))
-model.add(Dense(13))
-model.add(Dense(12))
-model.add(Dense(11))
-model.add(Dense(10))
+model.add(Dense(100, input_shape=(10,)))
+model.add(Dense(300))
+model.add(Dense(500))
+model.add(Dense(900))
+model.add(Dense(1500))
 model.add(Dense(1))
 
 model.summary()
@@ -129,7 +127,7 @@ plt.title('mse')
 plt.ylabel('mse')
 plt.xlabel('epoch')
 plt.legend(loc = 'upper right')
-plt.show()
+# plt.show()
 
 '''
 100
@@ -166,4 +164,9 @@ model.add(Dense(1))
 epo = 100, batch = 1
 RSME :  56.50577893451295
 R2 :  0.4940823526878463
+
+2차
+RSME :  55.969851680558484
+R2 :  0.5036335623041546
 '''
+

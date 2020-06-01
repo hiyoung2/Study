@@ -38,6 +38,44 @@ print(x_train.shape)
 
 input1 = Input(shape=(32*32*3, ))   
 
+dense1 = Dense(100)(input1) 
+dense1 = Dropout(0.1)(dense1)
+dense1 = Dense(300)(dense1) 
+dense1 = Dropout(0.2)(dense1)
+dense1 = Dense(500)(dense1) 
+dense1 = Dropout(0.3)(dense1) 
+dense1 = Dense(700)(dense1) 
+dense1 = Dropout(0.3)(dense1) 
+dense1 = Dense(2000)(dense1) 
+dense1 = Dropout(0.5)(dense1) 
+output1 = Dense(10, activation = 'softmax')(dense1)
+
+model = Model(inputs = input1, outputs=output1)
+
+model.summary()
+
+# 3. 컴파일, 훈련
+# from keras.callbacks import EarlyStopping 
+# early_stopping = EarlyStopping(monitor='loss', patience=50, mode = 'auto') 
+
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
+model.fit(x_train, y_train, epochs=100, batch_size=200, validation_split = 0.2, verbose = 1)  
+
+# 4. 평가, 예측
+loss, acc = model.evaluate(x_test, y_test, batch_size = 200)
+
+print('loss : ', loss)
+print('acc : ' , acc)
+
+# y_pred = model.predict(x_test)
+
+# # print(y_pred)
+# print(np.argmax(y_pred, axis = 1))
+# print(y_pred.shape)
+
+
+'''
+input1 = Input(shape=(32*32*3, ))   
 dense1 = Dense(122, activation = 'relu')(input1) 
 dense2 = Dropout(0.3)(dense1)
 dense3 = Dense(166)(dense2) 
@@ -49,26 +87,30 @@ dense8 = Dropout(0.3)(dense7)
 dense9 = Dense(188)(dense8) 
 dense10 = Dropout(0.3)(dense9) 
 output1 = Dense(10, activation = 'softmax')(dense10)
-
 model = Model(inputs = input1, outputs=output1)
 
-model.summary()
+epo 100, batch = 200, val = 0.2
+loss :  2.3027689266204834
+acc :  0.10000000149011612
+'''
 
-# 3. 컴파일, 훈련
-from keras.callbacks import EarlyStopping 
-early_stopping = EarlyStopping(monitor='loss', patience=50, mode = 'auto') 
 
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=500, batch_size=200, validation_split = 0.3, callbacks = [early_stopping], verbose = 1)  
+'''
+input1 = Input(shape=(32*32*3, ))   
+dense1 = Dense(200)(input1) 
+dense1 = Dropout(0.3)(dense1)
+dense1 = Dense(300)(dense1) 
+dense1 = Dropout(0.3)(dense1)
+dense1 = Dense(400)(dense1) 
+dense1 = Dropout(0.3)(dense1) 
+dense1 = Dense(500)(dense1) 
+dense1 = Dropout(0.3)(dense1) 
+dense1 = Dense(700)(dense1) 
+dense1 = Dropout(0.3)(dense1) 
+output1 = Dense(10, activation = 'softmax')(dense1)
+model = Model(inputs = input1, outputs=output1)
 
-# 4. 평가, 예측
-loss, acc = model.evaluate(x_test, y_test, batch_size = 200)
-
-print('loss : ', loss)
-print('acc : ' , acc)
-
-y_pred = model.predict(x_test)
-
-# print(y_pred)
-print(np.argmax(y_pred, axis = 1))
-print(y_pred.shape)
+epo = 100, batch = 200, val = 0.2
+loss :  1.8180418491363526
+acc :  0.36230000853538513
+'''

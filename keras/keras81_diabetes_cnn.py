@@ -129,7 +129,7 @@ plt.title('mse')
 plt.ylabel('mse')
 plt.xlabel('epoch')
 plt.legend(loc = 'upper right')
-plt.show()
+# plt.show()
 
 '''
 model.add(Conv2D(100, (2, 2), input_shape = (5, 2, 1)))
