@@ -32,6 +32,9 @@ y_train = np_utils.to_categorical(y_train)
 y_test = np_utils.to_categorical(y_test)
 print(y_train.shape)
 
+print(y_train)
+
+
 # 데이터 전처리 2. 정규화
 # x data
 x_train = x_train.reshape(60000, 28, 28, 1).astype('float32') / 255.

@@ -5,9 +5,19 @@ x2 = np.array([range(711,811), range(711, 811), range(511,611)])
 
 y1 = np.array([range(101,201), range(411, 511), range(100)])
 
+
+print(x1.shape)
+print(x2.shape)
+print(y1.shape)
+
 x1 = np.transpose(x1) 
 x2 = np.transpose(x2) 
 y1 = np.transpose(y1)
+
+
+print(x1.shape)
+print(x2.shape)
+print(y1.shape)
 
 #################################################
 ##### 여기서 부터 수정하여 소스를 완성하세요. ######
@@ -26,6 +36,9 @@ x1_train, x1_test, x2_train, x2_test, y1_train, y1_test = train_test_split(
 #     train_size=0.8
 # )
 
+
+
+'''
 #2. 모델구성                      
 from keras.models import Sequential, Model 
 from keras.layers import Dense, Input
@@ -92,7 +105,7 @@ from sklearn.metrics import r2_score
 r2 = r2_score(y1_test, y1_predict)  
 
 print("R2 : ", r2)
-
+'''
 
 
 

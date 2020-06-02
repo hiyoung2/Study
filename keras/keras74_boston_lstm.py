@@ -46,37 +46,42 @@ x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 print(x_train.shape) # (404, 13)
 
-x_train = x_train.reshape(x_train.shape[0], x.shape[1], 1)
-x_test = x_test.reshape(x_test.shape[0], x.shape[1], 1)
+# x_train = x_train.reshape(x_train.shape[0], x.shape[1], 1)
+# x_test = x_test.reshape(x_test.shape[0], x.shape[1], 1)
+
+x_train = x_train.reshape(x_train.shape[0], 1, 13)
+x_test = x_test.reshape(x_test.shape[0], 1, 13)
 
 # 2. 모델 구성
 model = Sequential()
-model.add(LSTM(11, return_sequences = True,  input_shape = (13, 1), activation = 'relu'))
-model.add(LSTM(22, activation = 'relu'))
-model.add(Dense(55, activation = 'relu'))
-model.add(Dense(77, activation = 'relu'))
-model.add(Dropout(0.2))
-model.add(Dense(99, activation = 'relu'))
-model.add(Dropout(0.3))
-model.add(Dense(33, activation = 'relu'))
-model.add(Dense(1, activation = 'relu'))
+model.add(LSTM(50, return_sequences = True,  input_shape = (1, 13), activation = 'relu'))
+model.add(LSTM(70, return_sequences = True))
+model.add(LSTM(100))
+model.add(Dense(30))
+model.add(Dense(1))
 
 model.summary()
 
 # 3. 컴파일, 훈련
 # from keras.callbacks import EarlyStopping, ModelCheckpoint
-from keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint, EarlyStopping
 
-# es = EarlyStopping(monitor  = 'loss', patience = 50, mode = 'auto')
+# es = EarlyStopping(monitor  = 'loss', patience = 30, mode = 'auto')
 
-modelpath = './model/{epoch:02d}-{loss:.4f}.hdf5'
+# modelpath = './model/{epoch:02d}-{loss:.4f}.hdf5'
 
-checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'loss', 
-                             save_best_only=True, mode = 'auto') 
+# checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'loss', 
+                            #  save_best_only=True, mode = 'auto') 
 
 model.compile(loss = 'mse', optimizer = 'adam', metrics = ['mse'])
-hist = model.fit(x_train, y_train, epochs = 375, batch_size = 10, validation_split = 0.3, callbacks = [checkpoint], verbose = 1)
 
+# hist = model.fit(x_train, y_train, epochs = 200, batch_size = 10, validation_split = 0.2, callbacks = [es, checkpoint], verbose = 1)
+
+hist = model.fit(x_train, y_train, epochs = 200, batch_size = 10, validation_split = 0.2, verbose = 1)
+
+# hist = model.fit(x_train, y_train, epochs = 250, batch_size = 10, verbose = 1)
+
+'''
 # 3.1 시각화
 import matplotlib.pyplot as plt
 
@@ -101,8 +106,8 @@ plt.ylabel('mse')
 plt.xlabel('epoch')          
 # plt.legend(['acc', 'val_acc']) 
 plt.legend(loc = 'upper right')
-plt.show()  
-
+# plt.show()  
+'''
 # 4. 평가, 예측
 loss, mse = model.evaluate(x_test, y_test, batch_size = 10)
 print('loss : ', loss)
@@ -165,4 +170,53 @@ epo 375, es x, batch 10, val 0.3, best : 368
 RMSE :  4.557340681997267
 R2 :  0.7758861448553874
 
+'''
+
+'''
+model.add(LSTM(11, return_sequences = True,  input_shape = (1, 13), activation = 'relu'))
+model.add(LSTM(22))
+model.add(Dense(55))
+model.add(Dense(77, activation = 'relu'))
+model.add(Dropout(0.2))
+model.add(Dense(99, activation = 'relu'))
+model.add(Dropout(0.3))
+model.add(Dense(33, activation = 'relu'))
+model.add(Dense(1, activation = 'relu'))
+epo 200, batch 32, es = 20, val = 0.3
+RMSE :  3.055696874823824
+R2 :  0.881298347600631
+'''
+
+'''
+model.add(LSTM(20, return_sequences = True,  input_shape = (1, 13), activation = 'relu'))
+model.add(LSTM(40))
+model.add(Dense(55))
+model.add(Dense(77))
+model.add(Dropout(0.2))
+model.add(Dense(99))
+model.add(Dropout(0.3))
+model.add(Dense(33))
+model.add(Dense(1))
+
+epo = 200, batch = 10, es = 20, val = 0.2
+RMSE :  3.389819670414019
+R2 :  0.8834626115364802
+'''
+
+'''
+model.add(LSTM(50, return_sequences = True,  input_shape = (1, 13), activation = 'relu'))
+# model.add(Dropout(0.2))
+model.add(LSTM(70))
+# model.add(Dropout(0.3))
+# model.add(Dense(90))
+# model.add(Dense(110))
+# model.add(Dropout(0.3))
+# model.add(Dense(130))
+# model.add(Dropout(0.5))
+model.add(Dense(30))
+model.add(Dense(1))
+
+epo 250, batch = 10, val = 0.3
+RMSE :  2.372629411176336
+R2 :  0.9324220721549005
 '''
