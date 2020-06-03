@@ -52,7 +52,7 @@ y_pred = model.predict(x_pred)
 print("loss : ", loss)
 print("acc", acc)
 print(y_pred)
-# print(np.argmax(y_pred, axis = 1)+1)
+print(np.argmax(y_pred, axis = 1)+1)
 
 
 # x_pred에 상응하는 y_pred가 5개씩 출력됨
