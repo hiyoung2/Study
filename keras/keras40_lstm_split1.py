@@ -11,6 +11,9 @@ from keras.layers import Dense, LSTM
 
 # 1.데이터
 a = np.array(range(1, 11))
+print(a)        # [ 1  2  3  4  5  6  7  8  9 10]
+print(a.shape)  # (10,)
+'''
 size = 5 # time_steps = 4         # 전체 데이터를 5개씩, 그 중 time_stpes = 4(입력 데이터의 컬럼 = 4, 데이터 종류!)
 #    X     Y
 # 1 2 3 4  5
@@ -39,8 +42,8 @@ def split_x(seq, size):
     print(type(aaa))                               # 데이터타입을 한 번씩 봐 주자     
     return np.array(aaa)                           # 넘파이 배열 사용                              
 
-dataset = split_x(a, size)    # (6, 5) 예상         # 데이터 쪼개는 함수의 반환값을 모델에 집어넣을 하나의 데이터 셋트 값에 넣어둔다
-                                                    # dataset 역시 변수명(inyoung을 하든 beer을 하든 마음대로겠지만 나중에 누구든 식별 가능할 수 있게 통상적인 이름을 쓰자)        
+dataset = split_x(a, size)    # (6, 5) 예상        # 데이터 쪼개는 함수의 반환값을 모델에 집어넣을 하나의 데이터 셋트 값에 넣어둔다
+                                                   # dataset 역시 변수명(inyoung을 하든 beer을 하든 마음대로겠지만 나중에 누구든 식별 가능할 수 있게 통상적인 이름을 쓰자)        
                                                   
 print("==============================================")
 print(dataset)        # 만들어진  dataset를 확인해보자    
@@ -104,3 +107,4 @@ print('loss : ', loss)
 print('mse: ', mse)
 print('y_predict : ', y_predict)
 
+'''

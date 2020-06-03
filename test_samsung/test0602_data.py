@@ -128,16 +128,18 @@ for i in range(len(hite)) : #len(hite) : 509
 # 509의 행마다 5개의 열을 다 변환을 바꿔준다, for문을 두 개 써줘야 한다
 # 행, 열 모두 바꿔줘야하니까
 
-print(hite)
-print(type(hite.iloc[1,1])) # <class 'int'>
 
-print('samsung_shape : ', samsung.shape) # (509, 1) 509행 1열 != (509, ) -> 이거는 509개의 스칼라, 하나의 벡터
-print('hite_shape : ', hite.shape)       # (509, 5) 509행 5열 
+# print(hite)
+# print(type(hite.iloc[1,1])) # <class 'int'>
 
-saumsung = samsung.values
-hite = hite.values
+# print('samsung_shape : ', samsung.shape) # (509, 1) 509행 1열 != (509, ) -> 이거는 509개의 스칼라, 하나의 벡터
+# print('hite_shape : ', hite.shape)       # (509, 5) 509행 5열 
 
-print(type(hite)) # <class 'numpy.ndarray'>
+# saumsung = samsung.values
+# hite = hite.values
 
-np.save('./data/samsung.npy', arr = samsung)
-np.save('./data/hite.npy', arr = hite)
+# print(type(hite)) # <class 'numpy.ndarray'>
+
+# # npy 파일로 저장 완료
+# np.save('./data/samsung.npy', arr = samsung)
+# np.save('./data/hite.npy', arr = hite)

@@ -67,7 +67,6 @@ loss, acc = model.evaluate(x_test, y_test, batch_size = 200)
 print('loss : ', loss)
 print('acc : ' , acc)
 
-# x_pred = np.array([1, 2, 3])
 y_pred = model.predict(x_test)
 
 
