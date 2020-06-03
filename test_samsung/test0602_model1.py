@@ -2,6 +2,8 @@
 # 일반적인 Dense Model 두 가지를 병합
 
 import numpy as np
+import matplotlib.pyplot as plt
+
 from keras.models import Model
 from keras.layers import Dense, LSTM, Dropout, Input
 from keras.layers import concatenate, Concatenate
@@ -83,14 +85,20 @@ x_sam_train, x_sam_test, x_hit_train, x_hit_test, y_sam_train, y_sam_test = trai
 # 2. 모델 구성
 
 input1 = Input(shape = (5, ))
-x1 = Dense(500)(input1)
-x1 = Dense(900)(x1)
-x1 = Dense(1100)(x1)
+x1 = Dense(300)(input1)
+x1 = Dropout(0.3)(x1)
+x1 = Dense(700)(x1)
+x1 = Dropout(0.3)(x1)
+x1 = Dense(500)(x1)
+x1 = Dropout(0.3)(x1)
 
 input2 = Input(shape = (5, ))
-x2 = Dense(700)(input2)
-x2 = Dense(1000)(x2)
-x2 = Dense(1200)(x2)
+x2 = Dense(200)(input2)
+x1 = Dropout(0.3)(x1)
+x2 = Dense(600)(x2)
+x2 = Dropout(0.4)(x2)
+x2 = Dense(400)(x2)
+x1 = Dropout(0.3)(x1)
 
 merge = concatenate([x1, x2])
 
@@ -101,13 +109,24 @@ model = Model(inputs = [input1, input2], outputs = output)
 model.summary()
 
 # 3. 컴파일, 훈련
+
 # es = EarlyStopping(monitor = 'loss', patience = 10, mode = 'auto')
 
+modelpath = './test_samsung/model01/model01_check-{epoch:03d}-{loss:.4f}.hdf5'
+
+cp = ModelCheckpoint(filepath = modelpath, monitor = 'loss', save_best_only = True, mode = 'auto')
+
+# tb_hist = TensorBoard(log_dir = 'graph', histogram_freq = 0, write_graph = True, write_image = True)
+
 model.compile(loss = 'mse', optimizer = 'adam', metrics = ['mse'])
-model.fit([x_sam_train, x_hit_train], y_sam_train, epochs = 100, batch_size = 10, validation_split = 0.2, verbose = 1)
+
+hist = model.fit([x_sam_train, x_hit_train], y_sam_train, epochs = 100, batch_size = 32, 
+                callbacks = [cp], validation_split = 0.2, verbose = 1)
+
+model.save('./test_samsung/model01/0602_test_model01_save.h5')
 
 # 4. 평가, 예측
-loss, mse = model.evaluate([x_sam_test, x_hit_test], y_sam_test, batch_size = 10)
+loss, mse = model.evaluate([x_sam_test, x_hit_test], y_sam_test, batch_size = 32)
 
 print("loss : ", loss)
 print("mse : ", mse)
@@ -118,7 +137,29 @@ x_sam_pred = x_sam_pred.reshape(-1, 5) # 새로 만든 x_sam_pred란 값을 다�
 x_hit_pred = x_hit_pred.reshape(-1, 5)
 
 y_pred = model.predict([x_sam_pred, x_hit_pred])
-print(y_pred)
+print("2020년 06월 02일 삼성전자의 예측 시가 : ", y_pred)
 
 
+
+# 시각화
+plt.figure(figsize = (10, 6))
+plt.subplot(2, 1, 1)
+plt.plot(hist.history['loss'], marker = '.', c = 'red', label = 'loss')
+plt.plot(hist.history['val_loss'], marker = '.', c = 'blue', label = 'val_loss')
+plt.grid()
+plt.title('loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(loc = 'upper right')
+
+plt.subplot(2, 1, 2)
+plt.plot(hist.history['mse'], marker = '*', c = 'green', label = 'mse')
+plt.plot(hist.history['val_mse'], marker = '*', c = 'purple', label = 'val_mse')
+plt.grid()
+plt.title('mse')
+plt.ylabel('mse')
+plt.xlabel('epoch')
+plt.legend(loc = 'upper right')
+
+# plt.show()
 

@@ -95,8 +95,16 @@ model.summary()
 # 3. 컴파일, 훈련
 # es = EarlyStopping(monitor = 'loss', patience = 10, mode = 'auto')
 
+modelpath = './test_samsung/model2/model2_check-{epoch:03d}-{loss:.4f}.hdf5'
+cp = ModelCheckpoint(filepath = modelpath, monitor = 'loss', save_best_only = True, mode = 'auto')
+
+# tb_hist = TensorBoard(log_dir = 'graph', histogram_freq = 0, write_graph = True, write_image = True)
+
 model.compile(loss = 'mse', optimizer = 'adam', metrics = ['mse'])
-model.fit([x_sam_train, x_hit_train], y_sam_train, epochs = 100, batch_size = 10, validation_split = 0.2, verbose = 1)
+hist = model.fit([x_sam_train, x_hit_train], y_sam_train, epochs = 100, batch_size = 10, 
+                 callbacks = [cp], validation_split = 0.2, verbose = 1)
+
+model.save('./test_samsung/model2/0602test_modle2_save.h5')
 
 # 4. 평가, 예측
 loss, mse = model.evaluate([x_sam_test, x_hit_test], y_sam_test, batch_size = 10)

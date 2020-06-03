@@ -96,22 +96,6 @@ print(samsung)
 print(hite)
 
 # 콤마제거, 문자를 정수로 형변환
-'''
-for i in range(len(hite.index)) :
-    for j in range(len(hite.iloc[i])) :
-        hite.iloc[i, j] = int(hite.iloc[i, j].replace(',', ''))
-
-# print(len(hite.iloc[0]))
-print(hite)
-
-ss = ss.dropna(how = 'all')
-print(ss)
-
-for i in range(len(ss.index)) :
-    ss.iloc[i,0] = int(ss.iloc[i,0].replace(',', ''))
-
-print(ss)
-'''
 
 for i in range(len(samsung)) : # '37,000' = string
     samsung.iloc[i,0] = int(samsung.iloc[i, 0].replace(',', ''))  # 37000 (콤마 사라지고 int형 변환됨)
@@ -129,17 +113,17 @@ for i in range(len(hite)) : #len(hite) : 509
 # 행, 열 모두 바꿔줘야하니까
 
 
-# print(hite)
-# print(type(hite.iloc[1,1])) # <class 'int'>
+print(hite)
+print(type(hite.iloc[1,1])) # <class 'int'>
 
-# print('samsung_shape : ', samsung.shape) # (509, 1) 509행 1열 != (509, ) -> 이거는 509개의 스칼라, 하나의 벡터
-# print('hite_shape : ', hite.shape)       # (509, 5) 509행 5열 
+print('samsung_shape : ', samsung.shape) # (509, 1) 509행 1열 != (509, ) -> 이거는 509개의 스칼라, 하나의 벡터
+print('hite_shape : ', hite.shape)       # (509, 5) 509행 5열 
 
-# saumsung = samsung.values
-# hite = hite.values
+saumsung = samsung.values
+hite = hite.values
 
-# print(type(hite)) # <class 'numpy.ndarray'>
+print(type(hite)) # <class 'numpy.ndarray'>
 
-# # npy 파일로 저장 완료
-# np.save('./data/samsung.npy', arr = samsung)
-# np.save('./data/hite.npy', arr = hite)
+# npy 파일로 저장 완료
+np.save('./data/samsung.npy', arr = samsung)
+np.save('./data/hite.npy', arr = hite)
