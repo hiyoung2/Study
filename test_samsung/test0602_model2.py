@@ -1,6 +1,8 @@
 # LSTM과 DENSE를 앙상블로 만들어보자
 
 import numpy as np
+import matplotlib.pyplot as plt
+
 from keras.models import Model
 from keras.layers import Dense, LSTM, Dropout, Input
 from keras.layers import concatenate, Concatenate
@@ -74,14 +76,18 @@ x_sam_train, x_sam_test, x_hit_train, x_hit_test, y_sam_train, y_sam_test = trai
 
 input1 = Input(shape = (5, 1))
 x1 = LSTM(100)(input1)
+x1 = Dense(300)(x1)
+x1 = Dropout(0.2)(x1)
 x1 = Dense(500)(x1)
-x1 = Dense(800)(x1)
+x1 = Dropout(0.4)(x1)
 x1 = Dense(300)(x1)
 
 input2 = Input(shape = (4, ))
-x2 = Dense(400)(input2)
-x2 = Dense(500)(x2)
-x2 = Dense(700)(x2)
+x2 = Dense(90)(input2)
+x2 = Dense(400)(x2)
+x2 = Dropout(0.5)(x2)
+x2 = Dense(200)(x2)
+x2 = Dropout(0.5)(x2)
 x2 = Dense(50)(x2)
 
 merge = concatenate([x1, x2])
@@ -95,19 +101,19 @@ model.summary()
 # 3. 컴파일, 훈련
 # es = EarlyStopping(monitor = 'loss', patience = 10, mode = 'auto')
 
-modelpath = './test_samsung/model2/model2_check-{epoch:03d}-{loss:.4f}.hdf5'
+modelpath = './test_samsung/model02/model02_check-{epoch:03d}-{loss:.4f}.hdf5'
 cp = ModelCheckpoint(filepath = modelpath, monitor = 'loss', save_best_only = True, mode = 'auto')
 
 # tb_hist = TensorBoard(log_dir = 'graph', histogram_freq = 0, write_graph = True, write_image = True)
 
 model.compile(loss = 'mse', optimizer = 'adam', metrics = ['mse'])
-hist = model.fit([x_sam_train, x_hit_train], y_sam_train, epochs = 100, batch_size = 10, 
+hist = model.fit([x_sam_train, x_hit_train], y_sam_train, epochs = 100, batch_size = 16, 
                  callbacks = [cp], validation_split = 0.2, verbose = 1)
 
-model.save('./test_samsung/model2/0602test_modle2_save.h5')
+model.save('./test_samsung/model02/0602_test_model02_save.h5')
 
 # 4. 평가, 예측
-loss, mse = model.evaluate([x_sam_test, x_hit_test], y_sam_test, batch_size = 10)
+loss, mse = model.evaluate([x_sam_test, x_hit_test], y_sam_test, batch_size = 16)
 
 print("loss : ", loss)
 print("mse : ", mse)
@@ -121,4 +127,27 @@ x_sam_pred = x_sam_pred.reshape(-1,5,1) # pred 값을 잡아줬는데 y_pred에 
 x_hit_pred = x_hit_pred.reshape(-1,4)
 
 y_pred = model.predict([x_sam_pred, x_hit_pred])
-print(y_pred)
+print("2020년 06월 02일 삼성전자의 예측 시가 : ", y_pred)
+
+
+# 시각화
+plt.figure(figsize = (10, 6))
+plt.subplot(2, 1, 1)
+plt.plot(hist.history['loss'], marker = '.', c = 'red', label = 'loss')
+plt.plot(hist.history['val_loss'], marker = '.', c = 'blue', label = 'val_loss')
+plt.grid()
+plt.title('loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(loc = 'upper right')
+
+plt.subplot(2, 1, 2)
+plt.plot(hist.history['mse'], marker = '*', c = 'green', label = 'mse')
+plt.plot(hist.history['val_mse'], marker = '*', c = 'purple', label = 'val_mse')
+plt.grid()
+plt.title('mse')
+plt.ylabel('mse')
+plt.xlabel('epoch')
+plt.legend(loc = 'upper right')
+
+# plt.show()
