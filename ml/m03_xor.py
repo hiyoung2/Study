@@ -22,5 +22,6 @@ print("x_test의 예측 결과 : ", y_predict)
 
 print("acc = ", acc) # acc = 0.5 
 
+# 인공지능의 겨울을 초래했던 xor 문제
 # xor을 해결해보자
 # m03_xor2, m03_xor3 파일로

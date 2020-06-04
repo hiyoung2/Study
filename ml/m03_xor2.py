@@ -11,7 +11,7 @@ x_data = [[0, 0], [1, 0], [0, 1], [1, 1]]
 y_data = [0, 1, 1, 0] # xor
 
 # 2. 모델
-model = SVC()
+model = SVC() # LinearSVC가 아닌 그냥 SVC를 쓰면 해결!(초간단)
 
 # 3. 훈련
 model.fit(x_data, y_data)

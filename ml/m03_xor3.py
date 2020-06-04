@@ -1,8 +1,6 @@
 #################################################
 #### xor 문제를 해결 할 수 있는 방법을 찾아보자 ####
 
-# 1번 그냥 SVC 모델 쓰기
-
 from sklearn.svm import LinearSVC, SVC
 from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
@@ -18,6 +16,7 @@ model = KNeighborsClassifier(n_neighbors=1) # 각 개체를 한 개씩만 연결
 
 # 최근접 이웃, 누굴 근접 이웃으로 둘 것인가, 매개변수를 둬야 한다
 # n_neighbors
+
 '''
 0 1 0의 이웃 1, 1의 이웃 0
 1 0
