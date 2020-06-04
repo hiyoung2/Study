@@ -88,7 +88,7 @@ x_sam_train, x_sam_test, x_hit_train, x_hit_test, y_sam_train, y_sam_test = trai
 
 input1 = Input(shape = (5, 1))
 x1 = LSTM(100)(input1)
-x1 = Dense(300)(x1)
+x1 = Dense(500)(x1)
 x1 = Dense(350)(x1)
 x1 = Dense(200)(x1)  
 
