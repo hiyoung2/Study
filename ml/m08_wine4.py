@@ -29,6 +29,12 @@ for i in list(y) :
 
 y = newlist
 
+# 3, 4 / 5, 6, 7 / 8, 9 / 이렇게 3등급으로 축소
+
+print('y_newlist : ', y)
+# 0, 1, 2 -> 3등급
+
+
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(
     x, y, train_size = 0.8
@@ -41,5 +47,8 @@ acc = model.score(x_test, y_test)
 
 from sklearn.metrics import accuracy_score
 y_pred = model.predict(x_test)
-print("acc_socre : ", accuracy_score(y_test, y_pred))
+print("acc_score : ", accuracy_score(y_test, y_pred))
 print("acc       : ", acc)
+
+# acc_socre :  0.9326530612244898
+# acc       :  0.9326530612244898

@@ -38,6 +38,18 @@ for (name, algorithm) in allAlgorithms :
 import sklearn
 print(sklearn.__version__)
 
+from sklearn.metrics import accuracy_score
+y_pred = model.predict(x_test)
+
+model.fit(x_train, y_train)
+acc = model.score(x_test, y_test)
+
+print("acc_score : ", accuracy_score(y_test, y_pred))
+print("acc       : ", acc)
+# acc_score :  0.9666666666666667
+# acc       :  0.9666666666666667
+
+
 # 26개의 모델을 한 번에 돌림! wow 정말 빠르다
 # sklearn 0.20 모델에서 제공하는 모든 모델이다
 '''
