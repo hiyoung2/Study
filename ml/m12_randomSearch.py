@@ -49,7 +49,7 @@ parameters = {
 kfold = KFold(n_splits = 5, shuffle = True)
 model = RandomizedSearchCV(RandomForestClassifier(), parameters, cv = kfold, random_state = 2)
 
-# model = GridSearchCV(찐모델, 그 모델의 파라미터, 얼만큼 쪼갤 것인가(여기에는 cv = 5로 해도 똑같음)_
+# model = GridSearchCV(찐모델, 그 모델의 파라미터, 얼만큼 쪼갤 것인가(여기에는 cv = 5로 해도 똑같음)
 # model에 GridSearchCV를 적용시키겠다!
 # () 안에 사용할 모델과 GRID SEARCH에 사용하기 위해 만들어 놓은 파라미터 조합들이 있는 
 # 변수 PARAMETERS를 적어준다
