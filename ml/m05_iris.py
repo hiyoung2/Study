@@ -7,6 +7,7 @@ iris = load_iris()
 x = iris['data']
 y = iris['target']
 
+
 print(type(iris)) # <class 'sklearn.utils.Bunch'>
 
 from sklearn.svm import LinearSVC, SVC
