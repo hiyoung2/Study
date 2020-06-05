@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split, KFold , cross_val_score
-# KFold, cross_val_across import11
+# KFold, cross_val_across import
 
 from sklearn.metrics import accuracy_score
 from sklearn.utils.testing import all_estimators 
@@ -46,6 +46,10 @@ for (name, algorithm) in allAlgorithms :
 
 
 # 모델별로 5개씩의 scores, 즉 acc가 나온다
+
+
+import sklearn
+print(sklearn.__version__)
 
 
 '''
@@ -114,8 +118,5 @@ SVC 의 정답률 =
 '''
    
 
-
-import sklearn
-print(sklearn.__version__)
 
 
