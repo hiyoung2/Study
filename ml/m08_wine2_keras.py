@@ -9,7 +9,7 @@ from sklearn.decomposition import PCA
 from keras.models import Sequential, Model
 from keras.layers import Dense, LSTM, Conv2D, MaxPooling2D, Flatten, Dropout, Input
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
-# samsung = np.load('./data/samsung.npy',  allow_pickle = True)
+
 wine = np.load('./data/wine.npy', allow_pickle = True)
 
 # 1. 데이터 준비
@@ -25,7 +25,7 @@ y_data = to_categorical(y_data)
 print('y_data.shape : ', y_data.shape) # (4898, 10)
 print(y_data)
 
-# sclaer
+# scaler
 # scaler = MinMaxScaler()
 scaler = StandardScaler()
 scaler.fit(x_data)
