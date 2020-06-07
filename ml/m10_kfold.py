@@ -46,6 +46,7 @@ for (name, algorithm) in allAlgorithms :
 
 
 # 모델별로 5개씩의 scores, 즉 acc가 나온다
+# k fold -> n_splits = 5
 
 
 import sklearn
