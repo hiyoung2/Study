@@ -29,10 +29,10 @@ x_predict = x_predict.reshape(1,3)
 print("x_predict.reshape: ", x_predict.shape) # (1, 3) # x data와 와꾸가 맞춰짐
 
 # 표준화/정규화 할 때도 shpae 와꾸 맞춰주기
-
+# scaler는 2차원으로 맞춰주기!!!!!!!!!!!!!!
 
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, MaxAbsScaler, RobustScaler
-# scaler = MinMaxScaler() # minmaxscaler를 scaler라고 이름 붙임
+# scaler = MinMaxScaler() 
 scaler = StandardScaler() 
 # scaler = MaxAbsScaler() 
 # scaler = RobustScaler() 

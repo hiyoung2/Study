@@ -15,15 +15,17 @@ y = array([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 50, 60, 70])
 x1_predict = array([55, 65, 75]) 
 x2_predict = array([65, 75, 85])
 
-print("x1.shape : ", x1.shape)
-print("x2.shape : ", x2.shape)
-print("y.shape : ", y.shape)                               
+print("x1.shape : ", x1.shape) # (13, 3)
+print("x2.shape : ", x2.shape) # (13, 3)
+print("y.shape : ", y.shape)   #(13, )                            
+
 
 x1 = x1.reshape(x1.shape[0], x1.shape[1], 1)                    
 x2 = x2.reshape(x2.shape[0], x2.shape[1], 1)                    
 
-print(x1.shape)
-print(x2.shape)
+print(x1.shape) # (13, 3, 1)
+print(x2.shape) # (13, 3, 1)
+
 
 x1_predict = x1_predict.reshape(1,3,1)  
 x2_predict = x2_predict.reshape(1,3,1)

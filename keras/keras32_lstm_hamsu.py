@@ -12,12 +12,17 @@ y = array([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 50, 60, 70])
 
 x_predict = array([55, 65, 75]) 
 
-print("x.shape : ", x.shape)
-print("y.shape : ", y.shape)                               
+print("x.shape : ", x.shape) # (13, 3)
+print("y.shape : ", y.shape) # (13,)                              
 
 x = x.reshape(x.shape[0], x.shape[1], 1)     # lstm에 넣기 위해 3차원으로 만들어줌                
-                            
-x_predict = x_predict.reshape(1,3,1)
+
+print("x_reshape :", x.shape) # # (13, 3, 1)
+
+
+x_predict = x_predict.reshape(1,3,1) 
+
+
 
 #2. 모델 구성
 from keras.models import Sequential , Model                       

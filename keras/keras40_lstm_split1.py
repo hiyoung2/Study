@@ -13,7 +13,7 @@ from keras.layers import Dense, LSTM
 a = np.array(range(1, 11))
 print(a)        # [ 1  2  3  4  5  6  7  8  9 10]
 print(a.shape)  # (10,)
-'''
+
 size = 5 # time_steps = 4         # 전체 데이터를 5개씩, 그 중 time_stpes = 4(입력 데이터의 컬럼 = 4, 데이터 종류!)
 #    X     Y
 # 1 2 3 4  5
@@ -53,13 +53,14 @@ print(type(dataset))  # <class 'numpy.ndarray'>
                       # 실제로 파이썬이 제공하는 List 자료형과 동일한 출력 형태를 갖는다
                       # 함수에 보면 return 값이 np.array이므로!                            
 
-x = dataset[:, :4]             # == dataset[6:, 0:4] 나는 이렇게 썼는데 저게 훨씬 직관적으로 알아먹기 쉬운 듯하다(: 은 첨부터 끝까지! comma는 (n, m))
+x = dataset[:, :4]             # == dataset[:, 0:4] 나는 이렇게 썼는데 저게 훨씬 직관적으로 알아먹기 쉬운 듯하다(: 은 첨부터 끝까지! comma는 (n, m))
                                # 행, 열 
                                # 모든 행을 가져오겠다, 0부터 4앞 :(항상 인덱스로 생각하자) 0, 1, 2, 3  column까지 가져오겠다!
                                # numpy에서는 [] 안에 () 없이 이렇게 쓸 수 있다 / 그냥 이대로 받아들이면 될 듯 / 익숙해져야함, 엄청 나옴, 반복적으로!
                                # 그냥 당연히 이렇게 자른다고 받아들이면 된다
 
 y = dataset[:, 4] # [:6, 4:] 이것도 선생님이 쓴 게 훨씬 간단하고 직관적! y는 dataset 의 마지막 index 4 자리의 것만 가져오면 되니까 이렇게 작성
+                  # [:, -1] 이 제일 간편한 듯
 print(y)
 
 print("x.shape : ", x.shape) # (6, 4) : x.shape[0] = 6, x.shape[1] = 4
@@ -107,4 +108,3 @@ print('loss : ', loss)
 print('mse: ', mse)
 print('y_predict : ', y_predict)
 
-'''

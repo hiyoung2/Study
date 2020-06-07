@@ -10,9 +10,18 @@ x1 = np.array([range(1,101), range(301,401)])
 y1 = np.array([range(711,811), range(711, 811)])
 y2 = np.array([range(101,201), range(411, 511)])
 
+
+print("x1.shape :", x1.shape)  # (2, 100)
+print("y1.shape :", y1.shape)  # (2, 100)
+
+
 x1 = np.transpose(x1) 
 y1 = np.transpose(y1) 
 y2 = np.transpose(y2)
+
+print("x1_trans :", x1.shape)  # (100, 2)
+print("y1_trans :", y1.shape)  # (100, 2)
+
 
 
 #################################################
@@ -86,6 +95,7 @@ y1_predict, y2_predict = model.predict(x1_test)
 # print("=========================")
 # print(y2_predict)
 # print("=========================")
+
 
 """
 # RMSE 구하기

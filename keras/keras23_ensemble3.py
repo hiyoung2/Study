@@ -37,8 +37,6 @@ x1_train, x1_test, x2_train, x2_test, y1_train, y1_test = train_test_split(
 # )
 
 
-
-
 #2. 모델구성                      
 from keras.models import Sequential, Model 
 from keras.layers import Dense, Input

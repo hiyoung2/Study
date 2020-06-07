@@ -130,7 +130,7 @@ summary에서 output node의 갯수는 feature의 갯수와 같다
 
 (lstm 뿐만 아니라)output node의 갯수는 다음 layer의 feature의 갯수와 같다
 
-LSTM parameter 게산은
+LSTM parameter 계산은
 (input_dim + bias + output) * 4(gate4) * output_node
 
 bias는 레이어 하나당 하나!
