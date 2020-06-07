@@ -46,7 +46,7 @@ parameters = {
 
 # n_jobs [-1] : 모든 코어 다 사용
 
-kfold = KFold(n_splits = 5, shuffle = True)
+kfold = KFold(n_splits = 5, shuffle = True) # shuffle default : False
 model = RandomizedSearchCV(RandomForestClassifier(), parameters, cv = kfold, random_state = 2)
 
 # model = GridSearchCV(찐모델, 그 모델의 파라미터, 얼만큼 쪼갤 것인가(여기에는 cv = 5로 해도 똑같음)
