@@ -25,6 +25,7 @@ print(y)
 print("x.shape : " , x.shape) # (150, 4)
 print("y.shape : ", y.shape)  # (150,)
 
+# one hot encoder X -> ok (in ml)
 
 # scaler
 scaler = StandardScaler()
@@ -34,13 +35,12 @@ x = scaler.transform(x)
 
 # train_test splie
 x_train, x_test, y_train, y_test = train_test_split(
-    x, y, train_size = 0.8, shuffle = True
+    x, y, train_size = 0.8, shuffle = True # default : True
 )
 
 # 2. 모델 구성
 
 # model = SVC() 
-# shffle = True는 디폴트!
 # SCORE :  1.0
 # ACC :  1.0
 # R2 :  1.0
@@ -107,4 +107,8 @@ r2 = r2_score(y_test, y_predict)
 print("SCORE : ", score)
 print("ACC : ", acc)
 print("R2 : ", r2)
+
+
+# in classifier : score = accuracy_score
+# in regressor : score = r2_score
 
