@@ -62,7 +62,7 @@ model.summary()
 model = Sequential()
 model.add(Dense(10, activation = 'relu', input_dim = 2))
 model.add(Dense(30, activation = 'relu'))
-model.add(Dense(1, activation = 'sigmoid'))
+model.add(Dense(1, activation = 'sigmoid')) # output : 0 or 1
 model.summary()
 
 
@@ -70,7 +70,7 @@ model.summary()
 # 3. 훈련
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc']) 
 # 머신러닝은 compile 과정이 없다
-
+# binary_crossentropy!,
 model.fit(x, y, epochs=100, batch_size=1, verbose = 1)  
 
 # 4. 평가 예측
