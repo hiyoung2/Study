@@ -39,7 +39,7 @@ for (name, algorithm) in allAlgorithms :
     # model.fit 대신에 위를 사용한다
     # 우리는 이 모델을 분리하지 않은 x, y 를 넣으면 kfold가 적용되어 총 데이터가 5개를 잘라서 계속 score를 내 주겠다!
     # 여기서 score는 acc!
-    # 딥러닝에서도 사용할 수 있다ㄴ
+    # 딥러닝에서도 사용할 수 있다
 
     print(name, "의 정답률 = ")
     print(scores)
