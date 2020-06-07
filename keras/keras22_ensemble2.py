@@ -1,12 +1,15 @@
 #1. 데이터 
 import numpy as np
-x1 = np.array([range(1,101), range(311,411)])       # 100x2
-x2 = np.array([range(711,811), range(711,811)])     # 100X2
+x1 = np.array([range(1,101), range(311,411)])      
+x2 = np.array([range(711,811), range(711,811)])    
 
 y1 = np.array([range(101,201), range(411,511)])
 y2 = np.array([range(501,601), range(711,811)])
 y3 = np.array([range(411,511), range(611,711)])
 
+
+print("x1.shape :", x1.shape) # (2, 100)
+print("y1.shape :", y1.shape) # (2, 100)
 #################################################
 ##### 여기서 부터 수정하여 소스를 완성하세요. ######
 #################################################
@@ -16,6 +19,11 @@ x2 = np.transpose(x2)
 y1 = np.transpose(y1)
 y2 = np.transpose(y2)
 y3 = np.transpose(y3)
+
+print("x1_trans :", x1.shape) # (100, 2)
+print("y1_trans :", y1.shape) # (100, 2)
+
+
 
 from sklearn.model_selection import train_test_split    
 x1_train, x1_test, y1_train, y1_test = train_test_split(    
@@ -122,7 +130,6 @@ print("R2_1 : ", r2_1)
 print("R2_2 : ", r2_2)
 print("R2_3 : ", r2_3)
 print("R2 : ", (r2_1 + r2_2 + r2_3)/3)
-
 
 
 

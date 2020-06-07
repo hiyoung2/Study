@@ -264,8 +264,9 @@ model.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
 
 # 훈련
 model.fit(x_train, y_train, epochs=100, batch_size=1, 
-         validation_data = (x_train, y_train), verbose = 3)   # 3은 epoch 횟수만 출력 / 2 는 3개 / 1은 4개 / 0은 아예 안 보임(epoch 훈련 과정도 안 보임)
-                                                              # 상세한 정도 1 > 2 > 3 > 0  
+         validation_data = (x_train, y_train), verbose = 3)   
+                                            # 3은 epoch 횟수만 출력 / 2 는 3개 / 1은 4개 / 0은 아예 안 보임(epoch 훈련 과정도 안 보임)
+                                            # 상세한 정도 1 > 2 > 3 > 0  
 
 # 평가
 loss, acc = model.evaluate(x_test, y_test, batch_size =1)

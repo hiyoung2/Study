@@ -20,15 +20,20 @@ x = np.array([range(1,101), range(311,411), range(100)])
 y = np.array([range(101,201), range(711,811), range(100)]) 
 
 print(x)
-print(x.shape)
+print("x.shape : ", x.shape) # (3, 100)
+
+
+
 
 x = np.transpose(x) # 행과 열을 바꿔주는 함수 : transpos, 바꾸고 다시 x에 집어넣어줌
 y = np.transpose(y)
 
-print(x)
+print("x_trans : ", x)
 
-# print(x.shape)
+print("x_trans.shape : ", x.shape) # (100, 3)
 # data preprocssing
+
+
 
 from sklearn.model_selection import train_test_split    
 x_train, x_test, y_train, y_test = train_test_split(    
@@ -100,6 +105,10 @@ print("RMSE : ", RMSE(y_test, y_predict))
 from sklearn.metrics import r2_score
 r2 = r2_score(y_test, y_predict)  
 print("R2 : ", r2)
+
+
+
+
 
 '''
 model.add(Dense(10, input_dim = 3))                                            

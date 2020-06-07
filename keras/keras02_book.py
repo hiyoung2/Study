@@ -1,5 +1,6 @@
 # 일반적으로 node가 많고 layer가 깊을수록 더 잘 훈련을 함
 # 하지만 어느 정도 훈련이 되면 중복 등의 문제로 인하여 훈련도가 오히려 떨어지는 경우도 발생
+
 # 결국 인간은 딥러닝을 한다면 데이터를 준비할 때 x값과 y값을 준비하면 되고
 # 모델을 생성할 때는 얼마나 많은 layer와 node를 준비할 것인지에 대해 설계해야 함
 
@@ -13,7 +14,7 @@ x_test = np.array([101,102,103,104,105,106,107,108,109,110])
 y_test = np.array([101,102,103,104,105,106,107,108,109,110])
 
 model = Sequential()
-model.add(Dense(5, input_dim =1, activation='relu'))   
+model.add(Dense(5, input_dim =1, activation='relu'))   # input_dim = 1, 벡터 하나짜리 들어감
 model.add(Dense(10))
 model.add(Dense(15))
 model.add(Dense(20))
@@ -57,6 +58,8 @@ model.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
 
 # 훈련
 model.fit(x_train, y_train, epochs=100, batch_size=1) # validation_data = (x_train, y_train))
+
+# train set : 훈련, test set : 평가
 
 # 평가
 loss, acc = model.evaluate(x_test, y_test, batch_size =1)
