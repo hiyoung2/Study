@@ -59,7 +59,7 @@ print("y_test.shape.oh :", y_test.shape)   # (10000, 10)
 
 # build_model 이란 모델을 만들겠고, 파라미터 : drop, optimizer 사용
 
-# for 문을 쓰면 이 모델을 여러 번도 돌릴 수 있게 된다
+# for 문을 쓰면 이 모델을 여러 번 돌릴 수도 있다
 
 # GridSearch / RandomizedSearch 에 필요한 모델, 파라미터 모두 준비 되었음
 # model = GridSearchCV(SVC(), parameters, cv = kfold)
@@ -140,3 +140,5 @@ optimizer가 adam -> adadelta
 
 # 케라스 gpu
 # 그리드서치 cpu
+# cpu만 돌릴 때는 n_jobs 써도 괜찮은데
+# gpu랑 같이 쓸 때는 안 쓰는 게 좋겠다, 자꾸 터짐
