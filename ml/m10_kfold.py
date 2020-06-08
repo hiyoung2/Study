@@ -26,6 +26,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 '''
 # KFold 사용하기
 kfold = KFold(n_splits = 5, shuffle = True)
+# shuffle default : False
 # 데이터를 kfold로 5개씩 나누겠다
 # 한 작업당 20%씩 쓰게 됨 / 한 작업 단위 데이터는 80% 훈련, 20% 테스트(검증)
 
@@ -38,7 +39,7 @@ for (name, algorithm) in allAlgorithms :
     scores = cross_val_score(model, x, y, cv = kfold) 
     # model.fit 대신에 위를 사용한다
     # 우리는 이 모델을 분리하지 않은 x, y 를 넣으면 kfold가 적용되어 총 데이터가 5개를 잘라서 계속 score를 내 주겠다!
-    # 여기서 score는 acc!
+    # 여기서 score는 acc! -> 출력 결과를 보면 모델별로 총 5개의 score가 나옴을 확인
     # 딥러닝에서도 사용할 수 있다
 
     print(name, "의 정답률 = ")

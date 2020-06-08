@@ -13,20 +13,13 @@ from sklearn.metrics import accuracy_score
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 
-# grid, 격자, 그물 모양 / 그물을 던지면 고기를 싹쓸이해서 잡을 수 있다
-# grid search : 내가 넣어 놓은 모든 조건을 싹쓸이 해서 모델 실행해준다
-# 레이어 구성할 때 dropout로 랜덤하게 노드를 연산에서 일부 빼줬더니 성능이 더 좋았다
-# 드랍아웃과 비슷한 역할을 하는 것이 RandomizedSearchCV이다
-# 그리드 서치 모든 조건 넣는다고 성능 무조건 향상? 놉
-# 그 중에 일부만 사용 : 랜덤 서치
-
 # 1. 데이터
 cancer = load_breast_cancer()
 x = cancer['data']
 y = cancer['target']
 
 x_train, x_test, y_train, y_test = train_test_split(
-    x, y, test_size = 0.2, random_state = 44)
+    x, y, test_size = 0.2, random_state = 44, shuffle = True)
 
 print("x_train.shape : ", x_train.shape) # (455, 30)
 print("x_test.shape : ", x_test.shape)   # (114, 30)
@@ -38,7 +31,25 @@ parameters = [
     "min_samples_leaf" : [5, 10], "min_samples_split" : [5, 10],
     "n_jobs" : [-1]}
 ]
+
+# parameters = [
+#     {"n_estimators" : [10, 20, 30]}
+# ]
+
 # n_jobs [-1] : 모든 코어 다 사용
+# 'RandomFroestClassifier 에서 제공해주는 파라미터들 적용(엄청 많음)
+# parameter들 입력 안 해도 실행이 된다? -> default 들이 각각 존재
+# 위처럼 다른 매개변수 다 지우고 n_estimators만 입력해도 아래와 같이 출력된다
+'''
+최적의 매개변수 :  RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
+            max_depth=None, max_features='auto', max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=None,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+최종 정답률 : =  0.9649122807017544
+'''
 
 kfold = KFold(n_splits = 5, shuffle = True)
 model = GridSearchCV(RandomForestClassifier(), parameters, cv = kfold)

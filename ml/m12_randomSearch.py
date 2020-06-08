@@ -13,12 +13,17 @@ from sklearn.metrics import accuracy_score
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 
-# grid, 격자, 그물 모양 / 그물을 던지면 고기를 싹쓸이해서 잡을 수 있다
-# grid search : 내가 넣어 놓은 모든 조건을 싹쓸이 해서 모델 실행해준다
 # 레이어 구성할 때 dropout로 랜덤하게 노드를 연산에서 일부 빼줬더니 성능이 더 좋았다
 # 드랍아웃과 비슷한 역할을 하는 것이 RandomizedSearchCV이다
 # 그리드 서치 모든 조건 넣는다고 성능 무조건 향상? 놉
 # 그리드 서치 그 중에 일부만 사용 : 랜덤 서치
+
+# 핸즈온 머신러닝 p118
+# GridSearchCV 는 비교적 적은 수의 조합을 탐구할 때 괜찮음
+# but, 하이퍼파라미터 탐색 공간이 커지면 RandomizedSearchCV를 사용하는 편이 더 좋다
+# RandomizedSearchCV는 GridSearchCV와 거의 같은 방식으로 사용하지만, 가능한 모든 조합을 시도하는 대신
+# 각 반복마다 하이퍼파라미터에 임의의 수를 대입하여 지정한 횟수만큼 평가한다
+
 
 # 케라스에서 그리드 서치 -> 정말 오래 걸림 (일부 학원은 실습 못할 수준)
 # 작은 모델들로 어떻게든 돌려는 볼 것
@@ -43,17 +48,15 @@ parameters = {
     "min_samples_leaf" : [3, 5, 7, 9], "min_samples_split" : [3, 5, 7, 9],
     "n_jobs" : [-1], "criterion" : ["gini"]}
 
+# parameters = {
+#     "n_estimators" : [10], "max_depth" : [10], 
+#     "min_samples_leaf" : [10], "min_samples_split" : [10],
+#      }
 
 # n_jobs [-1] : 모든 코어 다 사용
 
-kfold = KFold(n_splits = 5, shuffle = True) # shuffle default : False
+kfold = KFold(n_splits = 5, shuffle = True) 
 model = RandomizedSearchCV(RandomForestClassifier(), parameters, cv = kfold, random_state = 2)
-
-# model = GridSearchCV(찐모델, 그 모델의 파라미터, 얼만큼 쪼갤 것인가(여기에는 cv = 5로 해도 똑같음)
-# model에 GridSearchCV를 적용시키겠다!
-# () 안에 사용할 모델과 GRID SEARCH에 사용하기 위해 만들어 놓은 파라미터 조합들이 있는 
-# 변수 PARAMETERS를 적어준다
-# 현재 kfold -> n_splits 5로 설정해 둠
 
 model.fit(x_train, y_train)
 
