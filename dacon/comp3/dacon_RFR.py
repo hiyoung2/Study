@@ -108,4 +108,4 @@ print("submit : ", submit[:5, :])
 a = np.arange(2800, 3500)
 
 submit = pd.DataFrame(submit, a)
-submit.to_csv("./data/dacon/comp3/submit1.csv", header = ["X", "Y", "M", "V"], index = True, index_label = "id")
+submit.to_csv("./dacon/comp3/submit_RFR.csv", header = ["X", "Y", "M", "V"], index = True, index_label = "id")

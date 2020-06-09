@@ -84,12 +84,12 @@ pipe.fit(x_train, y_train)
 
 loss = pipe.score(x_test,y_test)
 
-pred_mae = pipe.predict(x_test)
+y_pred = pipe.predict(x_test)
 
-mae = mean_absolute_error(y_test, pred_mae)
+mae = mean_absolute_error(y_test, y_pred)
 
 
-y_pred = pipe.predict(x_pred)
+submit = pipe.predict(x_pred)
 
 
 print("loss :", loss)
@@ -97,5 +97,5 @@ print("mae :", mae)
 
 
 a = np.arange(10000,20000)
-submit= pd.DataFrame(y_pred, a)
-submit.to_csv("./data/dacon/comp1/sample_submission2.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label="id" )
+submit= pd.DataFrame(submit, a)
+submit.to_csv("./dacon/comp1/submit_RFR.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label="id" )
