@@ -10,7 +10,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # 1. 데이터
-iris = pd.read_csv('./data/csv/iris.csv', header = 0)
+iris = pd.read_csv('./data/csv/iris.csv', header = 0) # 첫 번째 행(row index[0] -> header로 잡겠다)
 
 x = iris.iloc[:, 0:4 ]
 y = iris.iloc[:, 4] 
