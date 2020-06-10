@@ -83,10 +83,10 @@ def build_model(drop=0.5, optimizer = 'adam') :
 
 # 하피퍼파라미터들도 함수로 작성
 def create_hyperparameters() :
-    batchs = [10, 20, 30, 40, 50]
+    batches = [10, 20, 30, 40, 50]
     optimizers = ['rmsprop', 'adam', 'adadelta']
     dropout = np.linspace(0.1, 0.5, 5) # 0.1 ~ 0.5 를 5등분, 0.1, 0.2, 0.3, 0.4, 0.5
-    return {"batch_size" : batchs, "optimizer" : optimizers, 
+    return {"batche_size" : batches, "optimizer" : optimizers, 
             "drop" : dropout} # dictionary 형태
 
 # epoch, node, activation 등등의 파라미터들도 넣을 수 있다

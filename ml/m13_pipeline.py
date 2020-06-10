@@ -20,12 +20,21 @@ x_train, x_test, y_train, y_test = train_test_split(
 # 2. 모델 
 # model = SVC() #svc_model = SVC() 이렇게 써도 상관 없다
 # pipeline 도 제공될 것 같다 땡겨와 보자
-from sklearn.pipeline import Pipeline
+from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
-pipe = Pipeline([("scaler", MinMaxScaler()), ('svm', SVC())])
+# pipe = Pipeline([("scaler", MinMaxScaler()), ('svm', SVC())])
 #                  전처리방법                  모델명
 # target 값(즉, y data)은 알아서 전처리 하지 않는다
+
+
+
+# make_pipeline 사용법
+pipe = make_pipeline(MinMaxScaler(), SVC())
+# 그냥 사용할 전처리방법, 모델명만 써 주면 된다
+# make_pipeline 버전문제가 아니라 표기방법이 달랐던 것
+
+
 
 
 pipe.fit(x_train, y_train)

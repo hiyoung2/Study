@@ -15,6 +15,7 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import mean_absolute_error
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
+from xgboost import XGBClassifier, XGBRegressor
 
 # dacon_comp1 데이터 불러오기
 
@@ -75,27 +76,27 @@ print("y_test.shape :", y_test.shape)    # (2000, 4)
 print("x_pred.shape :", x_pred.shape) # (10000, 71)
 
 
+model = XGBClassifier()
 
-# kfold = KFold(n_splits = 5, shuffle = True)
+model.fit(x_train, y_train)
 
-pipe = Pipeline([("scaler", RobustScaler()), ('ensemble', RandomForestRegressor())])
+acc = model.score(x_test, y_test)
 
-pipe.fit(x_train, y_train)
+print("acc :" , acc)
 
-loss = pipe.score(x_test,y_test)
+# print(model.feature_importances_)
 
-y_pred = pipe.predict(x_test)
+# import matplotlib.pyplot as plt
 
-mae = mean_absolute_error(y_test, y_pred)
+# import numpy as np
 
+# def plot_feature_importances_cancer(model) :
+#     n_features = cancer.data.shape[1]
+#     plt.barh(np.arange(n_features), model.feature_importances_, align='center')
+#     plt.yticks(np.arange(n_features), cancer.feature_names)
+#     plt.xlabel("Feature Importances")
+#     plt.ylabel("Features")
+#     plt.ylim(-1, n_features)
 
-submit = pipe.predict(x_pred)
-
-
-print("loss :", loss)
-print("mae :", mae)
-
-
-a = np.arange(10000,20000)
-submit= pd.DataFrame(submit, a)
-submit.to_csv("./dacon/comp1/submit_RFR.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label="id" )
+# plot_feature_importances_cancer(model)
+# plt.show()
