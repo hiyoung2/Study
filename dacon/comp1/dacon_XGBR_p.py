@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split, KFold, cross_val_score
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
-
-from sklearn.ensemble import GradientBoostingRegressor
-from sklearn.tree import DecisionTreeRegressor
+from sklearn.decomposition import PCA
+from sklearn.multioutput import MultiOutputRegressor
+from xgboost import XGBRegressor, XGBRFRegressor
 from sklearn.metrics import mean_absolute_error
 
 data = pd.read_csv("./data/dacon/comp1/train.csv", header = 0, index_col = 0)
@@ -68,10 +68,28 @@ print("y_train.shape :", y_train.shape) # (8000, 4)
 print("y_test.shape :", y_test.shape)   # (2000, 4)
 
 
-
 # 2. 모델 구성
+kfold = KFold(n_splits = 5, shuffle = True) 
+# model = XGBRFRegressor(cv = kfold)
 
-model = GradientBoostingRegressor()
+model = MultiOutputRegressor(XGBRegressor(ck = kfold))
+
+model.fit(x_train, y_train)
+score = model.score(x_test, y_test)
+
+y_pred = model.predict(x_test)
+
+mae = mean_absolute_error(y_test, y_pred)
+
+submit = model.predict(x_pred)
+
+print("score :", score)
+print("mae :", mae)
+
+
+a = np.arange(10000,20000)
+submit= pd.DataFrame(submit, a)
+submit.to_csv("./dacon/comp1/submit_XGBR.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label="id" )
 
 # GradientBoostingRegressor 모델은
 # 벡터 형태의 output을 갖춘 데이터만 가능
@@ -85,21 +103,21 @@ model = GradientBoostingRegressor()
 # append 함수를 써서 모두 붙여준다
 
 ############################################################
-def boost_fit_mae(y_train, y_test) :
-    y_predict = []
-    for i in range(len(submit.columns)) :
-        print(i)
-        y_train_i = y_train[:, i]
-        model.fit(x_train, y_train_i)
+# def boost_fit_mae(y_train, y_test) :
+#     y_predict = []
+#     for i in range(len(submit.columns)) :
+#         print(i)
+#         y_train_i = y_train[:, i]
+#         model.fit(x_train, y_train_i)
 
-        y_test_i = y_test[:, i]
-        score = model.score(x_test, y_test_i)
-        print("score :", score)
+#         y_test_i = y_test[:, i]
+#         score = model.score(x_test, y_test_i)
+#         print("score :", score)
 
-        y_pred = model.predict(x_pred)
-        y_predict.append(y_pred)
-        # print(y_predict)
-    return np.array(y_predict)
+#         y_pred = model.predict(x_pred)
+#         y_predict.append(y_pred)
+#         # print(y_predict)
+#     return np.array(y_predict)
 ##############################################################
 
 # 함수 적용
@@ -111,26 +129,24 @@ def boost_fit_mae(y_train, y_test) :
 # print("submit.shape :", submit.shape)
 
 # reshape 
-submit = boost_fit_mae(y_train, y_test).reshape(10000, 4)
-print("submit.shape :", submit.shape)
+# submit = boost_fit_mae(y_train, y_test).reshape(10000, 4)
+# print("submit.shape :", submit.shape)
 
 
-print(model.feature_importances_)
+# print(model.feature_importances_)
 
-def plot_feature_importances_x_data(model) :
-    n_features = x_data.shape[1]
-    plt.barh(np.arange(n_features), model.feature_importances_, align='center')
-    plt.yticks(np.arange(n_features), x_data.columns)
-    plt.xlabel("Feature Importances")
-    plt.ylabel("Features")
-    plt.ylim(-1, n_features)
+# def plot_feature_importances_x_data(model) :
+#     n_features = x_data.shape[1]
+#     plt.barh(np.arange(n_features), model.feature_importances_, align='center')
+#     plt.yticks(np.arange(n_features), x_data.columns)
+#     plt.xlabel("Feature Importances")
+#     plt.ylabel("Features")
+#     plt.ylim(-1, n_features)
 
-plot_feature_importances_x_data(model)
-plt.show()
+# plot_feature_importances_x_data(model)
+# plt.show()
 
-a = np.arange(10000,20000)
-submit= pd.DataFrame(submit, a)
-submit.to_csv("./dacon/comp1/submit_GBR.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label="id" )
+
 
 
 

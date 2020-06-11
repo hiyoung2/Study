@@ -67,6 +67,7 @@ x_hite = hite.reshape(-1, 5, 1)
 # 차원 축소,  PCA
 pca = PCA(n_components = 1)
 pca.fit(hite)
+
 x_hit = pca.transform(hite)
 
 

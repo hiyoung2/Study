@@ -86,20 +86,36 @@ print("y_test.shape :", y_test.shape)    # (560, 4)
 
 # 2. 모델 구성 (머신러닝)
 
+parameters = {
+    "ensemble__n_estimators" : [10, 20, 30, 40, 50], "ensemble__max_depth" : [1, 2, 3, 4], 
+    "ensemble__min_samples_leaf" : [3, 5, 7, 9, 12], "ensemble__min_samples_split" : [3, 5, 7, 9, 12],
+    "ensemble__n_jobs" : [-1]}
+
+
 pipe = Pipeline([("scaler", StandardScaler()), ('ensemble', RandomForestRegressor())])
 
+
+kfold = KFold(n_splits = 5, shuffle = True) 
+search = RandomizedSearchCV(pipe, parameters, cv = kfold, random_state = 2)
+
 # 3. 훈련
-pipe.fit(x_train, y_train)
+search.fit(x_train, y_train)
 
 # 4. 평가, 예측
-loss = pipe.score(x_test, y_test)
+loss = search.score(x_test, y_test)
 
-y_pred = pipe.predict(x_test)
+y_pred = search.predict(x_test)
 
 mse = mean_squared_error(y_test, y_pred)
 
-submit = pipe.predict(x_pred)
+submit = search.predict(x_pred)
 
+
+print("최적의 매개변수 :", search.best_estimator_)
+print("=========================================")
+print("최적의 매개변수 :", search.best_params_)
+
+print("=========================================")
 print("loss :", loss)
 print("mse :", mse)
 print("submit : ", submit[:5, :])
@@ -109,3 +125,7 @@ a = np.arange(2800, 3500)
 
 submit = pd.DataFrame(submit, a)
 submit.to_csv("./dacon/comp3/submit_RFR.csv", header = ["X", "Y", "M", "V"], index = True, index_label = "id")
+
+
+# pipe + RFR = 가장 좋았음
+# pipe + RFR + randomgridsearch : 별로 안 좋았음 , 일단 돌려보려고 매개변수를 하나씩만 해서 그런 듯 다시 해 봐야함

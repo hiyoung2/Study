@@ -44,8 +44,8 @@ print("y_train.shape : ", y_train.shape) # (455,)
 print("y_test.shape : ", y_test.shape)   # (114,)
 
 parameters = {
-    "n_estimators" : [10, 20, 30, 100], "max_depth" : [4, 8, 10, 12, 20], 
-    "min_samples_leaf" : [3, 5, 7, 9], "min_samples_split" : [3, 5, 7, 9],
+    "n_estimators" : [10], "max_depth" : [4], 
+    "min_samples_leaf" : [9], "min_samples_split" : [9],
     "n_jobs" : [-1], "criterion" : ["gini"]}
 
 # parameters = {
@@ -61,5 +61,10 @@ model = RandomizedSearchCV(RandomForestClassifier(), parameters, cv = kfold, ran
 model.fit(x_train, y_train)
 
 print("최적의 매개변수 : ", model.best_estimator_)
+
+
 y_pred = model.predict(x_test)
+print(y_pred)
+
 print("최종 정답률 : = ", accuracy_score(y_test, y_pred))
+
