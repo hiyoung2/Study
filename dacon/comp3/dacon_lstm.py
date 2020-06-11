@@ -98,6 +98,7 @@ y_pred = model.predict(x_pred)
 
 print("loss :", loss)
 print("mse :", mse)
+
 print("y_pred : ", y_pred)
 
 # 최종 파일 
