@@ -102,6 +102,10 @@ mae = mean_absolute_error(y_test , y_pred)
 
 submit= model.predict(x_pred)
 
+
+print("socre :", score)
+print("mae :", mae)
+
 # 최종 파일 변환
 a = np.arange(10000,20000)
 submit= pd.DataFrame(submit, a)

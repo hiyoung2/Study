@@ -69,7 +69,7 @@ print("y_test.shape :", y_test.shape)   # (2000, 4)
 
 
 # 2. 모델 구성
-kfold = KFold(n_splits = 5, shuffle = True) 
+kfold = KFold(n_splits = 3, shuffle = True) 
 # model = XGBRFRegressor(cv = kfold)
 
 model = MultiOutputRegressor(XGBRegressor())
