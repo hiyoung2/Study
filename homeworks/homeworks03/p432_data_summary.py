@@ -235,3 +235,70 @@ print()
 (1995, 2000]    1
 Name: birth_year, dtype: int64
 '''
+
+# 각 구간에 이름을 붙일 수도 있다
+group_names = ["first1980", "second198", "first1990", "second1990"]
+birth_year_cut_data = pd.cut(attri_data_frame1.birth_year, birth_year_bins, labels = group_names)
+pd.value_counts(birth_year_cut_data)
+print(pd.value_counts(birth_year_cut_data))
+print()
+'''
+second198     4
+first1990     3
+first1980     2
+second1990    1
+Name: birth_year, dtype: int64
+'''
+
+# 미리 분할수를 지정하여 분할 할 수 있다
+# 이를 이용하면 거의 비슷한 크기의 구간을 만들 수 있다
+# CUT() 함수의 두 번째 인수로 분할수를 전달
+
+pd.cut(attri_data_frame1.birth_year, 2)
+print(pd.cut(attri_data_frame1.birth_year, 2))
+print()
+'''
+
+0      (1989.0, 1997.0]
+1    (1980.984, 1989.0]
+2      (1989.0, 1997.0]
+3      (1989.0, 1997.0]
+4    (1980.984, 1989.0]
+5      (1989.0, 1997.0]
+6    (1980.984, 1989.0]
+7      (1989.0, 1997.0]
+8      (1989.0, 1997.0]
+9    (1980.984, 1989.0]
+Name: birth_year, dtype: category
+Categories (2, interval[float64]): [(1980.984, 1989.0] < (1989.0, 1997.0]]
+'''
+
+# 문제 DataFrame의 ID를 두 구간으로 분할해서 출력
+
+attri_data1 = {"ID" : [100, 101, 102, 103, 104, 106, 108, 110, 111, 113],
+               "city" : ["서울", "부산", "대전", "광주", "서울", "서울", "부산",
+                         "대전", "광주", "서울"],
+               "birth_year" : [1990, 1989, 1992, 1997, 1982, 1991, 1988, 
+                              1990, 1995, 1981],
+               "name" : ["영이", "순돌", "짱구", "태양", "션", "유리", "현아",
+                         "태식", "민수", "호식"]}
+
+attri_data_frame1 = DataFrame(attri_data1)
+
+pd.cut(attri_data_frame1.ID, 2)
+print(pd.cut(attri_data_frame1.ID, 2))
+print()
+'''
+0    (99.987, 106.5]
+1    (99.987, 106.5]
+2    (99.987, 106.5]
+3    (99.987, 106.5]
+4    (99.987, 106.5]
+5    (99.987, 106.5]
+6     (106.5, 113.0]
+7     (106.5, 113.0]
+8     (106.5, 113.0]
+9     (106.5, 113.0]
+Name: ID, dtype: category
+Categories (2, interval[float64]): [(99.987, 106.5] < (106.5, 113.0]]
+'''
