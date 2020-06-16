@@ -85,22 +85,24 @@ model.summary()
 
 # 3. 컴파일, 훈련
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
-es = EarlyStopping(monitor = 'loss', patience = 10, mode = 'auto')
+# es = EarlyStopping(monitor = 'loss', patience = 10, mode = 'auto')
 
-modelpath = './model/{epoch:02d}--{loss:.4fd}.hdf5'
-checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'loss', save_best_only = True, mode = 'auto')
+# modelpath = './model/{epoch:02d}--{loss:.4fd}.hdf5'
+# checkpoint = ModelCheckpoint(filepath = modelpath, monitor = 'loss', save_best_only = True, mode = 'auto')
 
 # tb_hist = TensorBoard(log_dir = 'graph', histogram_freq = 0, write_graph = True, write_images = True)
 
 model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics = ['acc'])
-hist = model.fit(x_train, y_train, epochs = 100, batch_size = 10, validation_split = 0.2, callbacks = [es, checkpoint], verbose = 1)
+model.fit(x_train, y_train, epochs = 100, batch_size = 10, validation_split = 0.2, verbose = 1)
+
+# hist = model.fit(x_train, y_train, epochs = 100, batch_size = 10, validation_split = 0.2, callbacks = [es, checkpoint], verbose = 1)
 
 # 4. 평가, 예측
 loss, acc = model.evaluate(x_test, y_test, batch_size = 10)
 
 y_pred = model.predict(x_test)
 # print(y_pred)
-# print(np.argmax(y, axis = 1))
+print(np.argmax(y_pred, axis = 1))
 
 print('loss : ', loss)
 print('acc : ', acc)

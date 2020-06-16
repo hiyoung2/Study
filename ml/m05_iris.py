@@ -100,6 +100,13 @@ score = model.score(x_test, y_test)
 # 4. 평가, 예측
 y_predict = model.predict(x_test)
 
+print("===================================")
+print("y_predict.shape :", y_predict.shape)
+print("y_test.shape :", y_test.shape)
+print("===================================")
+
+
+
 acc = accuracy_score(y_test, y_predict)
 r2 = r2_score(y_test, y_predict)
 
