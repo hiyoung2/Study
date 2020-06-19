@@ -71,7 +71,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc']
 hist = model.fit(x_train, y_train, epochs=10, batch_size=200, validation_split = 0.2,
                                    callbacks = [checkpoint], verbose = 1) 
 
-model.save('./model/model_test01.h5')
+# model.save('./model/model_test01.h5')
 
 
 # 4. 평가, 예측

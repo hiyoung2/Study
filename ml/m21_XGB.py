@@ -37,6 +37,7 @@ import matplotlib.pyplot as plt
 
 import numpy as np
 
+# feature_importances 직접 함수로
 def plot_feature_importances_cancer(model) :
     n_features = cancer.data.shape[1]
     plt.barh(np.arange(n_features), model.feature_importances_, align='center')
@@ -47,3 +48,6 @@ def plot_feature_importances_cancer(model) :
 
 plot_feature_importances_cancer(model)
 plt.show()
+
+
+
