@@ -23,14 +23,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 
-n_estimators = 100 
-learning_rate = 0.09 
-colsample_bytree = 0.7 
-colsample_bylevel = 0.7 
-
-max_depth = 7
-# n_jobs = -1 
-
+n_jobs = -1 
 
 parameters = [
     {"n_estimators":[100, 200, 300], "learning_rate" :[0.1, 0.3, 0.5, 0.01],
@@ -44,7 +37,7 @@ parameters = [
 
 
 
-model = GridSearchCV(XGBClassifier(), parameters, cv = 5, n_jobs = -1)
+model = GridSearchCV(XGBClassifier(), parameters, cv = 5, n_jobs = n_jobs)
 model.fit(x_train, y_train)
 
 print("=============================================")

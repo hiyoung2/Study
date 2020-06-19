@@ -35,10 +35,10 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 # xgboost에서 반드시 알고 있어야 할 파라미터
 # 요 네가지만 알고 있으면 된다(당연한 것, xgboost 모델)
-n_estimators = 300 # 추정치, 나무의 숫자
-learning_rate = 0.09 # 학습률(디폴트 : 0.1), 튜닝 핵심키워드 중 하나(노드, 레이어 등 건드리는 것들보다)
-colsample_bytree = 0.7 # 트리의 샘플을 얼마나 할 것인가 (1 = 100%, 디폴트), 통상적으로 0.6 ~ 0.9 사이를 많이 쓴다
-colsample_bylevel = 0.7 # max = 1, 0.6 ~ 0.9 사이 많이 쓴다 (cv 하면 0.6, 0.7, 0.8, 0.9)
+n_estimators = 90 # 추정치, 나무의 숫자
+learning_rate = 0.5 # 학습률(디폴트 : 0.1), 튜닝 핵심키워드 중 하나(노드, 레이어 등 건드리는 것들보다)
+colsample_bytree = 1 # 트리의 샘플을 얼마나 할 것인가 (1 = 100%, 디폴트), 통상적으로 0.6 ~ 0.9 사이를 많이 쓴다
+colsample_bylevel = 0.9 # max = 1, 0.6 ~ 0.9 사이 많이 쓴다 (cv 하면 0.6, 0.7, 0.8, 0.9)
 
 max_depth = 7
 n_jobs = -1 # 딥러닝 아닐 경우에는 무조건 n_jobs = -1을 쓰자(딥러닝은 터짐)
