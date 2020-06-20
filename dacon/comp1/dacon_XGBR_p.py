@@ -87,9 +87,9 @@ print("score :", score)
 print("mae :", mae)
 
 
-a = np.arange(10000,20000)
-submit= pd.DataFrame(submit, a)
-submit.to_csv("./dacon/comp1/submit_XGBR.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label="id" )
+# a = np.arange(10000,20000)
+# submit= pd.DataFrame(submit, a)
+# submit.to_csv("./dacon/comp1/submit_XGBR.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label="id" )
 
 # GradientBoostingRegressor 모델은
 # 벡터 형태의 output을 갖춘 데이터만 가능
