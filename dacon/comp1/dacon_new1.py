@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 from sklearn.feature_selection import SelectFromModel
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
 from xgboost import XGBRegressor, plot_importance
-from sklearn.multioutput import MultiOutputRegressor
+from sklearn.multioutput import MultiOutputRegressor, MultiOutputEstimator
 from sklearn.metrics import mean_absolute_error, r2_score
 
 data = np.load("./data/dacon/comp1/data.npy", allow_pickle = True)
@@ -50,7 +50,7 @@ n_jobs = -1
 
 model = MultiOutputRegressor(XGBRegressor(n_estimators = n_estimators, learning_rate = learning_rate, 
                                           colsample_bytree = colsample_bytree, colsample_bylevel = colsample_bylevel,
-                                          max_depth = max_depth, n_jobs = n_jobs))
+                                          max_depth = max_depth, n_jobs = n_jobs, cv = 5))
 
 # model = MultiOutputRegressor(GridSearchCV(XGBRegressor(), parameters, cv = 5, n_jobs = -1))
 
