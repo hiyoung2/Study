@@ -2,14 +2,15 @@ from sklearn.feature_selection import SelectFromModel
 import numpy as np
 import matplotlib.pyplot as plt
 
-from xgboost import XGBClassifier, XGBRegressor
-from sklearn.model_selection import train_test_split, GridSearchCV
+from xgboost import XGBClassifier, XGBRegressor, plot_importance
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
 from sklearn.datasets import load_boston
 from sklearn.metrics import r2_score
 
-dataset = load_boston()
-x = dataset.data
-y = dataset.target
+boston = load_boston()
+x = boston.data
+y = boston.target
 
 # x, y = load_boston(return_X_y=True)
 
@@ -20,32 +21,55 @@ x_train, x_test, y_train, y_test = train_test_split(
 n_jobs = -1
 
     
-parameters = [
-    {"n_estimators":[100, 200, 300], "learning_rate" :[0.1, 0.3, 0.5, 0.01, 0.09],
-    "max_depth" : [4, 5, 6]},
-    {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.01, 0.09],
-    "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.9, 1]},
-    {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.5],
-    "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.9, 1],
-    "colsample_bylevel" : [0.6, 0.7, 0.9]}
-    ]
+# parameters = [
+#     {"n_estimators":[100, 200, 300], "learning_rate" :[0.1, 0.3, 0.5, 0.01, 0.09],
+#     "max_depth" : [4, 5, 6]},
+#     {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.01, 0.09],
+#     "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.9, 1]},
+#     {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.5],
+#     "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.9, 1],
+#     "colsample_bylevel" : [0.6, 0.7, 0.9]}
+#     ]
 
-model = GridSearchCV(XGBRegressor(), parameters, cv = 5, n_jobs = n_jobs)
+# best params
+# (n_estimators = 110, max_depth = 6, learning_rate = 0.1, 
+                    #  colsample_bytree = 1, colsample_bylevel = 0.6, cv = 5, n_jobs = n_jobs)
 
+
+# model = GridSearchCV(XGBRegressor(), parameters, cv = 5, n_jobs = n_jobs)
+
+model = RandomForestRegressor(n_estimators = 110, max_depth = 6, n_jobs = n_jobs)
 
 model.fit(x_train, y_train)
 
 score = model.score(x_test, y_test)
 print("R2 :", score)
 
-print("========================================")
-print(model.best_estimator_)
-print("========================================")
-print(model.best_estimator_.feature_importances_)
+# print("========================================")
+# print(model.best_params_)
+# print("========================================")
+print(model.feature_importances_)
+
+
+def plot_feature_importances_boston(model) :
+    n_features = boston.data.shape[1]
+    plt.barh(np.arange(n_features), model.feature_importances_, align='center')
+    plt.yticks(np.arange(n_features), boston.feature_names)
+    plt.xlabel("Feature Importances")
+    plt.ylabel("Features")
+    plt.ylim(-1, n_features)
+
+plot_feature_importances_boston(model)
+plt.show()
+
+
+
+# plot_importance(model)
+# plt.show()
 
 # feature engineering
 print("========================================")
-thresholds = np.sort(model.best_estimator_)
+thresholds = np.sort(model.feature_importances_)
 print(thresholds)
 
 
@@ -58,7 +82,20 @@ for thresh in thresholds: # 컬럼 수만큼 돈다! 빙글 빙글
     select_x_train = selection.transform(x_train)
     # print(select_x_train.shape)
 
-    selection_model = XGBRegressor()
+    
+    n_jobs = -1
+
+    
+    parameters = [
+        {"n_estimators":[100, 200, 300], "learning_rate" :[0.1, 0.3, 0.5, 0.01, 0.09],
+        "max_depth" : [4, 5, 6]},
+        {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.01, 0.09],
+        "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.9, 1]},
+        {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.5],
+        "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.9, 1],
+        "colsample_bylevel" : [0.6, 0.7, 0.9]}]
+
+    selection_model = GridSearchCV(XGBRegressor(), parameters, cv = 5, n_jobs= n_jobs)
     selection_model.fit(select_x_train, y_train)
 
     select_x_test = selection.transform(x_test)
@@ -71,7 +108,7 @@ for thresh in thresholds: # 컬럼 수만큼 돈다! 빙글 빙글
           score*100.0))
 
 
-
+print(y_pred)
 
 # 과제
 # 그리드 서치까지 엮어라

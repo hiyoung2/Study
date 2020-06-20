@@ -60,7 +60,7 @@ print("점수 :", score)
 print(model.feature_importances_)
 
 plot_importance(model)
-# plt.show()
+plt.show()
 
 
 '''
