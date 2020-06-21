@@ -19,15 +19,7 @@ x_train, x_test, y_train, y_test = train_test_split(
     x, y, test_size = 0.2, shuffle = True, random_state = 66
 )
 
-parameters = [
-    {"n_estimators":[100, 200, 300], "learning_rate" :[0.1, 0.3, 0.5, 0.01, 0.09],
-    "max_depth" : [4, 5, 6]},
-    {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.01, 0.09],
-    "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.9, 1]},
-    {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.5],
-    "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.9, 1],
-    "colsample_bylevel" : [0.6, 0.7, 0.9]}
-    ]
+
 # model = GridSearchCV(XGBRegressor(), parameters, cv = 5, n_jobs = -1)
 
 model = XGBClassifier(n_estimators = 100, learning_rate = 0.09, max_depth = 5, colsample_bylevel = 0.7, colsample_bytree = 0.9, n_jobs = -1)
@@ -57,6 +49,16 @@ for thresh in thresholds: # 컬럼 수만큼 돈다! 빙글 빙글
 
     select_x_train = selection.transform(x_train)
     # print(select_x_train.shape)
+
+    parameters = [
+    {"n_estimators":[100, 200, 300], "learning_rate" :[0.1, 0.3, 0.5, 0.01, 0.09],
+    "max_depth" : [4, 5, 6]},
+    {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.01, 0.09],
+    "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.8, 0.9]},
+    {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.5],
+    "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.8, 0.9],
+    "colsample_bylevel" : [0.6, 0.7, 0.8, 0.9]}
+    ]
 
     selection_model = GridSearchCV(XGBClassifier(), parameters, cv = 5, n_jobs= -1)
     selection_model.fit(select_x_train, y_train)

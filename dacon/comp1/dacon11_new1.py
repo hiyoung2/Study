@@ -63,11 +63,17 @@ R2 : 0.31371972630857015
 mae : 1.3680957676981387
 '''
 
+print(model.feature_importances_)
 
+plot_importance(model)
+plt.show()
+
+
+'''
 # 최종 제출 파일
 submit = model.predict(x_pred)
 
 a = np.arange(10000, 20000)
 submit = pd.DataFrame(submit, a)
 submit.to_csv("./dacon/comp1/submit_new1.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
-
+'''
