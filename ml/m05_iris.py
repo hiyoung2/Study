@@ -105,8 +105,6 @@ print("y_predict.shape :", y_predict.shape)
 print("y_test.shape :", y_test.shape)
 print("===================================")
 
-
-
 acc = accuracy_score(y_test, y_predict)
 r2 = r2_score(y_test, y_predict)
 
@@ -118,4 +116,14 @@ print("R2 : ", r2)
 
 # in classifier : score = accuracy_score
 # in regressor : score = r2_score
+
+# score에는 (x_test, y_test)
+# acc나 r2에는 (y_test, y_pred)
+# 왜 x_test, y_test를 넣은 score와
+# y_test, y_pred를 넣은 acc 또는 r2가
+# 각각 분류, 회귀 모델에서 동일한 값이 출력되는가?
+# score를 계산하는 과정에서 내부적으로 (y_test, y_pred) 이렇게 계산한다
+# 구글링 결과
+# C. logreg.score(Xtest, Ytest) is equivalent to your print(classificationreport(Ytest, Ypred)). 
+# But you do not need to calculate Ypred; that is done internally by the library
 

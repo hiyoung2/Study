@@ -1,7 +1,7 @@
 # 등급 수가 너무 다양 -> 줄여보자
 # 시험, 대회 같은 곳에서는 y data 자체를 제공을 잘 해 주지만(실제로 y data를 건드릴 일이 없다)
 # 실전 상황, 업무 상황에서는 y data를 잘 판단해서 레이블 축소 등의 조절을 해 줘야 한다
-
+# 하지만 혼자서 결정하는 것은 데이터 조작, 의뢰인과의 합의 하에 이뤄져야
 
 import numpy as np
 import pandas as pd
@@ -15,6 +15,11 @@ x = wine.drop('quality', axis = 1) # x는 wine data에서 quality 열을 drop하
 
 print('x.shape : ', x.shape) # x.shape :  (4898, 11)
 print('y.shape : ', y.shape) # y.shape :  (4898,)
+
+# print(y)
+# print(type(y)) # <class 'pandas.core.series.Series'>
+# print(list(y))
+# print(type(list(y))) # <class 'list'>
 
 # y 레이블 축소
 newlist = []
@@ -30,6 +35,11 @@ for i in list(y) :
 y = newlist
 
 # 3, 4 / 5, 6, 7 / 8, 9 / 이렇게 3등급으로 축소
+
+# 리스트 형태의 y에서 하나하나 요소를 불러와서 for 문을 돌리는데
+# 요소 i가 4보다 작거나 같다면 0으로 빈 리스트 newlist에 채워진다
+# 7보다 작거나 같으면 1, 두 조건이 모두 충족 되지 않으면 2로 채워진다
+# 따라서 3가지 등급으로 축소되는 새로운 y data를 만든다
 
 print('y_newlist : ', y)
 # 0, 1, 2 -> 3등급

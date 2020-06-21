@@ -38,11 +38,11 @@ y_pca = pca.transform(y)
 # Scaler
 scaler = RobustScaler()
 scaler.fit(y_pca)
-y_data = scaler.transform(y_pca)
+y = scaler.transform(y_pca)
 
 # train_test_split
 x_train, x_test, y_train, y_test = train_test_split(
-    x, y_data, test_size = 0.2, shuffle = True, random_state = 66
+    x, y, test_size = 0.2, shuffle = True, random_state = 66
 )
 
 
@@ -85,6 +85,11 @@ mae = mean_absolute_error(y_test, y_pred)
 
 print("R2 :", score)
 print("MAE :", mae)
+
+'''
+R2 : 0.5323469728598869
+MAE : 0.41220154492075656
+'''
 
 submit_pca = model.predict(x_pred)
 

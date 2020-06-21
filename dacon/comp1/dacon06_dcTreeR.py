@@ -90,6 +90,11 @@ submit = model.predict(x_pred)
 print("loss :", loss)
 print("mae :", mae)
 
+'''
+loss : -1.0874375252227273
+mae : 2.533742500000001
+'''
+
 # 최종 파일 변환
 a = np.arange(10000,20000)
 submit= pd.DataFrame(submit, a)
@@ -111,14 +116,5 @@ plot_feature_importances_x_data(model)
 plt.show()
 
 
-'''
-loss : -1.0661115260823
-mae : 2.5139650000000016
-'''
-
-'''
-loss : -1.0807500959333152
-mae : 2.5206012500000017
-'''
 
 

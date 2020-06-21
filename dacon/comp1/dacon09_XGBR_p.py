@@ -57,6 +57,22 @@ print("x.shape :", x.shape)  # (10000, 71)
 print("y.shape :", y.shape)  # (10000, 4)
 print()
 
+# y -> PCA
+pca = PCA(n_components = 1)
+pca.fit(y)
+y_pca= pca.transform(y)
+
+print("y_pca.shape :", y_pca.shape)
+
+
+# PCA 적용한 y에 scaler 사용
+# PCA 적용하면서 차원을 강제적으로 축소 -> 예외적인 경우가 발생할 수 있음
+# 이상치 등으로 인한 문제를 방지하기 위해 스케일링 작업을 해 준다
+scaler = RobustScaler()
+scaler.fit(y_pca)
+y = scaler.transform(y_pca)
+
+
 # train_test_split
 x_train, x_test, y_train, y_test = train_test_split(
     x, y, test_size = 0.2, shuffle = True, random_state = 11
@@ -81,15 +97,33 @@ y_pred = model.predict(x_test)
 
 mae = mean_absolute_error(y_test, y_pred)
 
-submit = model.predict(x_pred)
-
 print("score :", score)
 print("mae :", mae)
 
+'''
+score : 0.43551062672328433
+mae : 0.4415513986245779
+'''
 
-# a = np.arange(10000,20000)
-# submit= pd.DataFrame(submit, a)
-# submit.to_csv("./dacon/comp1/submit_XGBR.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label="id" )
+# 주어진 x_pred 데이터로 최종 예측해야 할 y_pred 예측
+# 현재 PCA가 적용된 상태 (마지막에 원상 복구를 해야 한다)
+submit_pca = model.predict(x_pred)
+
+# shape 오류가 나서, 한 번 데이터 shape 확인
+# 벡터 형태이다(PCA 적용된 데이터가 가중치연산 후에 벡터 모양으로 출력됨)
+# output 1이니 형태로 맞춰줘야 하므로 아래에서 reshape
+print("submit_pca.shape :", submit_pca.shape) # (10000,)
+submit_pca = submit_pca.reshape(submit.shape[0], 1)
+
+# pca 적용된 상태이므로 최종 파일에 맞게끔 column을 '4'개로 차원 다시 원상 복구
+# pca.inverse_transform(데이터명) 을 쓴다
+submit = pca.inverse_transform(submit_pca)
+print("submit_recovered :", submit)
+
+
+a = np.arange(10000,20000)
+submit= pd.DataFrame(submit, a)
+submit.to_csv("./dacon/comp1/submit_XGBR_p.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label="id" )
 
 # GradientBoostingRegressor 모델은
 # 벡터 형태의 output을 갖춘 데이터만 가능

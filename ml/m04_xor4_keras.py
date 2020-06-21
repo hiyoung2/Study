@@ -13,9 +13,10 @@ x_data = [[0, 0], [1, 0], [0, 1], [1, 1]]
 y_data = [0, 1, 1, 0] # xor
 
 # 딥러닝에서는 기존의 데이터로는 문제가 생긴다
-# 딥러닝 연산 : 가중치의 곱셈, w와 x가 곱해짐, bias는 더해지고
 # 케라스에서는 행렬 연산, 행렬 곱셈을 하기 위해 넘파이를 쓴다
 # 딥러닝은 각 레이어마다 가중치 연산을 하므로 넘파이로 바꿔줘야 한다
+# 딥러닝 연산 : 가중치의 곱셈, w와 x가 곱해짐, bias는 더해지는(레이어마다)
+
 
 # 리스트에서는 덧셈이 되면 [0, 0, 1, 0]이 됨
 # 리스트 형태는 그냥 append 될 뿐, 연산 자체가 이뤄지지 않는다
@@ -53,7 +54,7 @@ model.add(Dense(10, activation = 'sigmoid', input_dim = 2))
 model.summary()
 '''
 '''
-딥러닝 모델이 아니다, input 다음 바로 output
+딥러닝 모델이 아니게 만들려면 아래와 같이, input 다음 바로 output
 model = Sequential()
 model.add(Dense(1, activation = 'sigmoid', input_dim = 2))
 model.summary()
@@ -70,7 +71,7 @@ model.summary()
 # 3. 훈련
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc']) 
 # 머신러닝은 compile 과정이 없다
-# binary_crossentropy!,
+# binary_crossentropy!(0 아니면 1이므로, 이진분류)
 model.fit(x, y, epochs=100, batch_size=1, verbose = 1)  
 
 # 4. 평가 예측

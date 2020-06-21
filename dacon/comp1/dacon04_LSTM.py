@@ -95,12 +95,17 @@ model.summary()
 es = EarlyStopping(monitor = 'loss', patience = 10, mode = 'auto')
 
 model.compile(loss = 'mae', optimizer = 'adam', metrics = ['mae'])
-model.fit(x_train, y_train, epochs = 100, batch_size = 32, callbacks = [es], validation_split = 0.2, verbose = 1)
+model.fit(x_train, y_train, epochs = 10, batch_size = 32, callbacks = [es], validation_split = 0.2, verbose = 1)
 
 # 4. 평가, 에측
 loss, mae = model.evaluate(x_test, y_test, batch_size = 32)
 print("loss :", loss)
 print("mae :", mae)
+
+'''
+loss : 1.845429183959961
+mae : 1.8454290628433228
+'''
 
 # x_pred도 LSTM 3차원 모델에 맞게 reshape 해줘야 한다!
 # 안 하면 y_pred 구하는 과정에서 계속 와꾸 에러가 발생함
