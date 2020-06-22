@@ -49,19 +49,18 @@ print("R2 : %.2f%%" %(r2 * 100.0))
 thresholds = np.sort(model.feature_importances_)
 print(thresholds)
 
-
 for thresh in thresholds :
 
     selection = SelectFromModel(model, threshold = thresh, prefit = True)
 
     select_x_train = selection.transform(x_train)
     select_x_test = selection.transform(x_test)
- 
+
     selection_model = XGBRegressor(n_estimators = 100, cv = 5, n_jobs = -1)
 
     selection_model.fit(select_x_train, y_train, eval_metric = ["logloss", "rmse"], 
-                                                 eval_set = [(select_x_train, y_train), (select_x_test, y_test)],
-                                                 early_stopping_rounds = 10)
+                                                eval_set = [(select_x_train, y_train), (select_x_test, y_test)],
+                                                early_stopping_rounds = 10)
 
     y_pred = selection_model.predict(select_x_test)
 
@@ -71,8 +70,39 @@ for thresh in thresholds :
     score = r2_score(y_test, y_pred)
     print("Thresh = %.3f, n = %d, R2 : %.2f%%" %(thresh, select_x_train.shape[1], score*100.0))
 
+    selection_model.save_model("./model/SFM/boston/%.4f_save.dat"%(score))
 
 
-'''
-Thresh = 0.012, n = 9, R2 : 93.73%
-'''
+
+# print(model.estimators_)
+# print(len(model.estimators_))
+
+# for i in range(len(model.estimators_)) :
+#     thresholds = np.sort(model.feature_importances_)
+#     # print(thresholds)     
+    
+#     for thresh in thresholds :
+
+#         selection = SelectFromModel(model, threshold = thresh, prefit = True)
+
+#         select_x_train = selection.transform(x_train)
+#         select_x_test = selection.transform(x_test)
+    
+#         selection_model = XGBRegressor(n_estimators = 100, cv = 5, n_jobs = -1)
+
+#         selection_model.fit(select_x_train, y_train, eval_metric = ["logloss", "rmse"], 
+#                                                     eval_set = [(select_x_train, y_train), (select_x_test, y_test)],
+#                                                     early_stopping_rounds = 10)
+
+#         y_pred = selection_model.predict(select_x_test)
+
+#         results = selection_model.evals_result()
+#         print("eval's results :", results)
+
+#         score = r2_score(y_test, y_pred)
+#         print("Thresh = %.3f, n = %d, R2 : %.2f%%" %(thresh, select_x_train.shape[1], score*100.0))
+
+#         selection_model.save_model("./model/SFM/boston/%i_%.4f_save.dat"%(i, score))
+
+
+

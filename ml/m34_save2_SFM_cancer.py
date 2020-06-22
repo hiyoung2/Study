@@ -34,6 +34,9 @@ print("ACC :", acc)
 thresholds = np.sort(model.feature_importances_)
 print(thresholds)
 
+# for i in range(len(model.feature_importances_)) :
+#     thresholds = np.sort(model.feature_importances_)
+#     # print(thresholds)     
 for thresh in thresholds :
 
     selection = SelectFromModel(model, threshold = thresh, prefit = True)
@@ -41,12 +44,11 @@ for thresh in thresholds :
     select_x_train = selection.transform(x_train)
     select_x_test = selection.transform(x_test)
 
+    selection_model = XGBClassifier(n_estimators = 50, cv = 5, n_jobs = -1)
 
-    selection_model = XGBClassifier(n_estimators = 100, cv = 5, n_jobs = -1)
-    
-    selection_model.fit(select_x_train, y_train, verbose = True, eval_metric=["logloss", "error"],
-                                                 eval_set = [(select_x_train, y_train), (select_x_test, y_test)],
-                                                 early_stopping_rounds=10)
+    selection_model.fit(select_x_train, y_train, eval_metric = ["logloss", "rmse"], 
+                                                eval_set = [(select_x_train, y_train), (select_x_test, y_test)],
+                                                early_stopping_rounds = 5)
 
     y_pred = selection_model.predict(select_x_test)
 
@@ -54,10 +56,6 @@ for thresh in thresholds :
     print("eval's results :", results)
 
     score = accuracy_score(y_test, y_pred)
-
-    print("Trhesh = %.3f, n = %d, ACC : %.2f%%" %(thresh, select_x_train.shape[1], score*100.0))
-
-
-'''
-Trhesh = 0.015, n = 9, ACC : 98.25%
-'''
+    print("Thresh = %.3f, n = %d, ACC : %.2f%%" %(thresh, select_x_train.shape[1], score*100.0))
+    
+    selection_model.save_model("./model/SFM/cancer/%.4f_save.dat"%(score))

@@ -42,7 +42,7 @@ print("R2 : %.2f%%" %(r2 * 100.0)) # R2 : 93.29%
 epochs = len(results['validation_0']['logloss'])
 x_axis = range(0, epochs)
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(2, 1)
 ax.plot(x_axis, results['validation_0']['logloss'], label = 'Train')
 ax.plot(x_axis, results['validation_1']['logloss'], label = 'Test')
 
@@ -50,7 +50,7 @@ ax.legend()
 plt.ylabel('Log Loss')
 plt.title('XGBoost Log Loss')
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(2, 2)
 ax.plot(x_axis, results['validation_0']['rmse'], label = 'Train')
 ax.plot(x_axis, results['validation_1']['rmse'], label = 'Test')
 

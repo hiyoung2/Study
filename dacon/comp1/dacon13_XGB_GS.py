@@ -71,6 +71,8 @@ print(len(model.estimators_))
 
 # print(model.estimators_[0].feature_importances_) # 첫 번째 컬럼의 feature-importance
 # print()
+
+
 '''
 column : hhb
 [0.06693552 0.00139645 0.0030988  0.00319699 0.00323527 0.00383486
@@ -139,6 +141,9 @@ column : na
  0.01486934 0.01677327 0.01772664 0.01409608 0.01445149]
 '''
 
+
+
+'''
 for i in range(len(model.estimators_)) :
     threshold = np.sort(model.estimators_[i].feature_importances_)
 
@@ -176,3 +181,5 @@ for i in range(len(model.estimators_)) :
         a = np.arange(10000, 20000)
         submit = pd.DataFrame(submit, a)
         submit.to_csv("./dacon/comp1/submit_XGB%i_%.4f.csv"%(i, mae), header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
+
+'''
