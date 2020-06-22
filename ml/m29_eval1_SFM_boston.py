@@ -30,15 +30,14 @@ x_train, x_test, y_train, y_test = train_test_split(
     x, y, test_size = 0.2, shuffle = True, random_state = 66
 )
 
-# model = XGBRegressor(n_estimators = 300, learning_rate = 0.1)
-model = XGBRegressor()
-model.fit(x_train, y_train)
-# model.fit(x_train, y_train, verbose = True, eval_metric = ["logloss", "rmse"],
-#                             eval_set = [(x_train, y_train), (x_test, y_test)],
-#                             early_stopping_rounds = 10)
+model = XGBRegressor(n_estimators = 300, learning_rate = 0.1)
 
-# results = model.evals_result()
-# print("eval's results :", results)
+model.fit(x_train, y_train, verbose = True, eval_metric = ["logloss", "rmse"],
+                            eval_set = [(x_train, y_train), (x_test, y_test)],
+                            early_stopping_rounds = 10)
+
+results = model.evals_result()
+print("eval's results :", results)
 
 y_pred = model.predict(x_test)
 
