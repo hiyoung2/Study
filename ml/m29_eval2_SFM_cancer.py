@@ -14,11 +14,15 @@ x_train, x_test, y_train, y_test = train_test_split(
     x, y, test_size = 0.2, shuffle = True, random_state = 66
 )
 
-model = XGBClassifier(n_estimators = 300, learning_rate = 0.1)
+# model = XGBClassifier(n_estimators = 300, learning_rate = 0.1)
+# model.fit(x_train, y_train, verbose = True, eval_metric = ['logloss', 'error'],
+                            # eval_set = [(x_train, y_train), (x_test, y_test)],
+                            # early_stopping_rounds = 10)
+model = XGBClassifier()
+model.fit(x_train, y_train)
 
-model.fit(x_train, y_train, verbose = True, eval_metric = ['logloss', 'error'],
-                            eval_set = [(x_train, y_train), (x_test, y_test)],
-                            early_stopping_rounds = 10)
+
+
 
 results = model.evals_result()
 print("eval's results :", results)
@@ -48,8 +52,8 @@ for thresh in thresholds :
 
     y_pred = selection_model.predict(select_x_test)
 
-    # results = model.evals_result()
-    # print("eval's results :", results)
+    results = selection_model.evals_result()
+    print("eval's results :", results)
 
     score = accuracy_score(y_test, y_pred)
 
