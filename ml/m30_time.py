@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from xgboost import XGBClassifier, XGBRegressor, plot_importance
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
+from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score, RandomizedSearchCV
 from sklearn.datasets import load_boston
 from sklearn.metrics import r2_score
 
@@ -55,18 +55,18 @@ for thresh in thresholds: # 컬럼 수만큼 돈다! 빙글 빙글
     select_x_train = selection.transform(x_train)
     # print(select_x_train.shape)
 
-    # parameters = [
-    # {"n_estimators":[100, 200, 300], "learning_rate" :[0.1, 0.3, 0.5, 0.01, 0.09],
-    # "max_depth" : [4, 5, 6]},
+    parameters = [
+    {"n_estimators":[100, 200, 300], "learning_rate" :[0.1, 0.3, 0.5, 0.01, 0.09],
+    "max_depth" : [4, 5, 6]},
     # {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.01, 0.09],
     # "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.9, 1]},
     # {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.5],
     # "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.9, 1],
     # "colsample_bylevel" : [0.6, 0.7, 0.9]}
-    # ]
+    ]
 
-    # selection_model = GridSearchCV(XGBRegressor(), parameters, cv = 5)
-    selection_model = XGBRegressor(n_estimators = 1000, n_jobs = 1)
+    selection_model = RandomizedSearchCV(XGBRegressor(), parameters, cv = 5, n_jobs = 1)
+    # selection_model = XGBRegressor(n_estimators = 1000, n_jobs = 1)
     selection_model.fit(select_x_train, y_train)
 
     select_x_test = selection.transform(x_test)
@@ -97,18 +97,18 @@ for thresh in thresholds: # 컬럼 수만큼 돈다! 빙글 빙글
     select_x_train = selection.transform(x_train)
     # print(select_x_train.shape)
 
-    # parameters = [
-    # {"n_estimators":[100, 200, 300], "learning_rate" :[0.1, 0.3, 0.5, 0.01, 0.09],
-    # "max_depth" : [4, 5, 6]},
+    parameters = [
+    {"n_estimators":[100, 200, 300], "learning_rate" :[0.1, 0.3, 0.5, 0.01, 0.09],
+    "max_depth" : [4, 5, 6]},
     # {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.01, 0.09],
     # "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.9, 1]},
     # {"n_estimators":[90, 100, 110], "learning_rate" : [0.1, 0.001, 0.5],
     # "max_depth" : [4, 5, 6], "colsample_bytree":[0.6, 0.7, 0.9, 1],
     # "colsample_bylevel" : [0.6, 0.7, 0.9]}
-    # ]
+    ]
 
-    # selection_model = GridSearchCV(XGBRegressor(), parameters, cv = 5, n_jobs = -1)
-    selection_model = XGBRegressor(n_estimators = 1000, n_job = -1)
+    selection_model = RandomizedSearchCV(XGBRegressor(), parameters, cv = 5, n_jobs = -1)
+    # selection_model = XGBRegressor(n_estimators = 1000, n_job = -1)
     selection_model.fit(select_x_train, y_train)
 
     select_x_test = selection.transform(x_test)
@@ -124,6 +124,6 @@ for thresh in thresholds: # 컬럼 수만큼 돈다! 빙글 빙글
 print("총 걸린 시간(n_jobs = 1) : ", end)
 print()
 
-end2 = time.time() - start # 총 걸린 시간
+end2 = time.time() - start2 # 총 걸린 시간
 print("총 걸린 시간(n_jobs = -1) : ", end2)
 print()

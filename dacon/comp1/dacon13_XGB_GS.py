@@ -146,14 +146,14 @@ for i in range(len(model.estimators_)) :
         selection = SelectFromModel(model.estimators_[i], threshold = thresh, prefit = True)
 
         parameters = {
-            "n_estimators" : [10, 100, 20, 200, 30, 300],
+            "n_estimators" : [100, 200, 300, 400, 500],
             "learning_rate" : [0.01, 0.03, 0.05, 0.07, 0.09],
             "colsample_bytree" : [0.6, 0.7, 0.8, 0.9],
             "colsample_bylevel" : [0.6, 0.7, 0.8, 0.9],
             "max_depth" : [3, 4, 5, 6]
         } 
 
-        search = RandomizedSearchCV(XGBRegressor(), parameters, cv = 5)
+        search = RandomizedSearchCV(XGBRegressor(), parameters, cv = 5, n_jobs = -1)
 
         select_x_train = selection.transform(x_train)
 

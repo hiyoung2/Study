@@ -49,8 +49,8 @@ for thresh in thresholds :
 
     y_pred = selection_model.predict(select_x_test)
 
-    # results = model.evals_result()
-    # print("eval's results :", results)
+    results = model.evals_result()
+    print("eval's results :", results)
 
     score = accuracy_score(y_test, y_pred)
 
