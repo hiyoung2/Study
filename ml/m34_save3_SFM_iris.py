@@ -44,7 +44,7 @@ for thresh in thresholds :
     select_x_test = selection.transform(x_test)
 
 
-    selection_model = XGBClassifier(n_estimators = 300, cv = 5, n_jobs = -1)
+    selection_model = XGBClassifier(n_estimators = 100, cv = 5, n_jobs = -1)
 
     selection_model.fit(select_x_train, y_train, verbose = True, eval_metric=["mlogloss", "merror"],
                                                  eval_set = [(select_x_train, y_train), (select_x_test, y_test)],
