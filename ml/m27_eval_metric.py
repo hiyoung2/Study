@@ -18,7 +18,7 @@ x_train, x_test, y_train, y_test = train_test_split(
     x, y, test_size = 0.2, shuffle = True, random_state = 66
 )
 
-model = XGBRegressor(n_estimators = 3, learning_rate = 0.1)
+model = XGBRegressor(n_estimators = 100, learning_rate = 0.1)
 
 # 딥러닝 훈련과정 볼 수 있게 하는 것 : verbose, 머신러닝에도 있었다
 # eval_metrics : 
@@ -29,11 +29,11 @@ model = XGBRegressor(n_estimators = 3, learning_rate = 0.1)
 
 model.fit(x_train, y_train, verbose = True, eval_metric = ["logloss", "rmse"],
                             eval_set = [(x_train, y_train), (x_test, y_test)],
-                            early_stopping_rounds = 20)
+                            early_stopping_rounds = 10)
 
 # xgb 에서는 score 뿐 아니라 evals_result로 평가 결과를 볼 수 있다
 results = model.evals_result()
-print("eval's results :", results)
+# print("eval's results :", results)
 
 y_pred = model.predict(x_test)
 
@@ -44,9 +44,8 @@ print("R2 : %.2f%%" %(r2 * 100.0)) # R2 : 93.29%
 
 
 '''
-# eval_metric = ["logloss", "rmse"]
-[1]     validation_0-logloss:-791.72449 validation_0-rmse:19.55232      validation_1-logloss:-799.52972 validation_1-rmse:19.62157
-[2]     validation_0-logloss:-791.72449 validation_0-rmse:17.71848      validation_1-logloss:-799.52972 validation_1-rmse:17.76332
-eval's results : {'validation_0': {'logloss': [-790.518494, -791.724487, -791.724487], 'rmse': [21.584942, 19.552324, 17.718475]}, 'validation_1': {'logloss': [-794.310974, -799.529724, -799.529724], 'rmse': [21.684599, 19.621567, 17.763321]}}
-R2 : -277.51%
+Stopping. Best iteration:
+[48]    validation_0-logloss:-791.72449 validation_0-rmse:0.96663       validation_1-logloss:-799.52972 validation_1-rmse:2.37591
+
+R2 : 93.25%
 '''

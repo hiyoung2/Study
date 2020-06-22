@@ -33,10 +33,7 @@ print("ACC :", acc)
 
 thresholds = np.sort(model.feature_importances_)
 print(thresholds)
-
-# for i in range(len(model.feature_importances_)) :
-#     thresholds = np.sort(model.feature_importances_)
-#     # print(thresholds)     
+  
 for thresh in thresholds :
 
     selection = SelectFromModel(model, threshold = thresh, prefit = True)

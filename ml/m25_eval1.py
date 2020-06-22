@@ -18,7 +18,7 @@ x_train, x_test, y_train, y_test = train_test_split(
     x, y, test_size = 0.2, shuffle = True, random_state = 66
 )
 
-model = XGBRegressor(n_estimators = 1000, learning_rate = 0.1)
+model = XGBRegressor()
 
 # 딥러닝 훈련과정 볼 수 있게 하는 것 : verbose, 머신러닝에도 있었다
 # eval_metrics : 

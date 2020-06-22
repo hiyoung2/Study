@@ -39,9 +39,6 @@ print("========================================")
 thresholds = np.sort(model.feature_importances_)
 print(thresholds)
 
-
-
-
 for thresh in thresholds: # 컬럼 수만큼 돈다! 빙글 빙글
                
     selection = SelectFromModel(model, threshold = thresh, prefit = True)

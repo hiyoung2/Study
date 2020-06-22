@@ -21,6 +21,8 @@ print("submit.shape : ", submit.shape)  # (10000, 4)
 # 각 column 별로 결측치가 얼마나 있는지 알 수 있다
 print(data.isnull().sum()) 
 
+
+
 # 선형보간법 적용(모든 결측치가 처리 되는 건 아니기 때문에 검사가 필요하다)
 data = data.interpolate() 
 x_pred = x_pred.interpolate()
@@ -30,11 +32,15 @@ data = data.fillna(data.mean())
 x_pred = x_pred.fillna(x_pred.mean())
 
 # 결측치 모두 처리 됨을 확인
-# print(data.isnull().sum()) 
-# print(x_pred.isnull().sum()) 
+print(data.isnull().sum()) 
+print(x_pred.isnull().sum()) 
+
+data.info()
+x_pred.info()
 
 
 
+'''
 np.save("./data/dacon/comp1/data.npy", arr = data)
 np.save("./data/dacon/comp1/x_pred.npy", arr = x_pred)
 
@@ -127,3 +133,4 @@ print("y_pred :", y_pred)
 a = np.arange(10000,20000)
 y_pred = pd.DataFrame(y_pred, a)
 y_pred.to_csv("./dacon/comp1/submit_dnn.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label="id" )
+'''

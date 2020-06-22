@@ -33,7 +33,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 model = XGBRegressor(n_estimators =1300, learning_rate = 0.1)
 # n_estimators default = 100
 
-model.fit(x_train, y_train, verbose = True, eval_metric = ["logloss", "rmse"],
+model.fit(x_train, y_train, verbose = False, eval_metric = ["logloss", "rmse"],
                             eval_set = [(x_train, y_train), (x_test, y_test)],
                             early_stopping_rounds = 10)
 
@@ -59,14 +59,14 @@ for thresh in thresholds :
  
     selection_model = XGBRegressor(n_estimators = 100, cv = 5, n_jobs = -1)
 
-    selection_model.fit(select_x_train, y_train, eval_metric = ["logloss", "rmse"], 
+    selection_model.fit(select_x_train, y_train,  verbose = False, eval_metric = ["logloss", "rmse"], 
                                                  eval_set = [(select_x_train, y_train), (select_x_test, y_test)],
                                                  early_stopping_rounds = 10)
 
     y_pred = selection_model.predict(select_x_test)
 
-    results = selection_model.evals_result()
-    print("eval's results :", results)
+    # results = selection_model.evals_result()
+    # print("eval's results :", results)
 
     score = r2_score(y_test, y_pred)
     print("Thresh = %.3f, n = %d, R2 : %.2f%%" %(thresh, select_x_train.shape[1], score*100.0))
