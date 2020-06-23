@@ -40,7 +40,7 @@ x_pred.info()
 
 
 
-'''
+
 np.save("./data/dacon/comp1/data.npy", arr = data)
 np.save("./data/dacon/comp1/x_pred.npy", arr = x_pred)
 
@@ -133,4 +133,3 @@ print("y_pred :", y_pred)
 a = np.arange(10000,20000)
 y_pred = pd.DataFrame(y_pred, a)
 y_pred.to_csv("./dacon/comp1/submit_dnn.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label="id" )
-'''

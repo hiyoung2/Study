@@ -19,10 +19,6 @@ model.fit(x_train, y_train, verbose = True, eval_metric = ['mlogloss', 'merror']
                             eval_set = [(x_train, y_train), (x_test, y_test)],
                             early_stopping_rounds = 10)
 
-
-
-
-
 # results = model.evals_result()
 # print("eval's results :", results)
 

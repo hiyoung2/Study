@@ -43,7 +43,10 @@ n_jobs = -1
 
 model = MultiOutputRegressor(XGBRegressor(n_estimators = n_estimators, learning_rate = learning_rate, 
                                           colsample_bytree = colsample_bytree, colsample_bylevel = colsample_bylevel,
-                                          max_depth = max_depth, n_jobs = n_jobs, cv = 5))
+                                          max_depth = max_depth, n_jobs = n_jobs, cv = 5, gpu_id = 0, tree_method = 'gpu_hist'))
+
+# XGBRegressor(gpu_id=0, tree_method='gpu_hist')
+
 
 # 3. 훈련
 model.fit(x_train, y_train)
@@ -63,17 +66,14 @@ R2 : 0.31371972630857015
 mae : 1.3680957676981387
 '''
 
-print(model.feature_importances_)
+# print(model.feature_importances_)
+# plot_importance(model)
+# plt.show()
 
-plot_importance(model)
-plt.show()
-
-
-'''
 # 최종 제출 파일
 submit = model.predict(x_pred)
 
 a = np.arange(10000, 20000)
 submit = pd.DataFrame(submit, a)
-submit.to_csv("./dacon/comp1/submit_new1.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
-'''
+submit.to_csv("./dacon/comp1/submit_new1_0623.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
+

@@ -83,7 +83,7 @@ n_jobs = 6
 
 model = MultiOutputRegressor(XGBRegressor(n_estimators = n_estimators, learning_rate = learning_rate, 
                      colsample_bytree = colsample_bytree, colsample_bylevel = colsample_bylevel,
-                     max_depth = max_depth, n_jobs = n_jobs, cv = 5))
+                     max_depth = max_depth, n_jobs = n_jobs, cv = 5, gpu_id = 0, tree_method = 'gpu_hist'))
 
 # model = XGBRegressor(n_estimators = n_estimators, learning_rate = learning_rate, 
 #                      colsample_bytree = colsample_bytree, colsample_bylevel = colsample_bylevel,
@@ -112,6 +112,6 @@ submit = model.predict(x_pred)
 
 a = np.arange(10000, 20000)
 submit = pd.DataFrame(submit, a)
-submit.to_csv("./dacon/comp1/submit/XGB_mean.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
+submit.to_csv("./dacon/comp1/submit/0623/submit_XGB_mean.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
 
 
