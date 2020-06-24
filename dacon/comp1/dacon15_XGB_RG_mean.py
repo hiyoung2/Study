@@ -92,15 +92,22 @@ for i in range(len(model.estimators_)) :
         select_x_train = selection.transform(x_train)
         select_x_test = selection.transform(x_test)
 
-        parameters = {
-            "n_estimators" : [100, 200, 300, 400, 500],
-            "learning_rate" : [0.01, 0.03, 0.05, 0.07, 0.09],
-            "colsample_bytree" : [0.6, 0.7, 0.8, 0.9],
-            "colsample_bylevel" : [0.6, 0.7, 0.8, 0.9],
-            "max_depth" : [3, 4, 5, 6]
-        } 
+        # parameters = {
+        #     "n_estimators" : [100, 200, 300, 400, 500],
+        #     "learning_rate" : [0.01, 0.03, 0.05, 0.07, 0.09],
+        #     "colsample_bytree" : [0.6, 0.7, 0.8, 0.9],
+        #     "colsample_bylevel" : [0.6, 0.7, 0.8, 0.9],
+        #     "max_depth" : [3, 4, 5],
+        #     "rate_drop" : [0.3, 0.5, 0.7],
+        #     "booster" : ['dart']
+        # } 
 
-        search = RandomizedSearchCV(XGBRegressor(), parameters, cv = 5, n_jobs = -1)
+        # search = RandomizedSearchCV(XGBRegressor(), parameters, cv = 5, n_jobs = -1)
+
+        search = XGBRegressor(n_estimators = 500, learning_rate = 0.09, colsample_bytree = 0.7,
+                             colsample_bylevel = 0.7, max_depth = 5, rate_drop = 0.3, booster = 'dart', cv = 5, n_jobs = -1)
+
+
 
         m_search = MultiOutputRegressor(search, n_jobs = -1)
         m_search.fit(select_x_train, y_train)
@@ -118,5 +125,6 @@ for i in range(len(model.estimators_)) :
 
         a = np.arange(10000, 20000)
         submit = pd.DataFrame(submit, a)
-        submit.to_csv("./dacon/comp1/submit/submit_XGB_RG_mean_%i_%.4f.csv"%(i, mae), header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
+        submit.to_csv("./dacon/comp1/submit/0624/submit_XGB_RG_mean_0624_%i_%.4f.csv"%(i, mae), 
+                       header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
 

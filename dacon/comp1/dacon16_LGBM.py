@@ -104,9 +104,9 @@ for i in range(len(model.estimators_)) :
 
         # search = RandomizedSearchCV(LGBMRegressor(), parameters, cv = 5, n_jobs = -1)
 
-        lgbm = MultiOutputRegressor(LGBMRegressor(max_depth = 8, learning_rate = 0.09, boosting_type='dart', 
+        lgbm = MultiOutputRegressor(LGBMRegressor(max_depth = 8, learning_rate = 0.05, boosting_type='dart', 
                              bagging_fraction = 0.01, feature_fraction = 0.8, 
-                             n_estimators = 1000, max_bin = 100, num_leaves = 32))
+                             n_estimators = 1000, max_bin = 300, num_leaves = 100, n_jobs = -1))
 
 
         lgbm.fit(select_x_train, y_train)
@@ -124,5 +124,5 @@ for i in range(len(model.estimators_)) :
 
         a = np.arange(10000, 20000)
         submit = pd.DataFrame(submit, a)
-        submit.to_csv("./dacon/comp1/submit/0623/submit_LGBM_%i_%.4f.csv"%(i, mae), header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
+        submit.to_csv("./dacon/comp1/submit/0624/submit_LGBM_0624_%i_%.4f.csv"%(i, mae), header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
 
