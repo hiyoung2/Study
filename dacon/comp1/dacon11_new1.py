@@ -34,9 +34,9 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 # 2. 모델 구성
 
-n_estimators = 150
-learning_rate = 0.09
-colsample_bytree = 0.9
+n_estimators = 5000
+learning_rate = 0.01
+colsample_bytree = 0.6
 colsample_bylevel = 0.6
 max_depth = 8
 n_jobs = -1
@@ -75,5 +75,6 @@ submit = model.predict(x_pred)
 
 a = np.arange(10000, 20000)
 submit = pd.DataFrame(submit, a)
-submit.to_csv("./dacon/comp1/submit_new1_0623.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
+submit.to_csv("./dacon/comp1/submit/0624/submit_new1.csv", header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
+
 

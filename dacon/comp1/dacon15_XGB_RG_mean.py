@@ -104,8 +104,8 @@ for i in range(len(model.estimators_)) :
 
         # search = RandomizedSearchCV(XGBRegressor(), parameters, cv = 5, n_jobs = -1)
 
-        search = XGBRegressor(n_estimators = 500, learning_rate = 0.09, colsample_bytree = 0.7,
-                             colsample_bylevel = 0.7, max_depth = 5, rate_drop = 0.3, booster = 'dart', cv = 5, n_jobs = -1)
+        search = XGBRegressor(n_estimators = 1000, learning_rate = 0.03, colsample_bytree = 0.7,
+                             colsample_bylevel = 0.7, max_depth = 9, rate_drop = 0.3, booster = 'dart', cv = 5, n_jobs = -1)
 
 
 
@@ -125,6 +125,6 @@ for i in range(len(model.estimators_)) :
 
         a = np.arange(10000, 20000)
         submit = pd.DataFrame(submit, a)
-        submit.to_csv("./dacon/comp1/submit/0624/submit_XGB_RG_mean_0624_%i_%.4f.csv"%(i, mae), 
+        submit.to_csv("./dacon/comp1/submit/0625/submit_XGB_RG_mean_0625_%i_%.4f.csv"%(i, mae), 
                        header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
 
