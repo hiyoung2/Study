@@ -82,11 +82,29 @@ model.fit(x_train, y_train)
 print(model.estimators_)
 print(len(model.estimators_))
 
+threshold_0 = np.sort(model.estimators_[0].feature_importances_)
+threshold_1 = np.sort(model.estimators_[1].feature_importances_)
+threshold_2 = np.sort(model.estimators_[2].feature_importances_)
+threshold_3 = np.sort(model.estimators_[3].feature_importances_)
 
 
-for i in range(len(model.estimators_)) :
-    threshold = np.sort(model.estimators_[i].feature_importances_)
+print(threshold_0)
+print(threshold_1)
+print(threshold_2)
+print(threshold_3)
 
+'''
+# for i in range(len(model.estimators_)) :
+#     threshold = np.sort(model.estimators_[i].feature_importances_)
+
+#     print(threshold)
+    # print('threshold[0] :', threshold[0])
+    # print('threshold[1] :', threshold[1])
+    # print('threshold[2] :', threshold[2])
+    # print('threshold[3] :', threshold[3])
+
+
+  
     for thresh in threshold :
 
         selection = SelectFromModel(model.estimators_[i], threshold = thresh, prefit = True)
@@ -126,3 +144,4 @@ for i in range(len(model.estimators_)) :
         submit = pd.DataFrame(submit, a)
         submit.to_csv("./dacon/comp1/submit/0624/submit_LGBM_0624_%i_%.4f.csv"%(i, mae), header = ["hhb", "hbo2", "ca", "na"], index = True, index_label = "id")
 
+'''

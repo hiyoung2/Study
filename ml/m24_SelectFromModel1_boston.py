@@ -14,6 +14,9 @@ y = boston.target
 # 다음과 같이 사용할 수도 있음
 # x, y = load_boston(return_X_y=True)
 
+
+print(x.shape)
+
 x_train, x_test, y_train, y_test = train_test_split(
     x, y, test_size = 0.2, shuffle = True, random_state = 66
 )
@@ -39,6 +42,17 @@ print("========================================")
 thresholds = np.sort(model.feature_importances_)
 print(thresholds)
 
+print(thresholds[0])
+
+print(thresholds[1])
+'''
+[0.00147002 0.002122   0.01030838 0.01359816 0.01406215 0.01578945
+ 0.02395118 0.03757173 0.04304007 0.05863219 0.1643363  0.30411017
+ 0.31100816]
+'''
+
+
+'''
 for thresh in thresholds: # 컬럼 수만큼 돈다! 빙글 빙글
                
     selection = SelectFromModel(model, threshold = thresh, prefit = True)
@@ -67,6 +81,8 @@ for thresh in thresholds: # 컬럼 수만큼 돈다! 빙글 빙글
 
     print("Thersh=%.3f, n = %d, R2: %.2f%%" %(thresh, select_x_train.shape[1],
           score*100.0))
+
+'''
 
 '''
 Thersh=0.001, n = 13, R2: 93.12%
