@@ -42,17 +42,10 @@ print("========================================")
 thresholds = np.sort(model.feature_importances_)
 print(thresholds)
 
-print(thresholds[0])
+# [0.00147002 0.002122   0.01030838 0.01359816 0.01406215 0.01578945
+#  0.02395118 0.03757173 0.04304007 0.05863219 0.1643363  0.30411017
+#  0.31100816]
 
-print(thresholds[1])
-'''
-[0.00147002 0.002122   0.01030838 0.01359816 0.01406215 0.01578945
- 0.02395118 0.03757173 0.04304007 0.05863219 0.1643363  0.30411017
- 0.31100816]
-'''
-
-
-'''
 for thresh in thresholds: # 컬럼 수만큼 돈다! 빙글 빙글
                
     selection = SelectFromModel(model, threshold = thresh, prefit = True)
@@ -81,25 +74,6 @@ for thresh in thresholds: # 컬럼 수만큼 돈다! 빙글 빙글
 
     print("Thersh=%.3f, n = %d, R2: %.2f%%" %(thresh, select_x_train.shape[1],
           score*100.0))
-
-'''
-
-'''
-Thersh=0.001, n = 13, R2: 93.12%
-Thersh=0.004, n = 12, R2: 92.61%
-Thersh=0.012, n = 11, R2: 93.46%
-Thersh=0.012, n = 10, R2: 93.26%
-Thersh=0.014, n = 9, R2: 90.38%
-Thersh=0.015, n = 8, R2: 93.85%
-Thersh=0.018, n = 7, R2: 92.60%
-Thersh=0.030, n = 6, R2: 91.03%
-Thersh=0.042, n = 5, R2: 91.80%
-Thersh=0.052, n = 4, R2: 91.37%
-Thersh=0.069, n = 3, R2: 91.75%
-Thersh=0.301, n = 2, R2: 82.52%
-Thersh=0.428, n = 1, R2: 70.59%
-'''
-
 
 # 과제
 # 그리드 서치까지 엮어라

@@ -121,7 +121,8 @@ for size in np.arange(0.91,0.911,0.01):
     thresholds_1 = np.sort(xgb_1.feature_importances_)
     thresholds_2 = np.sort(xgb_2.feature_importances_)
     thresholds_3 = np.sort(xgb_3.feature_importances_)
-        
+
+       
     selection_0=SelectFromModel(xgb_0,threshold=thresholds_0[0],prefit=True)#median +  GridSearch까지 할 것.데이콘 적용해라.
     selection_1=SelectFromModel(xgb_1,threshold=thresholds_1[38],prefit=True)#median +  GridSearch까지 할 것.데이콘 적용해라.
     selection_2=SelectFromModel(xgb_2,threshold=thresholds_2[36],prefit=True)#median +  GridSearch까지 할 것.데이콘 적용해라.
