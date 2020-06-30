@@ -1,4 +1,5 @@
 # x 하나 , y 셋
+# input shape, output shape에 주의
 
 #1. 데이터 
 import numpy as np

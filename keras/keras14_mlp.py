@@ -11,7 +11,11 @@ x range(100) 은 0~99
 y range(100) 은 0~99 
 w=1, bias=0
 """
-
+# mlp : multi layer perceptron 
+# 가장 기본적인 형태의 인공신경망(Artificial Neural Networks) 구조이며
+# 하나의 입력층(input layer)
+# 하나 이상의 은닉층(hidden layer)
+# 그리고 하나의 출력층(output layer)로 구성된다
 
 #1. 데이터 
 import numpy as np
@@ -22,19 +26,14 @@ y = np.array([range(101,201), range(711,811), range(100)])
 print(x)
 print("x.shape : ", x.shape) # (3, 100)
 
-
-
-
 x = np.transpose(x) # 행과 열을 바꿔주는 함수 : transpos, 바꾸고 다시 x에 집어넣어줌
 y = np.transpose(y)
 
 print("x_trans : ", x)
 
 print("x_trans.shape : ", x.shape) # (100, 3)
+
 # data preprocssing
-
-
-
 from sklearn.model_selection import train_test_split    
 x_train, x_test, y_train, y_test = train_test_split(    
     # x, y, random_state=66, shuffle=True,
@@ -105,8 +104,6 @@ print("RMSE : ", RMSE(y_test, y_predict))
 from sklearn.metrics import r2_score
 r2 = r2_score(y_test, y_predict)  
 print("R2 : ", r2)
-
-
 
 
 

@@ -45,7 +45,7 @@ model.fit(x_train, y_train, epochs=10, batch_size=1,
          validation_split = 0.25, verbose=0) 
          
           # verbose : 얼마나 자세하게 정보를 표시할 것인가를 지정한다. 0, 1, 2, 3의 값을 넣을 수 있다
-          # verbose = 0
+          # verbose = 0 # 아무것도 안 보여줌
           # verbose = 1
           # verbose = 2
           # verbose = 3

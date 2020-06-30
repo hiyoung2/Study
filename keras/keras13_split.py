@@ -48,6 +48,7 @@ model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 model.fit(x_train, y_train, epochs=500, batch_size=1,
         #validation_data=(x_val, y_val)
          validation_split = 0.3)  # train set의 0.n(n0%)
+         # fit 과정에서 validation 으로 쓸 데이터를 정할 수 있다(비율로)
 
 print(x_train)
 # print(x_val)
