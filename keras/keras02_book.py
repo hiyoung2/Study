@@ -108,7 +108,7 @@ print("결과물 : \n", output)
 #   예를 들어 overfitting(과적합) 등을 막을 수 있다
 #   ex) training accuracy는 높은데 validation accuracy는 낮다면 data가 training set에서 overfitting이 일어났을 가능성 생각 해 볼 수 있음
 #   그렇다면, overfitting을 막아서 training accuracy를 희생하더라도 validation accuracy와 training accuracy를 비슷하게 맞춰줄 필요가 있다
-#   Deep Learning model을 구축한다면 regularization 과정 또는 epochs를 줄이는 등의 방식으로 overfitting을 막을 수 있음 
+#   Deep Learning model을 구축한다면 "regularization" 과정 또는 epochs를 줄이는 등의 방식으로 overfitting을 막을 수 있음 
 
 # 이 때 train data로 training 과정을 진행
 # 그리고 training 과정에서 중간 중간 평가하는 것을 validation data가 해 준다
@@ -119,5 +119,3 @@ print("결과물 : \n", output)
 # 이 때 사용하는 것이 test data(unseen data)
 # 즉, test data는 model을 평가할 때 단 1번만 사용되며, 최종적으로 model의 평가 지표가 된다
 
-# 보통, x_train, y_train : train data
-# x_test, y_test : validation data

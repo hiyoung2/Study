@@ -31,7 +31,7 @@ model.fit(x_train, y_train, epochs=100, batch_size=1)
 #4. 평가, 예측
 loss, mse = model.evaluate(x_test, y_test, batch_size=1) 
 print("loss : ", loss)
-print(r"mse : ", mse)
+print("mse : ", mse)
 
 y_predict = model.predict(x_test)
 print(y_predict)
@@ -104,3 +104,20 @@ print("R2 : ", r2)
 # 100, 1
 # RMSE :  1.2503148337345553
 # R2 :  0.2183564082716657
+
+
+'''
+# R2 0.5 이하로 만들기
+
+model.add(Dense(4444, input_dim = 1))                                            
+model.add(Dense(4444))  
+model.add(Dense(4444))  
+model.add(Dense(4444))  
+model.add(Dense(4444))  
+model.add(Dense(1))   
+
+model.fit(x_train, y_train, epochs=100, batch_size=1)  
+
+RMSE :  1.1401741671897474
+R2 :  0.35000143423658303
+'''

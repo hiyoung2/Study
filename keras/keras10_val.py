@@ -5,12 +5,13 @@ y_train = np.array([1,2,3,4,5,6,7,8,9,10])
 x_test = np.array([11,12,13,14,15])
 y_test = np.array([11,12,13,14,15])
 # x_pred = np.array([16,17,18]) 
-x_val = np.array([101, 102 ,103 ,104 ,105]) # x validation에 101 102 ... 105가 들어가 있다, 로만 이해
-y_val = np.array([101, 102 ,103 ,104 ,105])
+x_val = np.array([101, 102, 103, 104, 105]) # x validation에 101 102 ... 105가 들어가 있다, 로만 이해
+y_val = np.array([101, 102, 103, 104, 105])
 
 #2. 모델구성                      
 from keras.models import Sequential
 from keras.layers import Dense
+
 model = Sequential()    
 
 model.add(Dense(5, input_dim = 1))                                            

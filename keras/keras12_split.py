@@ -1,14 +1,21 @@
+# train_test_split 모듈을 통해 validation dataset 만들어줌
+
 #1. 데이터 
 import numpy as np
 x = np.array(range(1,101))
 y = np.array(range(101,201))  # x값, y값 준비 / w = 1, bias = 100임을 알 수 있음 (y = wx + b)
 
+
+# scikit-learn의 model_selection 패키지의 train_test_split 모듈을 import
+# shuffle의 default : True
 from sklearn.model_selection import train_test_split    
 x_train, x_test, y_train, y_test = train_test_split(    
     x, y, random_state=66, shuffle=True,
     # x, y, shuffle=False,
     train_size=0.8
 )   
+
+# test datset에서 validation dataset 선정
 x_val, x_test, y_val, y_test = train_test_split(    
     x_test, y_test, random_state=66,
     # x_test, y_test, shuffle=False,
@@ -54,6 +61,10 @@ print("mse : ", mse)
 
 y_predict = model.predict(x_test)
 print(y_predict)
+
+# 실젯값과 예측값 사이의 오차 정도를 확인 할 수 있는 지표들
+# RMSE, R2 
+# y_test : 실젯값, y_predict : 예측값(모델에 넣어서 나온 결과)
 
 # RMSE 구하기
 from sklearn.metrics import mean_squared_error 

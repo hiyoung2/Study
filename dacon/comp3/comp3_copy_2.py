@@ -59,18 +59,25 @@ import pandas as pd
 # Y_data = []
 
 X_data = np.loadtxt('./data/dacon/comp3/train_features.csv',skiprows=1,delimiter=',')
-X_data = X_data[:,1:]
-print(X_data.shape)
+# np.loadtxt : loadtxt는 csv, txt 파일 등을 읽기 위한 함수
+# - np.loadtxt 는 ("파일경로", 파일ㄹ에서 사용한 구분자, 데이터타임 지정) 등을 이용해 파일을 일거와
+# - X_data 라는 변수에 array로 넣어준다
+# delimiter : 구분기호 (padnas : sep과 같음)
+# skiprows : 특정 행 제거 
+# usecols : 특정 컬럼 사용
+X_data = X_data[:,1:] # id column은 제외하고 나머지 time, s1 ~ s4 데이터를 X_data로 사용
+print("X_data.shape :", X_data.shape) # (1050000, 5) 
      
     
 Y_data = np.loadtxt('./data/dacon/comp3/train_target.csv',skiprows=1,delimiter=',')
-Y_data = Y_data[:,1:]
-print(Y_data.shape)
+Y_data = Y_data[:,1:] # id column 제외
+print("Y_data.shape :", Y_data.shape) # (2800, 4)
 
-X_data = X_data.reshape((2800,375,5,1))
-print(X_data.shape)
+X_data = X_data.reshape((2800,375,5,1)) # Conv2D 사용하기 위해 reshape, 한 아이디당 375개씩 있으므로 375, 5, 1로 reshape
+print("X_data.reshape :", X_data.shape) # (2800, 375, 5, 1)
 
 X_data_test = np.loadtxt('./data/dacon/comp3/test_features.csv',skiprows=1,delimiter=',')
+# 최종 예측에 사용할 데이터 준비, 역시 슬라이싱과 reshape 을 해 준다
 X_data_test = X_data_test[:,1:]
 X_data_test = X_data_test.reshape((700,375,5,1))
 
@@ -78,11 +85,12 @@ data_id = 2
 
 plt.figure(figsize=(8,6))
 
-
-plt.plot(X_data[data_id,:,0,0], label="Sensor #1")
-plt.plot(X_data[data_id,:,1,0], label="Sensor #2")
-plt.plot(X_data[data_id,:,2,0], label="Sensor #3")
-plt.plot(X_data[data_id,:,3,0], label="Sensor #4")
+# X_data[data_id, :, 0, 0] -> 세 번째에 0 이 오면 time에 대한 그래프 아닌가?
+# 1로 바꿔주고 나머지 2, 3, 4 해야 s1 ~ s4 그래프 같은데
+plt.plot(X_data[data_id,:,1,0], label="Sensor #1")
+plt.plot(X_data[data_id,:,2,0], label="Sensor #2")
+plt.plot(X_data[data_id,:,3,0], label="Sensor #3")
+plt.plot(X_data[data_id,:,4,0], label="Sensor #4")
 
 plt.xlabel("Time", labelpad=10, size=20)
 plt.ylabel("Acceleration", labelpad=10, size=20)
@@ -96,13 +104,14 @@ plt.legend(loc=1)
 from sklearn.model_selection import train_test_split
 
 
-X_train, X_test, Y_train, Y_test = train_test_split(X_data, Y_data, test_size=0.01)
+X_train, X_test, Y_train, Y_test = train_test_split(X_data, Y_data, test_size=0.1)
 # X_train = X_data
 # Y_train = Y_data
-print(X_train.shape)
+print("X_train.shape :", X_train.shape)
 
 weight1 = np.array([1,1,0,0])
 weight2 = np.array([0,0,1,1])
+
 
 def my_loss(y_true, y_pred):
     divResult = Lambda(lambda x: x[0]/x[1])([(y_pred-y_true),(y_true+0.000001)])
@@ -183,8 +192,17 @@ def set_model(train_target):  # 0:x,y, 1:m, 2:v
 
 def train(model,X,Y):
     MODEL_SAVE_FOLDER_PATH = './model/'
-    if not os.path.exists(MODEL_SAVE_FOLDER_PATH):
-        os.mkdir(MODEL_SAVE_FOLDER_PATH)
+    if not os.path.exists(MODEL_SAVE_FOLDER_PATH): # os.path.exists : 폴더나 파일이 실제로 존재하는지 확인
+        os.mkdir(MODEL_SAVE_FOLDER_PATH) # os.mkdir : 파일 경로를 생성
+                                         # 현재 './model/'이 존재하므로 따로 생성하지 않음
+                                         # if not 이 쓰인 이유 : MODEL_SAVE_FOLDER_PATH가 존재하지 않는다면
+                                         # 디렉토리를 생성하라는 의미
+                                         # 원래는
+                                         # if os.path.exists(MODEL_SAVE_FOLDER_PATH) == true :
+                                         #     print(1)
+                                         # else :
+                                         #     os.mkdeir(MODEL_SAVE_FOLDER_PATH)
+                                         # 이런 식으로 쓰는 건데 if not을 통해서 코드 길이를 줄일 수 있다
 
     model_path = MODEL_SAVE_FOLDER_PATH + '{epoch:02d}-{val_loss:.4f}.hdf5'
     best_save = ModelCheckpoint('best_m.hdf5', save_best_only=True, monitor='val_loss', mode='min')
@@ -211,7 +229,7 @@ def train(model,X,Y):
     return model
 
 def plot_error(type_id,pred,true):
-    print(pred.shape)
+    print("pred.shape :", pred.shape)
 
     if type_id == 0:
         _name = 'x_pos'
@@ -249,9 +267,9 @@ def plot_error(type_id,pred,true):
 
     # plt.show()
     
-    print(np.std(Err_m))
-    print(np.max(Err_m))
-    print(np.min(Err_m))
+    print("std :", np.std(Err_m))
+    print("max :", np.max(Err_m))
+    print("min :", np.min(Err_m))
     return Err_m
 
 #  plot_error(type_id,pred,true):
@@ -273,8 +291,8 @@ def load_best_model(train_target):
     print('정답(original):', Y_data[i])
     print('예측값(original):', pred[i])
 
-    print(E1(pred, Y_data))
-    print(E2(pred, Y_data))
+    print("E1 :", E1(pred, Y_data))
+    print("E2 :", E2(pred, Y_data))
     # print(E2M(pred, Y_data))
     # print(E2V(pred, Y_data))    
     
@@ -308,4 +326,4 @@ for train_target in range(3):
     elif train_target == 2: # v 학습
         submit.iloc[:,4] = pred_data_test[:,3]
 
-submit.to_csv('./dacon/comp3/submission/0629/comp3_submit_0629.csv', index = False)
+submit.to_csv('./dacon/comp3/submission/0630/comp3_submit_0630.csv', index = False)

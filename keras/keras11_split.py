@@ -1,10 +1,12 @@
+# validation data를 따로 준비
+
 #1. 데이터 
 import numpy as np
 x = np.array(range(1,101))
 y = np.array(range(101,201))  # x값, y값 준비 / w = 1, bias = 100임을 알 수 있음 (y = wx + b)
 
 x_train = x[:60]        # : 앞에 아무 것도 없음 : 처음부터 1 ~ 59
-x_val = x[60:80]
+x_val = x[60:80]        # 60 ~ 79
 x_test = x[80:]         # : 뒤에 아무 것도 없음 : 끝까지
 
 y_train = x[:60]        

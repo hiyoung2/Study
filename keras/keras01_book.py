@@ -1,8 +1,11 @@
 import numpy as np  # data를 넣기 위한 배열로 numpy 사용
 #
 #  데이터 생성
-x = np.array([1,2,3,4,5,6,7,8,9,10])    
-y = np.array([1,2,3,4,5,6,7,8,9,10])
+x = np.array([1,2,3,4,5,6,7,8,9,10]) # (10, ) Vector
+y = np.array([1,2,3,4,5,6,7,8,9,10]) # (10, ) Vector
+
+print("x.shape :", x.shape)
+print("y.shape :", y.shape)
 
 # 컴퓨터에 1 입력 1 출력, 2 입력 2 출력, ... 10 입력 10 출력되는 구조 
 # 머신러닝에서는 보통 '트레이닝(training)' 시킨다고 함
@@ -13,7 +16,7 @@ from keras.layers import Dense
 
 # 딥러닝 모델의 완성
 model = Sequential()                                    # 딥러닝 모델을 순차적으로 구성하겠다는 뜻
-model.add(Dense(1, input_dim=1, activation='relu'))     # 순차적 구성 모델에 Dense 레이어(layer)를 추가하겠다는 의미
+model.add(Dense(1, input_dim = 1, activation ='relu'))  # 순차적 구성 모델에 Dense 레이어(layer)를 추가하겠다는 의미
                                                         # dim = dimension (차원), dim=1 : 1차원
                                                         # if, 삼성전자 주가 예측시에는 주가 data, 환율 등 여러가지 input data가 존재
                                                         # 5가지 종류의 data가 있다면 이 때는 input_dim=5 가 됨
@@ -60,8 +63,6 @@ loss, acc = model.evaluate(x, y, batch_size=1)
 print("loss : ", loss)
 print("acc : ", acc)
 
-
-
 # 위와 같은 구조를 수학식으로 풀면 y = ax + b, 1차 함수형식임
 # y = wx + b
 # h(x) = wx + b
@@ -74,5 +75,3 @@ print("acc : ", acc)
 # 비용인 Cost값은 낮을수록 좋음
 # 이후 정확한 값이 예측되었는지 확인하기 위해 'accuracy'와 'predict'를 사용
 # 딥러닝은 결국 1차 함수라는 사실을 명심
-
-

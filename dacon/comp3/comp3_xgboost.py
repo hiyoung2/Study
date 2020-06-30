@@ -144,10 +144,10 @@ select_1 = SelectFromModel(xgb_1, threshold=thresholds_1[2], prefit = True)
 select_2 = SelectFromModel(xgb_2, threshold=thresholds_2[5], prefit = True)
 select_3 = SelectFromModel(xgb_3, threshold=thresholds_3[10], prefit = True)
 
-select_xgb_0 = XGBRegressor(n_estimators = 200, learning_rate = 0.09, max_depth = 7)
-select_xgb_1 = XGBRegressor(n_estimators = 200, learning_rate = 0.09, max_depth = 7)
-select_xgb_2 = XGBRegressor(n_estimators = 200, learning_rate = 0.09, max_depth = 7)
-select_xgb_3 = XGBRegressor(n_estimators = 200, learning_rate = 0.09, max_depth = 7)
+select_xgb_0 = XGBRegressor(n_estimators = 100, learning_rate = 0.03, max_depth = 4)
+select_xgb_1 = XGBRegressor(n_estimators = 200, learning_rate = 0.05, max_depth = 5)
+select_xgb_2 = XGBRegressor(n_estimators = 300, learning_rate = 0.07, max_depth = 6)
+select_xgb_3 = XGBRegressor(n_estimators = 400, learning_rate = 0.09, max_depth = 7)
 
 parameters = {}
 
@@ -249,5 +249,5 @@ print("predict.shape :", predict.shape)
 
 
 submission = pd.DataFrame(predict, np.arange(2800, 3500))
-submission.to_csv(f"./dacon/comp3/submission/0629/submission_h_xgb_{mae_result}.csv", header = ["X", "Y", "M", "V"], index = True, index_label = "id")
+submission.to_csv(f"./dacon/comp3/submission/0630/submission_h_xgb_{mae_result}.csv", header = ["X", "Y", "M", "V"], index = True, index_label = "id")
 
