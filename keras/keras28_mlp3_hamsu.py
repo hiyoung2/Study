@@ -4,7 +4,7 @@
 #1. 데이터 
 import numpy as np                                                      # numpy를 import하고 앞으로 np라고 부르겠다
 
-x = np.array(range(1,101))                                              # x는 column 1(sahpe(1, 1)) data (1~100)
+x = np.array(range(1,101))                                              # x는 column 1
 y = np.array([range(101,201), range(711,811), range(100)])              # y는 column 3  
 
 x = np.transpose(x)                                                     # 행과 열을 바꿔주는 함수 : transpos, 바꾸고 다시 x에 집어넣어줌
@@ -21,15 +21,24 @@ x_train, x_test, y_train, y_test = train_test_split(                    # x와 y
 print(x_test)                                                           # transpose 거치고 train_test_split를 거친 x_test data 확인 
 print(y_test)
 
-print(x_train.shape)                                                    # transpose 거치고 train_test_split를 거친 x_test의 행렬상태(구조, 모양) 확인
-print(y_test.shape)
+# transpose 거치고 train_test_split를 거친 x_test의 행렬상태(구조, 모양) 확인
+print("x_train.shape :", x_train.shape)                                                    
+print("y_test.shape :", y_test.shape)
 
 #2. 모델구성                      
 
-from keras.models import Model                                          # 함수형 모델로 만들기 : keras에서 models, Model을 부른다 (Sequential은 없어도 됨)
-from keras.layers import Dense, Input                                   # keras에서 layers는 Dense와 Input을 불러와서 쓰겠다
+from keras.models import Model                                          # 함수형 모델로 만들기 : keras에서 제공하는 models package의 Model module을 import
+from keras.layers import Dense, Input                                   # keras에서 layers package의 Dense와 Input module을 불러와서 쓰겠다
 
-input1 = Input(shape=(1, ))                                             # 현재 모델, input은 1. 함수형에서는 input_dim = 1 (X), Input(shpe=(n, ) 꼭 이렇게! 
+# from 없이 바로 import 하는 경우들은 파이썬 자체에서 제공하는 것!
+# 예를 들면 numpy (import numpy as np) 
+# 참고로 as를 사용하면 이름이 긴 함수, 모듈 등을 간단하게 적을 수 있다
+# train_test_split as tts 이런 식으로
+
+input1 = Input(shape=(1, ))                                             # 현재 모델, input은 1. 
+                                                                        # 함수형에서는 input_dim = 1 (X, 이렇게 쓸 수 없다!!!) 
+                                                                        # >>>>>>Input(shpe=(n, ) 꼭 이렇게!<<<<<<<<<<<
+
                                                                         # (열만 적어준다 생각하면 쉽다, 엄밀히 말하자면 틀린 말, 추후에 이해하게 될 듯?)
                                                                         # input1은 그냥 변수로서 임의대로 이름 설정해도 되지만 통상적으로 알아먹기 쉽게 input1로 설정
 dense1_1 = Dense(6, activation = 'relu', name = 'dense1_1')(input1)     # input을 지나 첫 번째 hidden layer, dense1_1
@@ -51,19 +60,23 @@ model = Model(inputs = input1, outputs = output1_4)                     # 함수
                                                                         # 우리는 inputs은 input1, outputs은 ouput1_4인 함수형모델(Model)을 만들었고 model 이라는 이름을 사용하겠다!
                                                                         # x와 y 데이터가 각각 하나씩이므로 input과 ouput이 하나씩이다
                                                                         # inputs, outputs 이렇게 -s를 붙이는 건 아마 여러 개의 input, output이 들어가는 경우도 있기 때문인가?
+                                                                        # 2020.07.01 지금 보니 그냥 문법인 것 같다
+
                                                                         # Sequential은 이와 반대로 가장 처음에 명시한다 / model = Sequential() 요렇게
 
 model.summary()                                                         # summary : 정리, 요약 / 현재까지 만든 model 구조를 보여준다    
 
 # 3. 훈련                                                               # 모델을 만들었으니 이제 훈련할 차례. training!
-model.compile(loss='mse', optimizer='adam', metrics=['mse'])            # 모델을 compile한다(machine이 이해할 수 있도록 해 주는 것, 컴파일)
+model.compile(loss='mse', optimizer='adam', metrics=['mse'])            # 모델을 compile한다(machine이 이해할 수 있도록 해 주는 것을 컴파일이라고 한다!)
                                                                         # loss, 손실 함수로는 mse(평균제곱법), optimizer, 최적화함수는 adam(가장 많이 씀, 결과 잘 나옴)으로 하겠다
-                                                                        # 훈련 과정을 mse로 보여주고 그것으로 판단하겠다             
+                                                                        # metrics(구글 번역 : 측정 항목) : 훈련 과정을 mse로 보여주고 그것으로 판단하겠다             
 from keras.callbacks import EarlyStopping                               # 케라스의 callbacks에서 EarlyStopping(학습 조기 종료)을 부르겠다
-early_stopping = EarlyStopping(monitor='loss', patience=100,            # early_stopping이라 하겠고, loss로 판단하고 loss가 100회 흔들리면(loss의 그래프 요동) 그 때 훈련을 멈추겠다(학습 종료)
+early_stopping = EarlyStopping(monitor='loss', patience=10,            # early_stopping이라 하겠고, loss로 판단하고 loss가 100회 흔들리면(loss의 그래프 요동) 그 때 훈련을 멈추겠다(학습 종료)
                                mode = 'auto')                           # mode는 auto, 보통 loss는 min, acc는 max로 설정하는데 헷갈리면 그냥 auto 해 주면 machine이 알아서 처리
                                                                         # 지금은 loss이므로 loss 값이 최솟값에서 요동치는 게 100번일 경우로 설정된 것 
-model.fit(x_train, y_train, epochs=100000, batch_size=1,                # model fit, 훈련시키겠다 / train 하는 데이터 x_train, y_train, 훈련횟수는 100000번, 1개씩 끊어서 작업
+
+
+model.fit(x_train, y_train, epochs=100, batch_size=1,                # model fit, 훈련시키겠다 / train 하는 데이터 x_train, y_train, 훈련횟수는 100000번, 1개씩 끊어서 작업
          validation_split = 0.25, verbose = 1,                          # train set 중 1/4은 validation set로 쓰겠다 (현재, train _size = 0.8이므로 validation은 20, 그러면 총 6:2:2 비율)    
          callbacks = [early_stopping])                                  # verbose = 1 정도의 훈련의 정보 알려주라
                                                                         # fit 안에 callbacks = [early_stopping] 사용. 당연하지. train(학습) 종료 시키려고 쓰는 거니까 train 과정에 써 줘야겠지.
@@ -77,13 +90,13 @@ y_predict = model.predict(x_test)                                       # x_test
 print(y_predict)
 
 # RMSE 구하기
-from sklearn.metrics import mean_squared_error                          # RMSE는 MSE에 ROOT 씌운 것인데, RMSE 함수는 없어서 일단 MSE를 스킷런에서 불러온다
+from sklearn.metrics import mean_squared_error                          # RMSE는 MSE에 ROOT 씌운 것인데, RMSE 함수는 없어서 일단 MSE를 사이킷런에서 불러온다
 def RMSE(y_test, y_predict):                                            # RMSE 함수를 정의 해 준다(def), 함수의 인자는 y_test(실젯값)과 y_predict(예측값)
     return np.sqrt(mean_squared_error(y_test, y_predict))               # RMSE함수의 반환값, np.sqrt는 루트를 씌워준다                                    
 print("RMSE : ", RMSE(y_test, y_predict))     
 
 # R2 구하기
-from sklearn.metrics import r2_score                                    # R2는 다행히 스킷런에서 제공. 스킷런 매트릭스에서 r2_score를 import
+from sklearn.metrics import r2_score                                    # R2는 다행히 사이킷런에서 제공. 스킷런 매트릭스에서 r2_score를 import
 r2 = r2_score(y_test, y_predict)                                        # r2에 사용될 실젯값과 예측값 넣어주기
 print("R2 : ", r2)
 

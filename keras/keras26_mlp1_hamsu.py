@@ -51,8 +51,12 @@ model.summary()
 #3. 훈련 
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 
-from keras.callbacks import EarlyStopping
+from keras.callbacks import EarlyStopping # keras에서 제공하는 callbakcs 패키지의 EarlyStopping 모듈을 import!
 early_stopping = EarlyStopping(monitor='loss', patience=10, mode = 'auto') 
+
+# 'loss'로 monitor, 관찰하겠다
+# 10번 흔들리면 조기종료시키겠다
+# mode는 니가 알아서 해 달라 , auto
 
 model.fit(x_train, y_train, epochs=1000, batch_size=32,
            validation_split = 0.2, verbose = 1,
@@ -72,6 +76,7 @@ from sklearn.metrics import mean_squared_error
 def RMSE(y_test, y_predict):                   
     return np.sqrt(mean_squared_error(y_test, y_predict))                                          
 print("RMSE : ", RMSE(y_test, y_predict))     
+
 
 # R2 구하기
 from sklearn.metrics import r2_score

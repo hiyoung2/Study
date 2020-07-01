@@ -8,11 +8,11 @@ from keras.layers import Dense, LSTM
 x = array([[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5 ,6]])     
 y = array([4, 5, 6, 7])                                    
 
-print("x.shape : ", x.shape)
-print("y.shape : ", y.shape)                               
+print("x.shape : ", x.shape) # x.shape :  (4, 3)
+print("y.shape : ", y.shape) # y.shape :  (4,)                              
 
 x = x.reshape(x.shape[0], x.shape[1], 1)                    
-print("x.shape(reshape) : ", x.shape)  
+print("x.shape(reshape) : ", x.shape) # x.shape(reshape) :  (4, 3, 1)
 
 '''
 x의 shape = (batch_size, timesteps, feature) : 배치사이즈, 타임스텝스, 특성
@@ -116,11 +116,13 @@ model.summary()
 model.compile(optimizer = 'adam', loss = 'mse')             
 
 from keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor = 'loss', patience = 100, mode = 'min')      
+early_stopping = EarlyStopping(monitor = 'loss', patience = 10, mode = 'min')      
 
-model.fit(x, y, epochs = 100000, callbacks = [early_stopping], verbose = 1)
+model.fit(x, y, epochs = 100, callbacks = [early_stopping], verbose = 1)
 
-x_predict = array([5, 6, 7])                                
+x_predict = array([5, 6, 7]) 
+# LSTM 모델로 테스트하려면 x_predict도 그에 맞게 reshape 해 줘야 한다
+print("x_predict.shape :", x_predict.shape)# x_predict.shape : (3,)                               
 x_predict = x_predict.reshape(1,3,1)                            
 
 #4 4. 예측

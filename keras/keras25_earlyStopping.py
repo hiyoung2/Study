@@ -75,7 +75,7 @@ early_stopping = EarlyStopping(monitor='loss', patience=100, mode = 'auto')
 
                                                          # patience 선생님 개그 몇 번 견딜 수 있는가
                                                          # monitor = 'loss' : loss값 보겠다, loss값 기준으로!
-                                                         # pateince = loss가 10번 이상 흔들리면 적용시키겠다!(epochs)
+                                                         # pateince = loss가 patience만큼 흔들리면 es적용시키겠다! = '조기 종료'하겠다(epochs)
                                                          # mode = 'min' : 최솟값에서 튕기는 게 10번이상일 경우에 earlystopping!
                                                          # monitor = 'acc' 일 경우엔 mode = 'max'로 잡아줘야 한다.(최댓값)
                                                          # min, max 헷갈린다 싶으면 mode = 'auto'로 자동설정 해주면 된다.
@@ -84,12 +84,15 @@ early_stopping = EarlyStopping(monitor='loss', patience=100, mode = 'auto')
                                                          # 따라서 patience보다 epochs 값을 많이 줘야함.
                                                          # 지금 우리 data에서 patience 10은 큰 편.
                                                          # early_stopping : 변수명(물론, 임의대로 지어주면 된다.)
+                                                         # es 라고 하면 간편한 듯(2020.07.01)
 model.fit([x1_train, x2_train], 
            y1_train, epochs=100000, batch_size=1,
            # validation_data=(x_val, y_val)
            validation_split = 0.3, verbose=1,
            callbacks=[early_stopping]) 
                                                          # callbacks는 기본 [] list로 들어가준다. (callbacks 여러 가지 많기 때문에, 추후 배울 예정)
+                                                         # 2020.0701 : callbacks
+                                                         # callback 안에 들어가는 객체들 : early stopping, modelcheckpoint, tensorboard histogram
        
 #4. 평가, 예측
 loss = model.evaluate([x1_test, x2_test], y1_test, batch_size = 1)

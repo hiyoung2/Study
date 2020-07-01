@@ -18,10 +18,10 @@ x_train, x_test, y_train, y_test = train_test_split(
 print(x_test)
 print(y_test)
 
-print(x_train.shape)
-print(y_test.shape)
+print("x_train.shape :", x_train.shape) # (80, 3)
+print("y_test.shape :", y_test.shape) # (20,)
 
-#2. 모델구성                      
+# 2. 모델구성                      
 
 from keras.models import Sequential, Model
 from keras.layers import Dense, Input
@@ -48,8 +48,8 @@ from keras.callbacks import EarlyStopping
 early_stopping = EarlyStopping(monitor='loss', patience=100, mode = 'auto') 
 
 model.fit(x_train, y_train, epochs=100000, batch_size=1,
-         validation_split = 0.3, verbose = 1,
-         callbacks=[early_stopping]) 
+                            validation_split = 0.3, verbose = 1,
+                            callbacks=[early_stopping]) 
 
 #4. 평가, 예측
 loss, mse = model.evaluate(x_test, y_test, batch_size=1) 

@@ -1,7 +1,7 @@
 # import numpy as np
 
-# y_test = 10
-# y_predict = 10
+# # y_test = 10
+# # y_predict = 10
 
 # from sklearn.metrics import mean_squared_error 
 # def RMSE(y_test, y_predict):                   
