@@ -29,25 +29,31 @@ print(type(dataset))
 x = dataset[:90, :4] 
 print(x)
 
-y = dataset[:90, 4:] # == [:, 4]
+y = dataset[:90, 4:] 
 print(y)
 
-print("x.shape : ", x.shape) # (6, 4)
-print("y.shape : ", y.shape) # (6, 1)
+print("x.shape : ", x.shape) # (90, 4)
+print("y.shape : ", y.shape) # (90, 1)
 
 
 x_predict = dataset[90:, :4]
 print(x_predict)
+print("x_predict.shape :", x_predict.shape) #(6, 4)
+
+
 
 # train, test 분리
 from sklearn.model_selection import train_test_split    
 x_train, x_test, y_train, y_test = train_test_split(    
     x, y, shuffle=True, train_size=0.8)
 
-print(x_train)
-print(x_test)
-print(y_train)
-print(y_test)
+print("x_train.shape :", x_train.shape)
+print("x_test.shape :", x_test.shape)
+print("y_train.shape :", y_train.shape)
+print("y_test.shape :", y_test.shape)
+
+
+
 
 #2. 모델 구성
 model = Sequential()
@@ -67,12 +73,12 @@ model.summary()
 
 # 3. 컴파일, 훈련
 from keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor = 'loss', patience = 100, mode = 'min')      
+early_stopping = EarlyStopping(monitor = 'loss', patience = 10, mode = 'min')      
 
 model.compile(optimizer = 'adam', loss = 'mse', metrics = ['mse'])             
 
 model.fit(x_train, y_train, 
-          epochs = 10000, callbacks = [early_stopping], batch_size = 1, verbose = 1,
+          epochs = 200, callbacks = [early_stopping], batch_size = 1, verbose = 1,
           validation_split = 0.2, shuffle = True)
 
 

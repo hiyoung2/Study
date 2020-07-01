@@ -1,5 +1,5 @@
 # keeras# 0525 day11
-'''
+
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
@@ -56,7 +56,7 @@ early_stopping = EarlyStopping(monitor = 'loss', patience = 100, mode = 'min')
 model.compile(optimizer = 'adam', loss = 'mse', metrics = ['acc'])             
 
 hist = model.fit(x, y, epochs = 100000, batch_size = 1, verbose = 1, 
-                callbacks = [early_stopping], validation_split = 0.3) # histo는 그냥 변수명 # fit에서  
+                callbacks = [early_stopping], validation_split = 0.3) # hist는 그냥 변수명 # fit에서  
 
 print(hist)                  # <keras.callbacks.callbacks.History object at 0x00000241424790C8> 가 출력됨
                              # hist 의 자료형만 출력된 것
@@ -91,9 +91,7 @@ plt.show()                   # matplotlib 실행! - 그래프 출력
 # plt라 줄여 쓰겠다
 # plot : x값과 y값을 씀
 # 그래프 결과 : 하강해서 뚝 떨어짐 (epoch = 10)
-'''
 
-'''
 loss, mse = model.evaluate(x, y)
 
 # 4. 평가, 예측
@@ -102,4 +100,3 @@ y_predict = model.predict(x)
 print('loss : ', loss)
 print('mse: ', mse)
 print('y_predict : ', y_predict)
-'''

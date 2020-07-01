@@ -1,6 +1,6 @@
 # tensorboard
 # 46번 카피
-'''
+
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
@@ -51,8 +51,8 @@ model.add(Dense(1, name = 'new_last'))
 
 # 3. 컴파일, 훈련
 from keras.callbacks import EarlyStopping, TensorBoard # TensorBoard 불러오기 완료
-# tb_hist = TensorBoard(log_dir='graph', histogram_freq=0,
-                    #   write_graph=True, write_images=True)
+tb_hist = TensorBoard(log_dir='graph', histogram_freq=0,
+                      write_graph=True, write_images=True)
 # tb_hist :  변수명
 
 
@@ -61,7 +61,8 @@ early_stopping = EarlyStopping(monitor = 'loss', patience = 10, mode = 'min')
 model.compile(optimizer = 'adam', loss = 'mse', metrics = ['acc'])             
 
 hist = model.fit(x, y, epochs = 100, batch_size = 1, verbose = 1, 
-                 callbacks = [early_stopping, tb_hist], validation_split = 0.3) # histo는 그냥 변수명 # fit에서  
+                 callbacks = [early_stopping, tb_hist], validation_split = 0.3) 
+                                             # hist는 그냥 변수명 # fit에서  
                                              # tb_hist 를 callbacks에 입력!(실행 가능해진다) 
                                              # 다음 그래프 폴더 만들고 
                                              # cmd창에서 d: 입력
@@ -92,7 +93,7 @@ import matplotlib.pyplot as plt
 # x가 아래에 y가 위에?  
 # plot은 여러개 가능!
 plt.plot(hist.history['loss'])           # loss를 그래프에 사용하겠다
-plt.plot(hist.history['val_loss'])     # validation 안 했기 때문에 error 발생
+plt.plot(hist.history['val_loss'])       # validation 안 했기 때문에 error 발생
 plt.plot(hist.history['acc'])
 plt.plot(hist.history['val_acc'])
 plt.title('loss & acc')      # 그래프 타이틀
@@ -108,9 +109,7 @@ plt.legend(['train loss', 'val loss', 'train acc', 'val acc']) # 위의 plot 값
 # plt라 줄여 쓰겠다
 # plot : x값과 y값을 씀
 # 그래프 결과 : 하강해서 뚝 떨어짐 (epoch = 10)
-'''
 
-'''
 loss, mse = model.evaluate(x, y)
 
 # 4. 평가, 예측
@@ -121,4 +120,3 @@ y_predict = model.predict(x)
 print('loss : ', loss)
 print('mse: ', mse)
 print('y_predict : ', y_predict)
-'''

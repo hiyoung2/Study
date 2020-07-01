@@ -41,7 +41,6 @@ model.add(Dense(1, activation = 'sigmoid'))             # activation 함수 전�
                                                         # 마지막 output 최종값 * sigmoid : 0 아니면 1의 결과가 나온다(sigmoid의 기능)
 model.summary()
 
-
 # 3. 컴파일, 훈련
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
 model.fit(x, y, epochs=350, batch_size=1) 
@@ -49,15 +48,14 @@ model.fit(x, y, epochs=350, batch_size=1)
 # rmsprop
 # loss='binary_crossentropy' 이진분류에서 loss는 이거 하나밖에 없음!!!!!!그냥 외우기
 
-
 # 4. 평가, 예측
 loss, acc = model.evaluate(x, y) # loss와 metrics에 집어 넣은 값으로 평가
 
 x_pred = np.array([1, 2, 3])
 y_pred = model.predict(x_pred)
 
-print("loss : ", loss)
-print("acc", acc)
+print("loss :", loss)
+print("acc :", acc)
 print(np.around((y_pred)))
 # print(y_pred)
 

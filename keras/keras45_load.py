@@ -49,8 +49,9 @@ model.add(Dense(1, name = 'new02'))   # 대신 이름이 중복되면 안 되므
                                       # 여기서 마음대로 레이어 추가하면서 다시 hyperparameter tuning을 해 줄 수 있다
 model.summary()
 
-# input 부분도 추가 가능하다 -> 알아봐야지
-# 저장, 불러오기로 다른 사람의 모델도 쓸 수 있다 하지만 그대로 쓸 수 없다 데이터가 다르기 때문에
+# 저장, 불러오기로 다른 사람의 모델도 쓸 수 있다 
+# 우승 모델 그대로 가져와서 쓰면 최고? no
+# 그대로 쓸 수 없다, 데이터가 다르기 때문에
 
 # 3. 컴파일, 훈련
 from keras.callbacks import EarlyStopping

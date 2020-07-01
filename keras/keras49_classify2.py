@@ -8,20 +8,26 @@ y = np.array([1, 2, 3, 4, 5, 1, 2, 3, 4, 5])
 
 print("x.shpae : ", x.shape) # (10, )
 print("y.shape : ", y.shape) # (10, )
-print(y.shape)
-
-
-
-# print(y)
-# print("y_shape : ", y.shape) 
+print("y :", y) # y : [1 2 3 4 5 1 2 3 4 5]
 
 y = y - 1
+print("y :", y) # y : [0 1 2 3 4 0 1 2 3 4]
 
 from keras.utils import np_utils
 y = np_utils.to_categorical(y)
 
 print(y)
-print(y.shape)
+# [[1. 0. 0. 0. 0.]
+#  [0. 1. 0. 0. 0.]
+#  [0. 0. 1. 0. 0.]
+#  [0. 0. 0. 1. 0.]
+#  [0. 0. 0. 0. 1.]
+#  [1. 0. 0. 0. 0.]
+#  [0. 1. 0. 0. 0.]
+#  [0. 0. 1. 0. 0.]
+#  [0. 0. 0. 1. 0.]
+#  [0. 0. 0. 0. 1.]]
+print("y.shape :", y.shape) # (10, 5)
 
 # 10, 6이 나옴,, 10, 5가 나와야함 앞에 왜 0이 나오고 0을 제거해라
 
@@ -36,7 +42,7 @@ print(y.shape)
 
 # one-hot 인코딩 : 다중분류 시 필수로 해야하는 것
 
-
+'''
 # 2. 모델 구성
 model = Sequential()
 model.add(Dense(100, input_dim = 1, activation = 'relu'))
@@ -99,3 +105,4 @@ print(np.argmax(y_pred, axis = 1)+1)
 # # y = y.reshape(-1, 1) # -1? : 제일 끝, 
 # == y = y.reshape(10, 1) # -1과 10 같음
 # 2차원으로 변형!
+'''
