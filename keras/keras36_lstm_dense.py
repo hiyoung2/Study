@@ -51,8 +51,6 @@ shape 함수로 와꾸를 잘 맞춰보자,,,
 '''
 
 #2. 모델 구성
-
-
 input1 = Input(shape = (3, ))   # 행 무시     
 dense1 = Dense(10, activation = 'relu')(input1)                             
 dense2 = Dense(20, activation = 'relu')(dense1)                               

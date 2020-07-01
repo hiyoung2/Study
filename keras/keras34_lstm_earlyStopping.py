@@ -1,6 +1,5 @@
 # day 10 0522
 
-
 # keras34_lstrm_earlystopping.py
 # 기존의 32lstm hamsu 파일 복붙, early_stopping 적용
 

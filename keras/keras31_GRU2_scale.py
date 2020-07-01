@@ -24,18 +24,17 @@ from keras.models import Sequential
 from keras.layers import Dense, GRU   
 
 model = Sequential()
-model.add(GRU(13, activation = 'relu', input_length=3 , input_dim =1))               
-model.add(Dense(15))
-model.add(Dense(17))
-model.add(Dense(19))
-model.add(Dense(18))
+model.add(GRU(8, activation = 'relu', input_length=3 , input_dim =1))               
 model.add(Dense(16))
-model.add(Dense(12))
-model.add(Dense(10))
+model.add(Dense(32))
+model.add(Dense(64))
+model.add(Dense(128))
+model.add(Dense(256))
+model.add(Dense(128))
+model.add(Dense(64))
+model.add(Dense(32))
+model.add(Dense(16))
 model.add(Dense(8))
-model.add(Dense(6))
-model.add(Dense(4))
-model.add(Dense(2))
 model.add(Dense(1))
 
 model.summary()
@@ -56,3 +55,25 @@ print(x_predict)
 y_predict = model.predict(x_predict)
 print(y_predict)                                             
 
+
+
+'''
+model.add(GRU(13, activation = 'relu', input_length=3 , input_dim =1))               
+model.add(Dense(15))
+model.add(Dense(17))
+model.add(Dense(19))
+model.add(Dense(18))
+model.add(Dense(16))
+model.add(Dense(12))
+model.add(Dense(10))
+model.add(Dense(8))
+model.add(Dense(6))
+model.add(Dense(4))
+model.add(Dense(2))
+model.add(Dense(1))
+
+patience=100
+epochs = 100000
+# [[80.16886]]
+
+'''

@@ -75,16 +75,19 @@ print("x.reshape : ", x.shape) # (6, 4, 1)
 
 #2. 모델 구성
 model = Sequential()
-model.add(LSTM(10, activation = 'relu', input_shape=(4,1)) ) # LSTM은 3차원, input_sahpe 3차원에 맞춰서! 앞에 행 자리는 무시된 거라고 보면 된다
-model.add(Dense(5))
-model.add(Dense(7))
-model.add(Dense(10))
-model.add(Dense(11))
-model.add(Dense(13))
-model.add(Dense(11))
-model.add(Dense(7))
-model.add(Dense(5))
-model.add(Dense(3))
+model.add(LSTM(8, activation = 'relu', input_shape=(4,1)) ) # LSTM은 3차원, input_sahpe 3차원에 맞춰서! 앞에 행 자리는 무시된 거라고 보면 된다
+model.add(Dense(16))
+model.add(Dense(32))
+model.add(Dense(64))
+model.add(Dense(128))
+model.add(Dense(256))
+model.add(Dense(512))
+model.add(Dense(256))
+model.add(Dense(128))
+model.add(Dense(64))
+model.add(Dense(32))
+model.add(Dense(16))
+model.add(Dense(8))
 model.add(Dense(1))
 
 model.summary()
@@ -96,7 +99,8 @@ early_stopping = EarlyStopping(monitor = 'loss', patience = 100, mode = 'min')
 
 model.compile(optimizer = 'adam', loss = 'mse', metrics = ['mse'])             
 
-model.fit(x, y, epochs = 100000, callbacks = [early_stopping], batch_size = 1, verbose = 1)
+model.fit(x, y, epochs = 10000, callbacks = [early_stopping], batch_size = 1, verbose = 1)
+# model.fit(x, y, epochs = 100, batch_size = 1, verbose = 1)
 
 
 # 4. 평가, 예측

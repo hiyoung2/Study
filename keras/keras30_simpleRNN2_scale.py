@@ -22,8 +22,14 @@ x_predict = x_predict.reshape(1,3,1)
 
 #2. 모델 구성
 model = Sequential()
-model.add(SimpleRNN(5, activation = 'relu', input_length=3 , input_dim =1))               
-model.add(Dense(2))
+model.add(SimpleRNN(8, activation = 'relu', input_length=3 , input_dim =1))               
+model.add(Dense(16))
+model.add(Dense(32))
+model.add(Dense(64))
+model.add(Dense(128))
+model.add(Dense(64))
+model.add(Dense(32))
+model.add(Dense(16))
 model.add(Dense(1))
 model.summary()
 
@@ -37,3 +43,5 @@ model.fit(x, y, epochs = 100000, callbacks = [early_stopping], verbose = 1)
 print(x_predict)
 y_predict = model.predict(x_predict)
 print(y_predict)                                             
+
+# [[79.93646]]

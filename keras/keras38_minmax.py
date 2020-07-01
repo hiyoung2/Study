@@ -53,7 +53,7 @@ x_predict = x_predict.reshape(1,3,1)
 
 # 3차원 모델인 LSTM에 넣기 위해 다시 와꾸 맞춰줌 , fit 전에
 print("x.shape: ", x.shape)  # (14, 3, 1)
-print("x_predict.shape : ", x_predict.shape) # (1. 3. 1)
+print("x_predict.shape : ", x_predict.shape) # (1, 3, 1)
 
 
 

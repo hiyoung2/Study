@@ -44,7 +44,7 @@ model.summary()
 # 3. 실행
 model.compile(optimizer = 'adam', loss = 'mse')     
 
-model.fit(x, y, epochs = 10000,  batch_size = 1, verbose = 1)
+model.fit(x, y, epochs = 100,  batch_size = 1, verbose = 1)
                           
 
 #4 4. 예측
@@ -52,4 +52,4 @@ print(x_predict)
 
 y_predict = model.predict(x_predict)
 print(y_predict)                                             
-
+# [[84.72856]]

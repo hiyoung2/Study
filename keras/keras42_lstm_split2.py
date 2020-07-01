@@ -36,17 +36,20 @@ print(type(dataset))  # <class 'numpy.ndarray'>
 x = dataset[:90, :4]  # 인덱스는 0부터 시작! x train data 90개로 잘라야하므로 0~89 -> 90개!
 print(x)
 
-y = dataset[:90, 4]
+y = dataset[:90, -1]
 print(y)
 
-print("x.shape : ", x.shape) # (6, 4)
-print("y.shape : ", y.shape) # (6, 1)
+print("x.shape : ", x.shape) # (90, 4)
+print("y.shape : ", y.shape) # (90, )
+
 
 x = x.reshape(x.shape[0], x.shape[1], 1) 
-# == x.reshape(6, 4, 1)
-# == x = np.resahpe(x, (6, 4, 1))
-print("x.reshape : ", x.shape) # (6, 4, 1)
+# == x.reshape(90, 4, 1)
+# == x = np.resahpe(x, (90, 4, 1))
+print("x.reshape : ", x.shape) # (90, 4, 1)
 
+
+# x_predict = dataset[-6:, :-1]
 x_predict = dataset[len(dataset)-6:, :4] # == x_predict = dataset[90:, :4]와 같은 건데
                                          # 전체 데이터셋에서 마지막 6개 행을 빼라고 했으므로
                                          # len(dataset) = 96, 데이터셋 리스트의 갯수에서 그냥 6개를 빼주는 것과 같다
@@ -55,6 +58,7 @@ x_predict = dataset[len(dataset)-6:, :4] # == x_predict = dataset[90:, :4]와 �
                                          # 데이터 수가 엄청 많을 때에는 마지막 몇 개를 제하라고 할 때 계산하기 귀찮고 실수할 수도 있으니까
                                          # 전체 갯수에서 예측에 필요한 행 갯수만 빼주는 게 훨씬 수월!
 print(x_predict) 
+print("x_predict.shape :", x_predict.shape) # x_predict.shape : (6, 4)
 
 x_predict = np.reshape(x_predict, (6, 4, 1))
 # == x_predict = x_predict.reshape(6, 4, 1) 
@@ -65,23 +69,31 @@ x_predict = np.reshape(x_predict, (6, 4, 1))
 # train_test_split 하기 전에 꼭 합시다
 # x, y data 준비되면 바로  x_predict  준비하기
 
+
 # train, test 분리
 from sklearn.model_selection import train_test_split    
 x_train, x_test, y_train, y_test = train_test_split(    
     x, y, shuffle=True, train_size=0.8)
 
-print(x_train.shape) # (72, 4, 1) / 96 중 6은 x_predict로 빼뒀기 때문에 90 중 80%로 72 맞음 
-print(x_test.shape)
+print("x_train.shape :", x_train.shape) # (72, 4, 1) / 96 중 6은 x_predict로 빼뒀기 때문에 90 중 80%로 72 맞음 
+print("x_test.shape :", x_test.shape)
 
 
 #2. 모델 구성
 model = Sequential()
-model.add(LSTM(10, activation = 'relu', input_shape=(4,1)) )
-model.add(Dense(10))
-model.add(Dense(10))
-model.add(Dense(10))
-model.add(Dense(10))
-model.add(Dense(10))
+model.add(LSTM(8, activation = 'relu', input_shape = (4,1)))
+model.add(Dense(16))
+model.add(Dense(32))
+model.add(Dense(64))
+model.add(Dense(128))
+model.add(Dense(256))
+model.add(Dense(512))
+model.add(Dense(256))
+model.add(Dense(128))
+model.add(Dense(64))
+model.add(Dense(32))
+model.add(Dense(16))
+model.add(Dense(8))
 model.add(Dense(1)) # 마지막 output은 무조건 Dense여야한다
 
 model.summary()

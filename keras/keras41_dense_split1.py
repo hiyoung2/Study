@@ -34,14 +34,14 @@ print(dataset)
 print(type(dataset))  # <class 'numpy.ndarray'> 
                       # 함수에 보면 return 값이 np.array이므로!                            
 
-x = dataset[:6, :4] # == dataset[:, 0:4]  훨씬 알아먹기 쉬운 듯! : 은 첨부터 끝까지! comma는 (n, m)
+x = dataset[:, :4] # == dataset[:, 0:4]  훨씬 알아먹기 쉬운 듯! : 은 첨부터 끝까지! comma는 (n, m)
                                # 행, 열 끊어줌!
                                # 모든 행을 가져오겠다, 0부터 4 : 0, 1, 2, 3  column까지 가져오겠다!
                                # numpy에서는 [] 안에 () 없이 이렇게 쓸 수 있다 / 그냥 이대로 받아들이면 될 듯 / 익숙해져야함, 엄청 나옴, 반복적으로!
                                # 그냥 당연히 이렇게 자른다고 받아들이면 된다
 print(x)
 
-y = dataset[:6, 4:] # == [:, 4]
+y = dataset[:, -1] # == [:, 4]
 print(y)
 
 print("x.shape : ", x.shape) # (6, 4)
@@ -56,16 +56,16 @@ print("y.shape : ", y.shape) # (6, 1)
 
 #2. 모델 구성
 model = Sequential()
-model.add(Dense(10, activation = 'relu', input_shape=(4,)) )
-model.add(Dense(5))
-model.add(Dense(7))
-model.add(Dense(10))
-model.add(Dense(11))
-model.add(Dense(13))
-model.add(Dense(11))
-model.add(Dense(7))
-model.add(Dense(5))
-model.add(Dense(3))
+model.add(Dense(8, activation = 'relu', input_shape=(4,)) )
+model.add(Dense(16))
+model.add(Dense(32))
+model.add(Dense(64))
+model.add(Dense(128))
+model.add(Dense(128))
+model.add(Dense(64))
+model.add(Dense(32))
+model.add(Dense(16))
+model.add(Dense(8))
 model.add(Dense(1))
 
 model.summary()
