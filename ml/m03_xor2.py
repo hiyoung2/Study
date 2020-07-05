@@ -6,12 +6,17 @@
 from sklearn.svm import LinearSVC, SVC
 from sklearn.metrics import accuracy_score
 
+# 0705 방법 추가 / handson p.360참고 
+# MLP로 구성 (2번 접어 두 선이 생김?)
+from sklearn.neural_network import MLPClassifier
+
 # 1. 데이터 
 x_data = [[0, 0], [1, 0], [0, 1], [1, 1]]
 y_data = [0, 1, 1, 0] # xor
 
 # 2. 모델
-model = SVC() # LinearSVC가 아닌 그냥 SVC를 쓰면 해결!(초간단)
+# model = SVC() # LinearSVC가 아닌 그냥 SVC를 쓰면 해결!(초간단)
+model = MLPClassifier()
 
 # 3. 훈련
 model.fit(x_data, y_data)
@@ -26,6 +31,8 @@ print("x_test의 예측 결과 : ", y_predict)
 print("acc = ", acc) # acc = 1.0
 
 
-
-
-# MLP로 구성 (2번 접어 두 선이 생김?)
+'''
+MLP
+x_test의 예측 결과 :  [0 1 1 0]
+acc =  1.0
+'''
