@@ -48,6 +48,8 @@ model.add(Dense(1, activation = 'sigmoid'))
 model.summary()
 
 # Embedding 다음에 LSTM을 결합하면 input_length를 명시하지 않아도 된다(문법적?)
+# Embedding 레이어에서 (25, 5, 10) shape로 바뀐다 -> LSTM이 받을 수 있다
+# Embedding의 벡터화,,
 # input_length를 명시하는 것도 상관없다
 # Embedding LSTM을 가장 많이 쓴다(자연어처리에서 LSTM을 가장 많이 사용)
 

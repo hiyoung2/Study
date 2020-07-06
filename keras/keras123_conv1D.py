@@ -40,8 +40,8 @@ from keras.layers import Dense, Embedding, Flatten, Conv1D
 # Conv1D 파일 'keras101' 참고
 model = Sequential()
 model.add(Conv1D(10, 3, input_shape = (5, 1))) # Conv1D(outputnode, kernel_size, input_shape = (a, b))
-model.add(Flatten()) # Flatten()을 써 줘야 Dense 모델을 받을 수 있다
-model.add(Dense(1, activation = 'sigmoid'))
+model.add(Flatten()) # Flatten()을 써 줘야 Dense 모델을 받을 수 있다(CNN모델의 레이어들)
+model.add(Dense(1, activation = 'sigmoid')) # 넌 정말 시그모이드~~~
 model.summary()
 
 # 3. 컴파일, 훈련

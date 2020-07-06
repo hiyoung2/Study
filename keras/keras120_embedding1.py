@@ -10,6 +10,9 @@ text = "나는 맛있는 밥을 먹었다"
 token = Tokenizer()
 token.fit_on_texts([text])
 
+# model = Sequential()
+# model.fit(x_train, y_train) 생김새와 비슷하다
+
 print(token.word_index)
 # {'나는': 1, '맛있는': 2, '밥을': 3, '먹었다': 4}
 # 단어별로(조사포함) 잘라서 인덱스를 걸어줌
@@ -20,17 +23,17 @@ print(x)
 # [[1, 2, 3, 4]]
 
 # 모든 문자를 수치화 시키면? 모델을 돌릴 수 있다
-# 맛있는 은 나는 에 비해 2배의 가치? 밥을 은 나는 에 비해 3배의 가치? NOPE
+# '맛있는' 은 '나는' 에 비해 2배의 가치? '밥을' 은 '나는' 에 비해 3배의 가치? NOPE
 # 만 개의 단어를 수치화 했다
 # 예를 들어 '오므라이스' 10000 번째, '카레' 100번째, 100배의 가치 차이?
 # NOPE 
-# 이럴 때 '원 핫 인코딩' 필요
+# 이렇게 받아들이는 것을 방지하기 위해 '원 핫 인코딩' 필요
 
 from keras.utils import to_categorical # 0부터 시작
 # 사이킷런의 one hot encoding 써도 됨
 
-word_size = len(token.word_index) +1  # 1부터 시작하므로 +1을 해 준다
-x = to_categorical(x, num_classes=word_size)
+word_size = len(token.word_index) +1  # 0부터 시작하므로 +1을 해 준다
+x = to_categorical(x, num_classe = word_size)
 print(x)
 
 # 지금은 4개의 단어지만, 10000개가 된다면?
