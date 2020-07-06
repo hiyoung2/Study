@@ -41,6 +41,9 @@ pad_x = pad_sequences(x, padding = 'pre', value = 0.0) # 데이터, padding = 'p
 print(pad_x)
 print("pad_x.shape :",pad_x.shape) # (12, 5)
 
+
+
+
 word_size = len(token.word_index) + 1
 print("전체 토큰 사이즈 :", word_size) # 전체 토큰 사이즈 : 25 (0을 포함)
 
@@ -48,16 +51,25 @@ from keras.models import Sequential
 from keras.layers import Dense, Embedding, Flatten
 
 model = Sequential()
-model.add(Embedding(word_size, 10, input_length = 5)) # 와꾸 맞춰주는 부분
+# model.add(Embedding(word_size, 10, input_length = 5)) # 와꾸 맞춰주는 부분
+model.add(Embedding(25, 10, input_length = 5)) 
+# 엥? word_size를 임의로 바꿨는데 돌아간다?
+# 돌아는 가는데 accuracy에 영향을 끼치기 때문에
+# 올바른 사이즈를 기입하는 것이 좋다? 
+# (None, 5, 10)
+
+# input_length 없애 본다
+# model.add(Embedding(25, 10))
+
 # word_size : 전체 토큰 사이즈, 전체 단어의 숫자
 # 10 : output node , 출력 노드의 개수 ( 10을 넣든 100000을 넣든 상관 X, 다음 층으로 전달되는 NODE의 개수일 뿐)
-# 5 : input 값
+# 5 : (12, 5) shape의 열
 # 위의 레이어 다음 레이어들은 hidden layers
 # Embedding = 벡터화!
-model.add(Flatten()) # -> Dense 바로 붙일 수 있다
+# model.add(Flatten()) # -> Dense 바로 붙일 수 있다
 model.add(Dense(1, activation = 'sigmoid'))
 
-# model.summary()
+model.summary()
 
 
 # 3. 컴파일, 훈련
@@ -66,11 +78,10 @@ model.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['acc'
 model.fit(pad_x, labels, epochs = 30)
 
 # 4. 평가, 예측
-acc = model.evaluate(pad_x, labels)[1] # [1]? -> 떡 밥
+acc = model.evaluate(pad_x, labels)[1]
+# evluate 반환값 : 첫 번째 [0] = loss, 두 번째 [1] = metrics 지표(여기서는 acc)
 
 print("ACC :", acc)
-
-
 
 
 
