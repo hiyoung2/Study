@@ -32,7 +32,9 @@ from keras.models import Sequential
 from keras.layers import Dense, Embedding, Flatten, Conv1D
 
 model = Sequential()
-model.add(Embedding(25, 10, input_length = 5))  # 전체 데이터의 크기, output node, input shape
+model.add(Embedding(25, 10, input_length = 5))  # 전체 데이터의 크기, output_node, input_shape
+# model.add(Embedding(25, 10))  # 안먹힘
+
 model.add(Conv1D (10, 3)) 
 # Embedding layer 다음에 Conv1D도 사용 가능 (LSTM 처럼)
 # input_shape는 Embedding 에서 써 줬기 때문에 output_node와 kernel_size만 입력하면 된다
