@@ -18,7 +18,6 @@ y_train = [3, 5, 7] # y = 2x + 1
 W = tf.Variable(tf.random_normal([1]), name = 'weight')
 b = tf.Variable(tf.random_normal([1]), name = 'bias')
 
-
 # sess = tf.Session()
 # print(sess.run(W)) 
 # PreconditionError: Attempting to use uninitialized value weight [[{{node _retval_weight_0_0}}]]
@@ -42,14 +41,16 @@ train = tf.train.GradientDescentOptimizer(learning_rate = 0.01).minimize(cost)
 # train.optimizer.학습률.최소화하는방법
 
 # with문 -> 공부 필요
-
+# with : 블록을 지정하는 느낌
+# 1. 객체가 생성된 후 with 블럭에 진입하면서 미리 지정된 특정한 직업을 수행한다
+# 2. with 블럭을 떠나는 시점에 미리 지정된 특정한 작업을 수행하다
 
 # with문 안에 있는 것들이 모두  Session() 통해 실행됨
 with tf.Session() as sess :
     sess.run(tf.global_variables_initializer()) # 설정된 전체 변수들이 모두 초기화 된다
 
     for step in range(2001) : # 범위 설정 : epochs = 2000
-        _, cost_val, W_val, b_val = sess.run([train, cost, W, b])
+        _, cost_val, W_val, b_val = sess.run([train, cost, W, b]) # keras로 따지면 compile에 해당하는 부분
         # -, : train 값은 따로 출력하지 않음(결과를 보여주지 않는다)
         # cost_val : cost 값 출력
         # W_val : W 값 출력
