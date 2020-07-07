@@ -1,5 +1,6 @@
 # 122 file cpoy, 123 완성
 # embedding을 빼고 LSTM으로 완성
+# 자연어 처리 시, embedding 없이도 가능은 하다!
 
 from keras.preprocessing.text import Tokenizer
 import numpy as np
@@ -29,8 +30,6 @@ print("pad_x.shape :",pad_x.shape) # (12, 5)
 # lstm 모델에 넣기 위해 reshape
 pad_x = pad_x.reshape(pad_x.shape[0], pad_x.shape[1], 1)
 print("pad_x.reshape :", pad_x.shape) # (12, 5, 1)
-
-
 
 word_size = len(token.word_index) + 1
 print("전체 토큰 사이즈 :", word_size)
