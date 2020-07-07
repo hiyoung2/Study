@@ -14,7 +14,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Conv2D, MaxPool2D, Flatten, BatchNormalization, Activation, Dropout
 from keras.optimizers import Adam
 
-# model = VGG16()
+model = VGG16()
 # model = VGG19()
 # model = Xception()
 # model = ResNet101()
@@ -36,14 +36,22 @@ from keras.optimizers import Adam
 
 # # 2. 모델 구성
 vgg16 = VGG16(weights = 'imagenet', include_top = False, input_shape = (224, 224, 3)) # (None, 224, 224, 3)
-# vgg16.summary()
+vgg16.summary()
 
+# include_top = 가장 상단의 full connected 계층들을 포함 시킬지의 여부
+# include_top = False
+# False 하면 flatten  전까지 레이어들을 가져 온다
+# include_top = True
+# Flatten 이후 레이어까지 가져 온다, 
+
+'''
 model = Sequential()
 
 model.add(vgg16)
 model.add(Flatten())
-model.add(Dense())
+model.add(Dense(10))
 model.add(BatchNormalization())
 model.add(Activation('relu'))
 model.add(Dense(10, activation = 'softmax'))
 model.summary()
+'''
