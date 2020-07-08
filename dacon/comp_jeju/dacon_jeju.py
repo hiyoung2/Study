@@ -5,6 +5,7 @@ import numpy as np
 
 from sklearn.ensemble import RandomForestRegressor
 from lightgbm import LGBMRegressor
+from xgboost import XGBRegressor
 from sklearn.preprocessing import LabelEncoder
 
 # 2. Data Cleansing & Pre-Processing
@@ -68,7 +69,12 @@ print("train_target.shape :", train_target.shape) # train_target.shape : (105739
 # model = RandomForestRegressor(n_estimators = 500, max_depth = 5, min_samples_split = 7,
 #                              max_leaf_nodes = 5, max_samples = 5, n_jobs = -1, random_state = 0)
 
-model = LGBMRegressor(n_estimators = 500, max_depth = 7, learning_rate = 0.09, max_bin = 10, num_leaves = 10, n_jobs = -1)
+# model = LGBMRegressor(n_estimators = 500, max_depth = 7, learning_rate = 0.09, max_bin = 10, num_leaves = 10, n_jobs = -1)
+
+model = XGBRegressor(n_estimators = 700, max_depth = 8, learning_rate = 0.09, max_bin = 150, 
+                    colsample_bytree = 0.7, colsample_bylevel = 0.7, n_jobs = -1)
+
+
 model.fit(train_features, train_target)
 
 # 6. 결과 및 결언, Conclusion & Discussion
@@ -114,7 +120,7 @@ submission = pd.read_csv('./dacon/comp_jeju/data/submission.csv', index_col=0)
 submission = submission.drop(['AMT'], axis=1)
 submission = submission.merge(temp, left_on=['REG_YYMM', 'CARD_SIDO_NM', 'STD_CLSS_NM'], right_on=['REG_YYMM', 'CARD_SIDO_NM', 'STD_CLSS_NM'], how='left')
 submission.index.name = 'id'
-submission.to_csv('./dacon/comp_jeju/0630/submission_0630_3.csv', encoding='utf-8-sig')
+submission.to_csv('./dacon/comp_jeju/0708/submission_0708_3.csv', encoding='utf-8-sig')
 submission.head()
 print(submission.head())
 
