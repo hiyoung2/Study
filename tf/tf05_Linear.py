@@ -46,9 +46,10 @@ train = tf.train.GradientDescentOptimizer(learning_rate = 0.01).minimize(cost)
 # 2. with 블럭을 떠나는 시점에 미리 지정된 특정한 작업을 수행하다
 
 # with문 안에 있는 것들이 모두  Session() 통해 실행됨
-with tf.Session() as sess :
-    sess.run(tf.global_variables_initializer()) # 설정된 전체 변수들이 모두 초기화 된다
-
+# with tf.Session() as sess :
+with tf.compat.v1.Session() as sess : # warning 문제 해결 # 위보다 이것을 권장한다는 warning임(compile에는 문제가 없음)
+    # sess.run(tf.global_variables_initializer()) # 설정된 전체 변수들이 모두 초기화 된다
+    sess.run(tf.compat.v1.global_variables_initializer()) # 이렇게 쓰면 warning 해결
     for step in range(2001) : # 범위 설정 : epochs = 2000
         _, cost_val, W_val, b_val = sess.run([train, cost, W, b]) # keras로 따지면 compile에 해당하는 부분
         # -, : train 값은 따로 출력하지 않음(결과를 보여주지 않는다)
@@ -69,4 +70,5 @@ y_train = [3, 5, 7] # y = 2x + 1
 1960 2.9422925e-05 [2.0062847] [0.98571324]
 1980 2.6721513e-05 [2.0059893] [0.98638463]
 2000 2.4268587e-05 [2.005708] [0.98702455]
+횟수     cost        weight        bias
 '''
