@@ -40,7 +40,7 @@ train = tf.train.GradientDescentOptimizer(learning_rate = 0.01).minimize(cost)
 # 이게 계속 반복되면서 값이 좋아진다(training을 거치면서)
 # train.optimizer.학습률.최소화하는방법
 
-# with문 -> 공부 필요
+# with문 -> 공부 필요(아래에 정리)
 # with : 블록을 지정하는 느낌
 # 1. 객체가 생성된 후 with 블럭에 진입하면서 미리 지정된 특정한 직업을 수행한다
 # 2. with 블럭을 떠나는 시점에 미리 지정된 특정한 작업을 수행하다
@@ -72,3 +72,17 @@ y_train = [3, 5, 7] # y = 2x + 1
 2000 2.4268587e-05 [2.005708] [0.98702455]
 횟수     cost        weight        bias
 '''
+
+# with를 쓰는 이유!
+# 원래 Sesssion을 사용하면 컴퓨터의 메모리가 열리게 됨
+# 따라서 sess.run으로 메모리를 열어 놓으면 sess.close로 원칙상, 닫아줘야 함
+# close를 쓰지 않을 경우 그냥 파일을 닫으면 자동적으로 메모리는 닫히게 됨
+# 현재 컴퓨터가 괜찮은 성능을 가졌기 때문에 따로 close를 해 주면서 메모리 관리를 안 해줘도 됨
+# 앞선 파일에서 sess.run을 하고 close 하지 않은 이유임
+# 그런데, for문을 사용해 Session을 2000번 통과시키는 작업은 close가 필요한데,
+# 이 때 with를 써 주면 따로 sess.close를 명시하지 않아도 알아서 메모리를 닫아준다!
+
+# 정리 : 파일을 다룰 때 with 블록을 통해 명시적으로 close() 메소드를 호출하지 않고도 파일을 닫을 수 있다
+# 파일 객체는 내부적으로 __enter__(), __exit__()가 구현되어 있다
+# with 블록이 자동으로 블록을 종료할 때 __exit__() 메소드를 호출하며 파일을 close 시키게 된다
+# https://wikidocs.net/16078
