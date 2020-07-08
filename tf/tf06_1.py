@@ -1,3 +1,5 @@
+# 2020.07.08
+
 # x_train 과  y_train에  placeholer 를 적용 시켜 소스 완성
 # feed_dict를  with 문 안에 있는 sees.run 부분에 넣으면 된다!
 # tf04_placeholder 파일에 보면 

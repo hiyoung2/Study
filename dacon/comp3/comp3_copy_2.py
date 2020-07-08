@@ -132,7 +132,7 @@ def set_model(train_target):  # 0:x,y, 1:m, 2:v
     activation = 'elu'
     padding = 'valid'
     model = Sequential()
-    nf = 19
+    nf = 32
     fs = (3,1)
 
     model.add(Conv2D(nf,fs, padding=padding, activation=activation,input_shape=(375,5,1)))
@@ -326,4 +326,4 @@ for train_target in range(3):
     elif train_target == 2: # v 학습
         submit.iloc[:,4] = pred_data_test[:,3]
 
-submit.to_csv('./dacon/comp3/submission/0630/comp3_submit_0630.csv', index = False)
+submit.to_csv('./dacon/comp3/submission/0708/comp3_submit_0708_3.csv', index = False)
