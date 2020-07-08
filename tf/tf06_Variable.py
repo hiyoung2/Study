@@ -29,12 +29,30 @@ bbb = W.eval() # InteractiveSession을 사용하면 sess.run(W) 하지 않고 W.
 print("bbb :", bbb) # [0.3]
 sess.close()
 
-# 정리
-# 우리들이 선택할 수 있다 : 1) tf.session() 2) tf.InteractiveSession()
-# 문법적으로 다른 부분이 있고 기능은 똑같다
 
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 ccc = W.eval(session = sess) #  일반 Session 에서도 eval이 먹히는데, 이 때는 session = sess 임을 명시해줘야 한다
 print("ccc :", ccc) # [0.3]
 sess.close()
+
+
+
+# 정리
+# 우리들이 선택할 수 있다 : 1) tf.session() 2) tf.InteractiveSession() 3) tf.session() + eval
+# 문법적으로 다른 부분이 있고 기능은 똑같다
+# 1) tf.session()
+# sess = tf.Session()
+# sess.run(tf.global_variabls_initializer())
+# 변수명 = sess.run(Variable값)
+# sess.close()
+
+# 2) tf.InteractiveSession()
+# sess.run(tf.global_variables_initializer())
+# 변수명 = Variable값.eval()
+# sess.close()
+
+# 3) tf.Session()
+# sess.run(tf.global_variables_initializer())
+# 변수명 = Variable값.eval(session = sess)
+# sess.close()
