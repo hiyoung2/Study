@@ -25,7 +25,7 @@ y_test = y_test.reshape(-1,10)
 
 
 '''
-# keras에서 OneHotEncoding
+# keras에서 OneHotEncoding 해도 됨
 from keras.utils import np_utils
 y_train = np_utils.to_categorical(y_train)
 y_test = np_utils.to_categorical(y_test)
@@ -56,6 +56,7 @@ keep_prob = tf.placeholder(tf.float32) # dropout (드롭아웃비율, placeholde
 # get_variable : Variable의 업그레이드형(성능이 더 좋다, 별 차이는 없다? 무슨 말,,,)
 # get_variable : 초기변수가 없으면 자체 생성한다
 # initializer, regularizer 등 사용 가능
+# initializer kernel 초기화 : kernel은 weight 
 
 # w1 = tf.Variable(tf.random_normal([28*28*, 512]), name = 'weight') 위 와래 같은 것
 w1 = tf.get_variable("w1", shape = [28*28, 512], initializer=tf.contrib.layers.xavier_initializer())
@@ -100,7 +101,7 @@ for epoch in range(training_epochs) : # 15로 설정
 #############################이 부분 구현할 것##############################        
         batch_xs, batch_ys = # x_train([batch_size]) # 과제
 ###########################################################################        
-        feed_dict = {x:batch_xs, y:batch_ys, keep_prob:0.7}
+        feed_dict = {x:batch_xs, y:batch_ys, keep_prob:0.7} # keep_prob : 0.7은 70%를 남기겠다는 뜻(drop out 0.3을 주는 것과 같음)
         c, _ = sess.run([cost, optimizer], feed_dict = feed_dict)
         avg_cost += c / total_batch
 

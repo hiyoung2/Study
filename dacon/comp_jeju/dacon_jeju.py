@@ -69,10 +69,10 @@ print("train_target.shape :", train_target.shape) # train_target.shape : (105739
 # model = RandomForestRegressor(n_estimators = 500, max_depth = 5, min_samples_split = 7,
 #                              max_leaf_nodes = 5, max_samples = 5, n_jobs = -1, random_state = 0)
 
-# model = LGBMRegressor(n_estimators = 500, max_depth = 7, learning_rate = 0.09, max_bin = 10, num_leaves = 10, n_jobs = -1)
+model = LGBMRegressor(n_estimators = 900, max_depth = 8, learning_rate = 0.01, max_bin = 25, num_leaves = 100, n_jobs = -1)
 
-model = XGBRegressor(n_estimators = 500, max_depth = 8, learning_rate = 0.01, max_bin = 150, 
-                    colsample_bytree = 0.7, colsample_bylevel = 0.7, n_jobs = -1)
+# model = XGBRegressor(n_estimators = 500, max_depth = 8, learning_rate = 0.01, max_bin = 150, 
+#                     colsample_bytree = 0.7, colsample_bylevel = 0.7, n_jobs = -1)
 
 
 model.fit(train_features, train_target)
@@ -120,7 +120,7 @@ submission = pd.read_csv('./dacon/comp_jeju/data/submission.csv', index_col=0)
 submission = submission.drop(['AMT'], axis=1)
 submission = submission.merge(temp, left_on=['REG_YYMM', 'CARD_SIDO_NM', 'STD_CLSS_NM'], right_on=['REG_YYMM', 'CARD_SIDO_NM', 'STD_CLSS_NM'], how='left')
 submission.index.name = 'id'
-submission.to_csv('./dacon/comp_jeju/0709/submission_0709_1.csv', encoding='utf-8-sig')
+submission.to_csv('./dacon/comp_jeju/0709/submission_0709_3.csv', encoding='utf-8-sig')
 submission.head()
 print(submission.head())
 
@@ -143,8 +143,9 @@ model = LGBMRegressor(n_estimators = 500, max_depth = 7, learning_rate = 0.09, m
 
 '''
 submission_0709_1
+model = LGBMRegressor(n_estimators = 500, max_depth = 8, learning_rate = 0.01, max_bin = 25, num_leaves = 10, n_jobs = -1)
 
-model = XGBRegressor(n_estimators = 500, max_depth = 8, learning_rate = 0.01, max_bin = 150, 
-                    colsample_bytree = 0.7, colsample_bylevel = 0.7, n_jobs = -1)
+submission_0709_2
+model = LGBMRegressor(n_estimators = 900, max_depth = 8, learning_rate = 0.01, max_bin = 25, num_leaves = 10, n_jobs = -1)
 
 '''
