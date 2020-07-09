@@ -38,6 +38,10 @@ x = scaler.transform(x)
 
 print('x_scaled : ', x.shape) # (150, 4)
 
+
+print(type(x))
+
+
 # 1.3 데이터 분리
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(
@@ -51,6 +55,8 @@ print(x_train.shape) # (120, 4)
 print(x_test.shape)  # (30, 4)
 print(y_train.shape) # (120, 3)
 print(y_test.shape)  # (30, 3)
+
+
 
 # 2. 모델 구성
 # 2.1 Sequential형
@@ -133,6 +139,9 @@ plt.ylabel('acc')
 plt.xlabel('epoch')          
 plt.legend(loc = 'upper right') 
 plt.show()  
+
+
+
 
 '''
 model.add(Dense(33, input_shape = (4, )))
