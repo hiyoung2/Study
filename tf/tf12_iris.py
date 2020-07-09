@@ -59,22 +59,27 @@ b = tf.Variable(tf.random_normal([1, 3]), name = 'bias')
 #     x_data, y_data, train_size = 0.8, random_state = 77, shuffle = True
 # )
 
-hypothesis = tf.nn.softmax(tf.matmul(x, w)) + b
+hypothesis = tf.nn.softmax(tf.matmul(x, w) + b)
 
 # categorical_crossentropy
 cost = tf.reduce_mean(-tf.reduce_sum(y * tf.log(hypothesis), axis = 1))
 
-optimizer = tf.train.GradientDescentOptimizer(learning_rate = 0.000004).minimize(cost) # compile
+optimizer = tf.train.GradientDescentOptimizer(learning_rate = 0.04).minimize(cost) # compile
 
 
 with tf.Session() as sess :
     sess.run(tf.global_variables_initializer())
 
     for step in range(2001) :
-        _, cost_val = sess.run([optimizer, cost], feed_dict = {x:x_train, y:y_train}) #fit
+    #     _, cost_val = sess.run([optimizer, cost], feed_dict = {x:x_train, y:y_train}) #fit
 
-        if step % 200 == 0 :
-            print(step, cost_val)
+    #     if step % 200 == 0 :
+    #         print(step, cost_val)
+        sess.run(optimizer, feed_dict={x: x_train, y: y_train})
 
+    correct_prediction = tf.equal(tf.argmax(hypothesis, 1), tf.argmax(y, 1))
 
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+    print('Accuracy : ', sess.run(accuracy, feed_dict={x: x_test, y: y_test}))
             

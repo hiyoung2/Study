@@ -53,7 +53,7 @@ cost = tf.reduce_mean(tf.square(hypothesis - y))
 
 optimizer = tf.train.GradientDescentOptimizer(learning_rate = 0.1).minimize(cost)
 
-
+#######################################수정필요
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
 
