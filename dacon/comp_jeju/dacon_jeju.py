@@ -71,7 +71,7 @@ print("train_target.shape :", train_target.shape) # train_target.shape : (105739
 
 # model = LGBMRegressor(n_estimators = 500, max_depth = 7, learning_rate = 0.09, max_bin = 10, num_leaves = 10, n_jobs = -1)
 
-model = XGBRegressor(n_estimators = 700, max_depth = 8, learning_rate = 0.09, max_bin = 150, 
+model = XGBRegressor(n_estimators = 500, max_depth = 8, learning_rate = 0.01, max_bin = 150, 
                     colsample_bytree = 0.7, colsample_bylevel = 0.7, n_jobs = -1)
 
 
@@ -120,7 +120,7 @@ submission = pd.read_csv('./dacon/comp_jeju/data/submission.csv', index_col=0)
 submission = submission.drop(['AMT'], axis=1)
 submission = submission.merge(temp, left_on=['REG_YYMM', 'CARD_SIDO_NM', 'STD_CLSS_NM'], right_on=['REG_YYMM', 'CARD_SIDO_NM', 'STD_CLSS_NM'], how='left')
 submission.index.name = 'id'
-submission.to_csv('./dacon/comp_jeju/0708/submission_0708_3.csv', encoding='utf-8-sig')
+submission.to_csv('./dacon/comp_jeju/0709/submission_0709_1.csv', encoding='utf-8-sig')
 submission.head()
 print(submission.head())
 
@@ -139,4 +139,12 @@ model = RandomForestRegressor(n_estimators = 500, max_depth = 5, min_samples_spl
 
 submission_0630_3
 model = LGBMRegressor(n_estimators = 500, max_depth = 7, learning_rate = 0.09, max_bin = 10, num_leaves = 10, early_stopping_round = 50, n_jobs = -1)
+'''
+
+'''
+submission_0709_1
+
+model = XGBRegressor(n_estimators = 500, max_depth = 8, learning_rate = 0.01, max_bin = 150, 
+                    colsample_bytree = 0.7, colsample_bylevel = 0.7, n_jobs = -1)
+
 '''
