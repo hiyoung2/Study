@@ -160,6 +160,7 @@ def set_model(train_target):  # 0:x,y, 1:m, 2:v
     model.add(MaxPooling2D(pool_size=(2, 1)))
 
     model.add(Flatten())
+    model.add(Dense(512, activation ='elu'))
     model.add(Dense(256, activation ='elu'))
     model.add(Dense(128, activation ='elu'))
     model.add(Dense(64, activation ='elu'))
@@ -326,11 +327,13 @@ for train_target in range(3):
     elif train_target == 2: # v 학습
         submit.iloc[:,4] = pred_data_test[:,3]
 
-submit.to_csv('./dacon/comp3/submission/0709/comp3_submit_0709_h3.csv', index = False)
+submit.to_csv('./dacon/comp3/submission/0710/comp3_submit_0710_h4.csv', index = False)
 
 
 '''
+############################best
 0709 h3 0.0093500874
+
     activation = 'elu'
     padding = 'valid'
     model = Sequential()
@@ -345,4 +348,168 @@ submit.to_csv('./dacon/comp3/submission/0709/comp3_submit_0709_h3.csv', index = 
                   validation_split=0.2,
                   verbose = 2,
                   callbacks=[best_save])
+
+loss: 147982002187.70285
+정답(original): [   0.  -400.    50.     0.4]
+예측값(original): [ 0.4183446  -2.0463593   1.7223222   0.39347672]
+E1 : 6.648964977380819
+E2 : 6279.345061730964
+pred.shape : (2800, 4)
+std : 1.1928388305669935
+max : 5.4937094449996895
+min : -5.755169689655309
 '''
+
+'''
+################################ 결과 안 좋음 -> 파일 삭제
+comp3_submit_0710_h3
+    activation = 'elu'
+    padding = 'valid'
+    model = Sequential()
+    nf = 64
+    fs = (3,1)
+
+    history = model.fit(X, Y,
+                  epochs=256,
+                  batch_size=64,
+                  shuffle=True,
+                  validation_split=0.2,
+                  verbose = 2,
+                  callbacks=[best_save])
+
+loss: 502492424215.4057
+정답(original): [   0.  -400.    50.     0.4]
+예측값(original): [-2.9510462  -5.399749   11.977526    0.40089816]
+E1 : 6.6478802832306805
+E2 : 170.6961488760792
+pred.shape : (2800, 4)
+std : 0.5550679719716
+max : 5.525135993957514
+min : -2.3905992507934624
+'''
+
+'''
+comp3_submit_0710_h1
+    activation = 'elu'
+    padding = 'valid'
+    model = Sequential()
+    nf = 32
+    fs = (4,1)
+
+    history = model.fit(X, Y,
+                  epochs=256,
+                  batch_size=256,
+                  shuffle=True,
+                  validation_split=0.2,
+                  verbose = 2,
+                  callbacks=[best_save])
+loss: 73212278140.34285
+정답(original): [   0.  -400.    50.     0.4]
+예측값(original): [ 1.8389965  -0.5837601   3.7048523   0.41317496]
+E1 : 6.6499506370683985
+E2 : 2459.1919100532714
+pred.shape : (2800, 4)
+std : 1.4895718940281042
+max : 10.707203547159835
+min : -9.298837184906002
+'''
+
+'''
+################################## 0709 best보다 loss 더 적음
+comp3_submit_0710_h2
+
+    activation = 'elu'
+    padding = 'valid'
+    model = Sequential()
+    nf = 64
+    fs = (4,1)
+
+    history = model.fit(X, Y,
+                  epochs=256,
+                  batch_size=256,
+                  shuffle=True,
+                  validation_split=0.2,
+                  verbose = 2,
+                  callbacks=[best_save])
+loss: 110167615300.75429
+정답(original): [   0.  -400.    50.     0.4]
+예측값(original): [0.4166762  1.6320833  0.44063112 0.44385457]
+E1 : 6.649905500936173
+E2 : 52046.93152038633
+pred.shape : (2800, 4)
+std : 1.7525080540227167
+max : 10.963642597198481
+min : -13.015594085057575
+'''
+
+'''
+loss 가장 작음
+
+comp3_submit_0710_h3
+
+    activation = 'elu'
+    padding = 'valid'
+    model = Sequential()
+    nf = 32
+    fs = (4,1)
+
+    model.add(Dense(512, activation ='elu')) # 레이어 하나 추가
+    model.add(Dense(256, activation ='elu'))
+    model.add(Dense(128, activation ='elu'))
+    model.add(Dense(64, activation ='elu'))
+    model.add(Dense(32, activation ='elu'))
+    model.add(Dense(16, activation ='elu'))
+    model.add(Dense(8, activation ='elu'))
+
+    history = model.fit(X, Y,
+                  epochs=256,
+                  batch_size=256,
+                  shuffle=True,
+                  validation_split=0.2,
+                  verbose = 2,
+                  callbacks=[best_save])
+
+loss: 38956310252.98286
+정답(original): [   0.  -400.    50.     0.4]
+예측값(original): [ 0.8791442  -0.7561214   1.86538     0.39604646]
+E1 : 6.649407347747609
+E2 : 341045852.3460761
+pred.shape : (2800, 4)
+std : 0.6918071030185572
+max : 5.2296161651611275
+min : -7.384306192398071
+'''
+
+'''
+comp3_submit_0710_h4
+    
+    activation = 'elu'
+    padding = 'valid'
+    model = Sequential()
+    nf = 32
+    fs = (4,1)
+
+    model.add(Flatten())
+    model.add(Dense(512, activation ='elu'))
+    model.add(Dense(256, activation ='elu'))
+    model.add(Dense(128, activation ='elu'))
+    model.add(Dense(64, activation ='elu'))
+    model.add(Dense(32, activation ='elu'))
+    model.add(Dense(16, activation ='elu'))
+    model.add(Dense(8, activation ='elu'))
+
+        history = model.fit(X, Y,
+                  epochs=256,
+                  batch_size=128,
+                  shuffle=True,
+                  validation_split=0.2,
+                  verbose = 2,
+                  callbacks=[best_save])
+'''
+
+# h1 loss: 73212278140.34285
+# h2 loss: 110167615300.75429
+# h3 loss: 38956310252.98286 -> best
+# h4 loss: 709736116668.7086
+
+# h1 loss: 147982002187.70285

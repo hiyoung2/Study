@@ -99,9 +99,10 @@ print('------------------------------------------')
 print("L2_flat :", L2_flat) # L2_flat : Tensor("Reshape_1:0", shape=(?, 3136), dtype=float32)
 
 
-w3 = tf.get_variable("w5", shape = [3136, 10], initializer=tf.contrib.layers.xavier_initializer())
+w3 = tf.get_variable("w5", shape = [7*7*64, 10], initializer=tf.contrib.layers.xavier_initializer())
 b3 = tf.Variable(tf.random_normal([10])) 
 hypothesis = tf.nn.softmax(tf.matmul(L2_flat, w3) + b3)
+
 
 
 '''
@@ -125,7 +126,7 @@ L4 = tf.nn.dropout(L4, keep_prob = keep_prob)
 w5 = tf.get_variable("w5", shape = [256, 10], initializer=tf.contrib.layers.xavier_initializer())
 b5 = tf.Variable(tf.random_normal([10])) 
 hypothesis = tf.nn.softmax(tf.matmul(L4, w5) + b5)
-
+'''
 
 cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(hypothesis),axis=1))
 
@@ -133,6 +134,8 @@ optimizer = tf.train.GradientDescentOptimizer(learning_rate = lr).minimize(cost)
 
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
+
+
 
 for epoch in range(training_epochs) : # 15로 설정
     avg_cost = 0 # 평균 비용(= 평균 cost, 평균 loss)
@@ -159,7 +162,7 @@ for epoch in range(training_epochs) : # 15로 설정
         # end = start + batch_size # 300
 
 ###########################################################################        
-        feed_dict = {x:batch_xs, y:batch_ys, keep_prob:0.7} # keep_prob : 0.7은 70%를 남기겠다는 뜻(drop out 0.3을 주는 것과 같음)
+        feed_dict = {x_img:batch_xs, y:batch_ys, keep_prob:0.7} # keep_prob : 0.7은 70%를 남기겠다는 뜻(drop out 0.3을 주는 것과 같음)
         c, _ = sess.run([cost, optimizer], feed_dict = feed_dict)
         avg_cost += c / total_batch
 
@@ -172,6 +175,5 @@ print("훈련 끝!")
 prediction = tf.equal(tf.arg_max(hypothesis, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(prediction, tf.float32))
 
-print('ACC :', sess.run(accuracy, feed_dict = {x:x_test, y:y_test, keep_prob : 1}))
+print('ACC :', sess.run(accuracy, feed_dict = {x_img:x_test, y:y_test, keep_prob : 1}))
 
-'''
