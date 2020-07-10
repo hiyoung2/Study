@@ -327,3 +327,22 @@ for train_target in range(3):
         submit.iloc[:,4] = pred_data_test[:,3]
 
 submit.to_csv('./dacon/comp3/submission/0709/comp3_submit_0709_h3.csv', index = False)
+
+
+'''
+0709 h3 0.0093500874
+    activation = 'elu'
+    padding = 'valid'
+    model = Sequential()
+    nf = 32
+    fs = (4,1)
+
+
+    history = model.fit(X, Y,
+                  epochs=256,
+                  batch_size=128,
+                  shuffle=True,
+                  validation_split=0.2,
+                  verbose = 2,
+                  callbacks=[best_save])
+'''
