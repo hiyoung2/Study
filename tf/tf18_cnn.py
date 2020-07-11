@@ -99,7 +99,7 @@ print('------------------------------------------')
 print("L2_flat :", L2_flat) # L2_flat : Tensor("Reshape_1:0", shape=(?, 3136), dtype=float32)
 
 
-w3 = tf.get_variable("w5", shape = [7*7*64, 10], initializer=tf.contrib.layers.xavier_initializer())
+w3 = tf.get_variable("w3", shape = [7*7*64, 10], initializer=tf.contrib.layers.xavier_initializer())
 b3 = tf.Variable(tf.random_normal([10])) 
 hypothesis = tf.nn.softmax(tf.matmul(L2_flat, w3) + b3)
 
