@@ -40,9 +40,9 @@ x_test = x_test.astype('float32')/255
 # 파라미터들 변수로 미리 정의
 
 # learning_rate, 학습률
-lr = 1e-4
+lr = 0.01
 # epoch
-training_epoch = 15
+training_epoch = 100
 # batch_size
 batch_size = 100
 total_batch = int(len(x_train)/batch_size)
@@ -76,12 +76,27 @@ print("L2 :", L2) # shape=(?, 8, 8, 32)
 L2_flat = tf.reshape(L2, [-1, 8*8*64])
 
 # Flatten() 이후 Dense 레이어 구성
-w3 = tf.get_variable("w3", shape = [8*8*64, 10], initializer=tf.contrib.layers.xavier_initializer())
-b3 = tf.Variable(tf.random_normal([10]))
+w3 = tf.get_variable("w3", shape = [8*8*64, 128], initializer=tf.contrib.layers.xavier_initializer())
+b3 = tf.Variable(tf.random_normal([128]))
 # b3 = tf.Variable(tf.zeros([10]))
+# b3 = tf.Variable(tf.random_uniform([10]))
 
-# 최종 output laeyer
-hypothesis = tf.nn.softmax(tf.matmul(L2_flat, w3) + b3)
+L3 = tf.matmul(L2_flat, w3) + b3
+
+w4 = tf.get_variable("w4", shape = [128, 64], initializer=tf.contrib.layers.xavier_initializer())
+b4 = tf.Variable(tf.random_normal([64]))
+L4 = tf.matmul(L3, w4) + b4
+
+w5 = tf.get_variable("w5", shape = [64, 32], initializer=tf.contrib.layers.xavier_initializer())
+b5 = tf.Variable(tf.random_normal([32]))
+L5 = tf.matmul(L4, w5) + b5
+
+w6 = tf.get_variable("w6", shape = [32, 10], initializer=tf.contrib.layers.xavier_initializer())
+b6 = tf.Variable(tf.random_normal([10]))
+hypothesis = tf.nn.softmax(tf.matmul(L5, w6) + b6)
+# 최종 output laeyer : hypothesis
+
+
 
 # 3. 컴파일 및 훈련
 # cost(loss) , 손실 함수 측정 : categorical_crossentropy(다중 분류에서 사용하는)
@@ -114,7 +129,32 @@ with tf.Session() as sess :
 
 
     # 4. 평가 및 예측
-    prediction = tf.equal(tf.arg_max(hypothesis, 1), tf.argmax(y, 1))
+    # prediction = tf.equal(tf.arg_max(hypothesis, 1), tf.argmax(y, 1))
+    prediction = tf.equal(tf.math.argmax(hypothesis, 1), tf.math.argmax(y, 1))
     accuracy = tf.reduce_mean(tf.cast(prediction, tf.float32))
 
     print("ACC : ", sess.run(accuracy, feed_dict = {x:x_test, y:y_test, keep_prob : 1.0}))
+
+
+
+
+'''
+동일 레이어, 노드 구성에 random_normal vs zeros
+b3 = tf.Variable(tf.random_normal([10]))
+ACC :  0.2433
+
+b3 = tf.Variable(tf.zeros([10]))
+ACC :  0.2379
+'''
+
+
+'''
+lr = 0.01
+epo = 100
+ACC :  0.6782
+'''
+
+'''
+현재 소스 상태에서
+epo 67부터 COST nan으로 출력됨
+'''
