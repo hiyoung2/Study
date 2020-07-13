@@ -3,7 +3,7 @@
 from flask import Flask
 
 app = Flask(__name__) # Flask를 땡겨온다!
-                      # name? 
+
 @app.route('/')
 def hello333() :
     return "<h1>hello inyoung world</h1>"

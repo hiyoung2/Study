@@ -12,19 +12,20 @@ def response_test() :
 
 @app.before_first_request
 def before_first_request() :
-    print("[1] 앱이 기동되고 나서 첫 번째 HTTP 요청에만 응답합니다.")
+    print("[1] 앱이 기동되고 나서 첫 번째 HTTP 요청에만 응답합니다.") # 앱이 실행되면 가장 먼저 실행
+                                                                  # print문이 먼저 생성된 후 웹이 생성됨
     # print("이 서버는 개인 자산이니 건드리지 말 것")
     # print("곧 자료를 전송합니다,")
 
 
 @app.before_request 
 def before_reques() :
-    print("[2] 매 HHTP 요청이처리되기 전에 실행됩니다")
+    print("[2] 매 HHTP 요청이처리되기 전에 실행됩니다") # 매번 실행된다
 
 @app.after_request
 def after_request(response) :
     app.run(host = '127.0.0.1')
-    print("[3] 매  HTTP 요청이 처리되고 나서 실행됩니다")
+    print("[3] 매  HTTP 요청이 처리되고 나서 실행됩니다") # 역시 매번 실행
     return response
 
 @app.teardown_request
