@@ -147,7 +147,7 @@ b3 = tf.Variable(tf.zeros([10]))
 ACC :  0.2379
 '''
 
-
+ 
 '''
 lr = 0.01
 epo = 100

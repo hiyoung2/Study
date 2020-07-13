@@ -54,6 +54,5 @@ for step in range(2001) :
         print(hy_val)
 
 
-
 # 이제껏 activation 주지 않았음 -> 디폴트로 linear 
 # y = wx + b -> 선형 모델 따라서 linear가 적용된 것
