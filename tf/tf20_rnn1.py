@@ -1,3 +1,5 @@
+# 2020.07.13
+
 import tensorflow as tf
 import numpy as np
 
