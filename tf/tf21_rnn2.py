@@ -51,7 +51,6 @@ print("x_data.shape :", x_data.shape) # (5, 5)
 print("y_data.shape :", y_data.shape) # (5,)
 print()
 
-
 x_data = x_data.reshape(1, 5, 5)
 y_data = y_data.reshape(1, 5)
 

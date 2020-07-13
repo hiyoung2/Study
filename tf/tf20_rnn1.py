@@ -9,6 +9,11 @@ import numpy as np
 # 인덱스를 넣어주기 위해 한 글자씩 뺐다(알파벳순)
 idex2char = ['e', 'h', 'i', 'l', 'o']
 
+
+for c in range(len(idex2char)) :
+    print(c)
+
+
 # _data = np.array([['h'], ['i'], ['h'], ['e'], ['l'], ['l'], ['o']])
 _data = np.array([['h', 'i', 'h', 'e', 'l', 'l', 'o']], dtype = np.str).reshape(-1, 1)
 
@@ -134,6 +139,7 @@ train = tf.compat.v1.train.AdamOptimizer(learning_rate = lr).minimize(cost)
 
 # axis = 0 : 1 / axis = 1 : 6 / axis = 2 : 5
 prediction = tf.argmax(hypothesis, axis = 2)
+print("prediction.shape :", prediction.shape) # (?, 6)
 
 
 
@@ -150,3 +156,6 @@ with tf.Session() as sess :
 
         result_str = [idex2char[c] for c in np.squeeze(result)]
         print("\nPredicton str :", ''.join(result_str))
+
+# print("result_str.shape :", result_str.shape)
+print(result.shape)
