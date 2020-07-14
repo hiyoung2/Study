@@ -24,7 +24,7 @@ def before_reques() :
 
 @app.after_request
 def after_request(response) :
-    app.run(host = '127.0.0.1')
+    # app.run(host = '127.0.0.1')
     print("[3] 매  HTTP 요청이 처리되고 나서 실행됩니다") # 역시 매번 실행
     return response
 
