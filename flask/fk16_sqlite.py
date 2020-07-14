@@ -11,10 +11,10 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS supermarket(Itemno INTEGER, Categor
 
 # column : ItemNo, Category, FoodName, Company, Price
 
-# sql = "DELETE FROM supermarket" # supermarket의 내용을 지워버린다
-# cursor.execute(sql)
+sql = "DELETE FROM supermarket" # supermarket의 내용을 지워버린다
+cursor.execute(sql)
 
-# 데이터 삽입 (현재 컬럼명, 테이블 모양만 갖춰진 상태)
+# 데이터 삽입 (현재 컬럼명, 테이블 모양만 갖춰진 상태) (삭제, 수정도 모두 가능하다)
 sql = "INSERT into supermarket(Itemno, Category, FoodName, Company, Price) values (?, ?, ?, ?, ?)"
 cursor.execute(sql, (1, '과일', '자몽', '마트', 1500))
 
@@ -22,7 +22,7 @@ sql = "INSERT into supermarket(Itemno, Category, FoodName, Company, Price) value
 cursor.execute(sql, (2, '음료', '망고주스', '편의점', 1000))
 
 sql = "INSERT into supermarket(Itemno, Category, FoodName, Company, Price) values (?, ?, ?, ?, ?)"
-cursor.execute(sql, (33, '육류', '소고기', '하나로마트', 10000))
+cursor.execute(sql, (3, '육류', '소고기', '하나로마트', 10000))
 
 sql = "INSERT into supermarket(Itemno, Category, FoodName, Company, Price) values (?, ?, ?, ?, ?)"
 cursor.execute(sql, (4, '박카스', '약', '약국', 500))
