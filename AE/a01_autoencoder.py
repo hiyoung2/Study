@@ -1,9 +1,9 @@
 #  copy 56, mnist auto encoder 적용
 
 import numpy as np
-import matplotlib.pyplot as plt
 
-from keras.datasets import mnist 
+
+from tensorflow.keras.datasets import mnist 
 
 # 1. 데이터 준비 (mnist에서 불러왔다 , 가로세로 28짜리)
 
@@ -22,84 +22,72 @@ print('y_test.shape : ', y_test.shape)   # (10000, )
 # plt.imshow(x_train[0]
 # plt.show()
 
-# 데이터 전처리 1. 원핫인코딩
-# y data
-from keras.utils import np_utils
-y_train = np_utils.to_categorical(y_train)
-y_test = np_utils.to_categorical(y_test)
-print(y_train.shape)
 
-
-# 데이터 전처리 2. 정규화
+# # 데이터 전처리 - 정규화
 # x data
 x_train = x_train.reshape(60000, 28*28).astype('float32') / 255.
 x_test = x_test.reshape(10000, 28*28).astype('float32') / 255.
 
-print(x_train.shape)
+# print(x_train.shape)
 
 
-# 2. 모델 구성
-from keras.models import Sequential
-from keras.layers import Dense, Dropout
+# # 2. 모델 구성
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Dense, Input
 
-model = Sequential()
-model.add(Dense(111, input_shape = (28*28, )))
-model.add(Dropout(0.2))          
-model.add(Dense(133, activation = 'relu'))
-model.add(Dropout(0.2)) 
-model.add(Dense(155, activation = 'relu'))
-model.add(Dropout(0.2))     
-model.add(Dense(77, activation = 'relu'))
-model.add(Dropout(0.2)) 
-model.add(Dense(10, activation = 'softmax'))
+input_img = Input(shape = (784, ))
+encoded = Dense(64, activation = 'relu')(input_img)
+decoded = Dense(784, activation = 'sigmoid')(encoded)
 
-model.summary()
+autoencoder = Model(inputs = input_img, outputs = decoded)
+
+autoencoder.summary()
+
+
+# input_img = Input(shape = (784, ))
+# encoded = Dense(32, activation = 'relu')(input_img)
+# decoded = Dense(784, activation = 'sigmoid')(encoded)
+# autoencoder = Model(inputs = input_img, outputs = decoded)
+# autoencoder.summary()
+
+# 위 모델 간단히 설명하면
+# x : 6만, 784
+# x^ : 6만, 784
+# 중간에 32로 압축이 됨
+# 1도 가능은 함
+
+
 # 3. compile, 훈련
-from keras.callbacks import EarlyStopping 
-early_stopping = EarlyStopping(monitor='loss', patience=100, mode = 'auto')
+# from keras.callbacks import EarlyStopping 
+# early_stopping = EarlyStopping(monitor='loss', patience=100, mode = 'auto')
 
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=200, batch_size=200, validation_split = 0.2, callbacks = [early_stopping], verbose = 1) 
+autoencoder.compile(loss='binary_crossentropy', optimizer='adam')
+autoencoder.fit(x_train, x_train, epochs=50, batch_size=256, validation_split = 0.2) 
 
-# 4. 평가, 예측
-loss, acc = model.evaluate(x_test, y_test, batch_size = 200)
-
-print('loss : ', loss)
-print('acc : ' , acc)
-
-y_pred = model.predict(x_test)
+# autoencoder에서는 fit 과정에서 x_train과 x_train이 들어간다!
 
 
-# print(y_pred)
-print(np.argmax(y_pred, axis = 1))
-print(y_pred.shape)
+#4. 예측
+# 비교하기 위한 예측 값 만들기
+decoded_imgs = autoencoder.predict(x_test)
 
-# acc 98% 목표
-'''
-model.add(Dense(77, input_shape = (28*28, )))     
-model.add(Dense(33, activation = 'relu'))
-model.add(Dense(88, activation = 'relu'))
-model.add(Dense(10, activation = 'softmax'))
-epoch 100, batch_size 200
-acc :  0.9722999930381775
-'''
-'''
-위와 동일조건 epoch 80
-acc :  0.9739000201225281
-'''
-'''
-model = Sequential()
-model.add(Dense(111, input_shape = (28*28, )))
-model.add(Dropout(0.2))          
-model.add(Dense(88, activation = 'relu'))
-model.add(Dense(99, activation = 'relu'))
-model.add(Dropout(0.2))     
-model.add(Dense(55, activation = 'relu'))
-model.add(Dense(10, activation = 'softmax'))
+import matplotlib.pyplot as plt
+n = 10
+plt.figure(figsize = (20, 4))
 
-model.summary()
-epoch = 95, batch_size = 200
-acc :  0.9801999926567078 (!!!!)
+for i in range(n) :
+    ax = plt.subplot(2, n, i+1)
+    plt.imshow(x_test[i].reshape(28, 28))
+    plt.gray()
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
 
-2차 : acc :  0.98089998960495
-'''
+    ax = plt.subplot(2, n, i + 1 + n)
+    plt.imshow(decoded_imgs[i].reshape(28, 28))
+    plt.gray()
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
+
+
+plt.show()
+
