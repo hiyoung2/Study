@@ -82,8 +82,6 @@
 # 종종 DNN이라는 단어를 FC layer의 의미로 사용하는 경우가 있다
 
 
-
-
 # keras 2.4.0 version이 최근 release 되었다
 # 더이상 multi backend를 지원하지 않는다
 # 2.4.0 version은 기존 구현 코드를 모두 삭제하고 대신 tensorflow.keras로 redirection 한다
