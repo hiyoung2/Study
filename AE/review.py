@@ -12,6 +12,34 @@ from tensorflow.keras.layers import Dense
 # autoencoder 함수 정의
 # 함수 정의 : def, return 
 
+
+# 출처 : https://python.bakyeono.net/chapter-3-3.html 
+
+# 파이썬에서 함수를 정의할 때는 def 문을 사용한다
+# def : 정의하다, define 
+# def문의 양식
+# def 함수이름() : (1)
+#     본문        (2)
+# (1) : def 예약어로 시작하는 첫 행에는 함수의 이름을 쓴다. 함수의 이름은 의미를 알 수 있게 짓는다. 함수 이름 뒤에는 괄호를 붙인다.
+# (2) : 함수의 본문은 함수를 호출했을 때 실행할 파이썬 코드이다. 원하는 만큼 여러 행의 코드를 작성할 수 있으며
+#       각 행의 앞에 띄어쓰기를 네 번씩 해야 한다.(Tab) == 들여쓰기
+#       들여쓰기는 코드의 블록(구역)을 형성한다. 나란히 들여쓰기 된 코드 블록은 하나의 def문 안에 포함된 코드임을 나타낸다
+#       들여쓰기가 끝나면, 그 함수의 정의가 끝난다.
+
+# 실습
+# def문으로 함수 정의하기
+# 사용자로부터 이름을 입력받고 인사를 출력하는 함수를 정의해보자
+
+def order() :                         # 항상 끝에는 colon :, 빠뜨리지 않도록 주의
+    print("주문하실 음료를 알려주세요") # 이 블록은
+    drink = input()                   # 앞에서부터 네 칸씩
+    print(drink,'주문하셨습니다.')     # 들여쓰기 한다
+
+order() # 여기는 함수 실행 부분
+
+
+
+'''
 def autoencoder(hidden_layer_size) :
     model = Sequential()
     model.add(Dense(units = hidden_layer_size, input_shape = (784, ), activation  = 'relu'))
@@ -87,3 +115,4 @@ for i, ax in enumerate([ax6, ax7, ax8, ax9, ax10]) :
 
 plt.tight_layout()
 plt.show()
+'''
