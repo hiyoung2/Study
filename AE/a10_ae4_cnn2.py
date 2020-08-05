@@ -4,7 +4,7 @@ from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, UpSampling2D, I
 # a08 copy
 # cnn으로 autoencoder 구성, padding = 'valid'를 사용
 
-def autoencoder_sq() :
+def autoencoder() :
     model = Sequential()
     model.add(Conv2D(filters = 16, kernel_size = (3, 3), padding = 'valid', input_shape = (28, 28, 1), activation = 'relu'))
     model.add(MaxPooling2D(pool_size = (2,2), padding = 'same'))
@@ -39,8 +39,7 @@ print("x_test.reshape :", x_test.shape)
 
 
 # 2. 모델 구성 (함수로 만들어 놓은 모델 사용)
-# model = autoencoder()
-model = autoencoder_sq()
+model = autoencoder()
 model.summary()
 
 # 3. 컴파일, 훈련
