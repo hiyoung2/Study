@@ -18,7 +18,7 @@ cursor.execute("SELECT * FROM wine;") # SQL 문법으로 iris data를 탐색
 row = cursor.fetchone() # 150줄이면 복붙해서 150개 만들기? nope
 # 반복문을 사용!
 while row :
-    print("first column : %s, second column : %s" %(row[0], row[1])) # 첫 번째, 두 번째 컬럽을 가져옴
+    print("first column : %s, second column : %s" %(row[0], row[1])) # 첫 번째, 두 번째 컬럼을 가져옴
     row = cursor.fetchone()
 
 # connect 하고 작업이 끝나면 끊어줘야 함 (session.close()와 같이)
