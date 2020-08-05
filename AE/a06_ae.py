@@ -55,7 +55,7 @@ model.compile(loss='mse', optimizer='adam', metrics=['acc']) # loss = mse
 
 # mse, binary_crossentropy 둘 다 적용 시켜 봐야 한다
 
-model.fit(x_train, x_train, epochs=10) 
+model.fit(x_train, x_train, epochs=10, batch_size = 128) 
 
 output = model.predict(x_test)
 
