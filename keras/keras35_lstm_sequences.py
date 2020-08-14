@@ -24,7 +24,7 @@ print(y.ndim) # 1, y data 1d(1차원, dimension = 1) / (13, ) 현재 y의 구조
 #               행              열      몇 개씩 자를지
 #            batch_size    timesteps feature
 #               13          3         1  
-# x = x.reshape(x.shape[0], x.shape[1], 1)       # x.reshape로 와꾸 맞추기 성공          
+x = x.reshape(x.shape[0], x.shape[1], 1)       # x.reshape로 와꾸 맞추기 성공          
 
 # x_predict 도 항상 와꾸 체크해줘야한다
 print("x_predict.shape : ", x_predict.shape) # (3, )
@@ -59,7 +59,7 @@ from keras.layers import Dense, LSTM, Input
 # model = Sequential()
 
 input1 = Input(shape = (3, 1))   # Input에서는 행 무시!       
-dense1 = LSTM(10, return_sequences = True , activation = 'relu')(input1)        # 상단 레이어 output이 다음 레이어의 input
+dense1 = LSTM(10, return_sequences = True, activation = 'relu')(input1)        # 상단 레이어 output이 다음 레이어의 input
 dense2 = LSTM(10, activation = 'relu')(dense1)                                  # lstm은 3차원(행, 열 피처)을 받아야함, 차원이 달라짐
 dense3 = Dense(5, activation = 'relu')(dense2)                                  # return_sequences = True : 차원 유지 가능케 함
 output1 = Dense(1)(dense3)                                                      # reteurn_sequences default : false
