@@ -63,8 +63,8 @@ print("x_test.shape :", x_test.shape) # (10000, 28, 28)
 print("y_train.shape :", y_train.shape) # (60000,)
 print("y_test.shape :", y_test.shape) # (10000,)
 
-x_train = x_train.reshpae(x_train.shape[0], x_train.shape[1], x_train.shape[1], 1).astype('float32')/255
-x_test = x_test.reshpae(x_test.shape[0], x_test.shape[1], x_test.shape[1], 1).astype('float32')/255
+x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[1], 1).astype('float32')/255
+x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[1], 1).astype('float32')/255
 
 
 # 2. 모델 구성
@@ -101,7 +101,6 @@ with strategy.scope():
   test_dist_dataset = strategy.experimental_distribute_dataset(test_dataset)
 
 
-
 def create_model():
     model = tf.keras.Sequential([
             tf.keras.layers.Conv2D(32, 3, activation='relu'),
@@ -109,39 +108,47 @@ def create_model():
             tf.keras.layers.Conv2D(64, 3, activation='relu'),
             tf.keras.layers.MaxPooling2D(),
             tf.keras.layers.Flatten(),
+            tf.keras.layers.Dense(128),
             tf.keras.layers.Dense(64, activation='relu'),
+            tf.keras.layers.Dense(32),
             tf.keras.layers.Dense(10, activation='softmax')
         ])
 
     return model
 
 
-# 체크포인트들을 저장하기 위해서 체크포인트 디렉토리를 생성합니다.
-checkpoint_dir = './training_checkpoints'
+# 체크포인트들을 저장하기 위해서 체크포인트 디렉토리를 생성
+checkpoint_dir = './assignment/training_checkpoints'
 checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt")
 
 
 with strategy.scope():
-  # reduction을 `none`으로 설정합니다. 그래서 우리는 축소를 나중에 하고,
-  # GLOBAL_BATCH_SIZE로 나눌 수 있습니다.
+  # reduction을 `none`으로 설정
+  # 축소를 나중에 하고, GLOBAL_BATCH_SIZE로 나눌 수 있다
   loss_object = tf.keras.losses.SparseCategoricalCrossentropy(
       reduction=tf.keras.losses.Reduction.NONE)
-  # 또는 loss_fn = tf.keras.losses.sparse_categorical_crossentropy를 사용해도 됩니다.
+  # 또는 loss_fn = tf.keras.losses.sparse_categorical_crossentropy를 사용해도 된다
   def compute_loss(labels, predictions):
     per_example_loss = loss_object(labels, predictions)
     return tf.nn.compute_average_loss(per_example_loss, global_batch_size=GLOBAL_BATCH_SIZE)
 
 
+with strategy.scope():
+  test_loss = tf.keras.metrics.Mean(name='test_loss')
 
-    
-# 모델과 옵티마이저는 `strategy.scope`에서 만들어져야 합니다.
+  train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(
+      name='train_accuracy')
+  test_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(
+      name='test_accuracy')
+
+
+# 모델과 옵티마이저는 `strategy.scope`에서 만들어져야한다
 with strategy.scope():
     model = create_model()
 
     optimizer = tf.keras.optimizers.Adam()
 
     checkpoint = tf.train.Checkpoint(optimizer=optimizer, model=model)
-
 
 
 with strategy.scope():
@@ -169,8 +176,7 @@ with strategy.scope():
 
 
 with strategy.scope():
-  # `experimental_run_v2`는 주어진 계산을 복사하고,
-  # 분산된 입력으로 계산을 수행합니다.
+  # `experimental_run_v2`는 주어진 계산을 복사하고, 분산된 입력으로 계산을 수행
   
   @tf.function
   def distributed_train_step(dataset_inputs):
@@ -199,8 +205,8 @@ with strategy.scope():
     if epoch % 2 == 0:
       checkpoint.save(checkpoint_prefix)
 
-    template = ("에포크 {}, 손실: {}, 정확도: {}, 테스트 손실: {}, "
-                "테스트 정확도: {}")
+    template = ("epoch {}, train_loss: {}, train_acc: {}, test_loss: {}, "
+                "test_acc: {}")
     print (template.format(epoch+1, train_loss,
                            train_accuracy.result()*100, test_loss.result(),
                            test_accuracy.result()*100))
@@ -210,4 +216,3 @@ with strategy.scope():
     test_accuracy.reset_states()    
 
 
-'''
