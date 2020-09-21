@@ -23,6 +23,11 @@ x_train, x_test, y_train, y_test = train_test_split(
     x, y, test_size = 0.2, random_state = 44, shuffle = True
 )
 
+print("x_trian.shape :", x_train.shape)
+print("y_trina.shape", y_train.shape)
+
+
+'''
 allAlgorithms = all_estimators(type_filter = 'regressor') 
 
 
@@ -45,7 +50,7 @@ r2 = model.score(x_test, y_test)
 
 print("r2score : ", r2_score(y_test, y_pred))
 print("r2       : ", r2)
-
+'''
 
 '''
 ARDRegression 의 정답률 :  0.7512651671065367
